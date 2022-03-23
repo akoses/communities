@@ -107,12 +107,15 @@ const College: React.FC<collegeProps> = ({}) => {
 	const findDisciplines = () => {
 		let map = new Map<string, number>();
 		for (let i = 0; i < jobs.length; i++) {
-			if (map.has(jobs[i].disciplines)) {
-				map.set(jobs[i].disciplines, map.get(jobs[i].disciplines)! + 1);
+			let disciplines = jobs[i].disciplines.split(",");
+			for (let j = 0; j < disciplines.length; j++) {
+				if (map.has(disciplines[j])) {
+					map.set(disciplines[j], map.get(disciplines[j])! + 1);
+				} else {
+					map.set(disciplines[j], 1);
+				}
 			}
-			else {
-				map.set(jobs[i].disciplines, 1);
-			}
+			
 		}
 		const temp = Array.from(map.entries());
 
@@ -140,7 +143,7 @@ const College: React.FC<collegeProps> = ({}) => {
 				<img className={styles.collegeLogo} src="/images/engineering.png"/>
 				<div className={styles.collegeHeader}>
 				<div className={styles.post}>Post a Job</div>
-				<h1>Engineering</h1>
+				<h1>Engineering is Love, Engineering is Life</h1>
 				<p>Engineering is the science and art of the world. Find your next co-op here.</p>
 				</div>
 				<div className={styles.disciplines}>

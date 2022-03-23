@@ -18,22 +18,22 @@ const Home: NextPage = () => {
         <p>Looking for an internship or new grad role? Check out the Akose colleges related to your degree or interests.</p>
         </div>
         <College 
-          name="Engineering"
+          name="Engineering is Love, Engineering is Life"
           description="Engineering is the science and art of the world. Find your next co-op here."
           logo="/images/engineering.png"
         />
         <College 
-          name="Business"
+          name="Business Buddies"
           description="Are you a biz kid who needs an internship? Look no further."
           logo="/images/business.png"
         />
         <College 
-          name="Arts"
-          description="Are you a creative person who needs a job? Look no further."
+          name="Artsies"
+          description="Are you an arts major who desperately needs a job? Look no further."
           logo="/images/arts.png"
         />
         <College 
-          name="Science"
+          name="Scientist's R Us"
           description="Science is the study of the universe, body the mind and everything in between. Find student related jobs here."
           logo="/images/science.jpg"
         />
@@ -43,6 +43,10 @@ const Home: NextPage = () => {
           logo="/images/nursing.jpg"
         />
       </main>
+      <div className={styles.request}>
+        <h2>Want to start your own college?</h2>
+        <a href="mailto:info@akose.ca?subject=New College Request">Request a new college</a>
+      </div>
     </div>
   )
 }
