@@ -4,9 +4,11 @@ import { useEffect } from 'react'
 import styles from '../../styles/college.module.scss'
 import Job from '../../src/common/Job'
 import Link from 'next/link'
+import {fetchCollegesNameID, fetchJobs, fetchCollege} from '../../lib/fetch'
 
 interface collegeProps {
-
+	jobs: any[];
+	college:any;
 }
 
 const data = [
@@ -87,9 +89,8 @@ const data = [
 	},
 ]
 
-const College: React.FC<collegeProps> = ({}) => {
-	const [jobs] = useState(data);
-	const [displayedJobs, setDisplayedJobs] = useState(data);
+const College: React.FC<collegeProps> = ({jobs, college}) => {
+	const [displayedJobs, setDisplayedJobs] = useState(jobs);
 	const [disciplines, setDisciplines] = useState<(JSX.Element| undefined)[]>([]);
 	const [filter, setFilter] = useState<string>("");
 
@@ -130,21 +131,22 @@ const College: React.FC<collegeProps> = ({}) => {
 	
 	}
 	useEffect(() =>{
+		
 		findDisciplines();
-	})
+	},[])
 
 
 		return (<div className={styles.collegePage}>
 			<Link href='/'><a className={styles.backToColleges}><div > {'<'} Back to Colleges</div></a></Link>
 			<div>
-			<img className={styles.banner} src="/images/engbanner.jpg"/>
+			<img className={styles.banner} src={college.banner}/>
 			</div>
 			<div className={styles.body}>
-				<img className={styles.collegeLogo} src="/images/engineering.png"/>
+				<img className={styles.collegeLogo} src={college.logo}/>
 				<div className={styles.collegeHeader}>
 				<div className={styles.post}>Post a Job</div>
-				<h1 className={styles.name}>Engineering is Love, Engineering is Life</h1>
-				<p>Engineering is the science and art of the world. Find your next co-op here.</p>
+				<h1 className={styles.name}>{college.name}</h1>
+				<p>{college.description}</p>
 				</div>
 				<div className={styles.disciplines}>
 					{disciplines}
@@ -152,7 +154,7 @@ const College: React.FC<collegeProps> = ({}) => {
 				
 			</div>
 			<div className={styles.jobsContainer}> 
-				{displayedJobs.map((job) => {
+				{displayedJobs.length > 0?displayedJobs.map((job) => {
 					return <Job key={job.id} 
 						name={job.name}
 						company={job.company}
@@ -162,8 +164,52 @@ const College: React.FC<collegeProps> = ({}) => {
 						disciplines={job.disciplines}
 					    applyLink={job.applyLink}
 				    />
-				})}
+				}):<h2 className={styles.nojobs}>There are no jobs yet.</h2>}
 			</div>
 		</div>);
 }
+
+export async function getStaticPaths() {
+  // Call an external API endpoint to get posts
+	const collegeNameIDs = await fetchCollegesNameID();
+
+  // Get the paths we want to pre-render based on posts
+  if (!collegeNameIDs)
+    return { paths: [], fallback: true };
+
+  const paths = collegeNameIDs.map(({name, id}) => 
+  {
+	return {
+	  params: {
+		college:name.replace(/\s+/g, '-').toLowerCase(),
+		id
+	  }
+	}
+  })
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false }
+}
+
+
+export async function getStaticProps({ params }:any) {
+	  // Call an external API endpoint to get jobs
+	  const collegeInfo = await fetchCollege(params.college);
+	   const jobs = await fetchJobs(collegeInfo.id);
+	  if (!jobs)
+		return { props: {}, revalidate: 1 };
+
+	  return {
+		props: {
+		  jobs,
+		  college:collegeInfo
+		},
+		// By returning the value of the `nextUpdate` key here,
+		// Next.js will optimize the page away if no data needs to be refreshed.
+		revalidate: 1
+	  }
+
+}	
+
 export default College

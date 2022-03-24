@@ -9,8 +9,9 @@ interface CollegeProps {
 }
 
 const College: React.FC<CollegeProps> = ({name, description, logo}) => {
+
 		return (
-			<Link href={`/colleges/${name.replace(/\s+/g, '-').toLowerCase()}`}>
+			<Link href={`/colleges/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`}>
 			<a><div className={styles.college}><img src={logo} />
 			<div className={styles.content}><h1>{name}</h1>
 			<p>{description}</p></div>

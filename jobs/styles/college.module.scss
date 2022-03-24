@@ -40,6 +40,12 @@
 
 .collegePage {
 	position: relative;
+
+	h2.nojobs {
+		text-align: center;
+		color: rgb(48, 48, 48);
+	}
+
 	h1.name {
 		width: 70%;
 		font-size: 1.6rem;
@@ -60,7 +66,7 @@
 		z-index: 11;
 	}
 	.banner {
-		z-index: 0;
+		z-index: 1;
 		width: 100%;
 		position: absolute;
 		height: 200px;
@@ -107,6 +113,7 @@
 			height: 150px;
 			border-radius: 30%;
 			object-fit: cover;
+			
 		}
 
 		.disciplines {

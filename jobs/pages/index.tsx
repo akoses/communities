@@ -1,10 +1,30 @@
+import { useEffect,useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import College from '../src/common/College'
-import Footer from '../src/common/Footer'
+import { fetchColleges } from '../lib/fetch'
 
-const Home: NextPage = () => {
+
+export async function getStaticProps() {
+	  const colleges = await fetchColleges()
+  return {
+	props: {
+	  colleges
+	},
+  }
+}
+
+const Home: NextPage = ({colleges}:any) => {
+  const [reactColleges, setColleges] = useState<JSX.Element[]>([])
+  useEffect(() => {
+    setColleges(colleges.map((college:any) => <College 
+      key={college.name}
+      name={college.name}
+      description={college.description}
+      logo={college.logo}
+    />))
+  },[colleges])
   return (
     <div className={styles.container}>
       <Head>
@@ -17,31 +37,7 @@ const Home: NextPage = () => {
         <h1 >Colleges</h1>
         <p>Looking for an internship or new grad role? Check out the Akose colleges related to your degree or interests.</p>
         </div>
-        <College 
-          name="Engineering is Love, Engineering is Life"
-          description="Engineering is the science and art of the world. Find your next co-op here."
-          logo="/images/engineering.png"
-        />
-        <College 
-          name="Business Buddies"
-          description="Are you a biz kid who needs an internship? Look no further."
-          logo="/images/business.png"
-        />
-        <College 
-          name="Artsies"
-          description="Are you an arts major who desperately needs a job? Look no further."
-          logo="/images/arts.png"
-        />
-        <College 
-          name="Scientist's R Us"
-          description="Science is the study of the universe, body the mind and everything in between. Find student related jobs here."
-          logo="/images/science.jpg"
-        />
-        <College 
-          name="Nursing"
-          description="Nursing is the study of health and the care of the sick. Look for new grad roles here."
-          logo="/images/nursing.jpg"
-        />
+        {reactColleges}
       </main>
       <div className={styles.request}>
         <h2>Want to start your own college?</h2>
