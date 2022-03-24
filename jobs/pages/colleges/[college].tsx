@@ -143,7 +143,7 @@ const College: React.FC<collegeProps> = ({}) => {
 				<img className={styles.collegeLogo} src="/images/engineering.png"/>
 				<div className={styles.collegeHeader}>
 				<div className={styles.post}>Post a Job</div>
-				<h1>Engineering is Love, Engineering is Life</h1>
+				<h1 className={styles.name}>Engineering is Love, Engineering is Life</h1>
 				<p>Engineering is the science and art of the world. Find your next co-op here.</p>
 				</div>
 				<div className={styles.disciplines}>

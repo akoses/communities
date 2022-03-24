@@ -40,7 +40,10 @@
 
 .collegePage {
 	position: relative;
-
+	h1.name {
+		width: 70%;
+		font-size: 1.6rem;
+	}
 	.backToColleges {
 		position: absolute;
 		top: 10px;
@@ -76,12 +79,13 @@
 
 		.collegeHeader {
 			position: relative;
+			
 			.post {
 			align-self: flex-end;
 			position: absolute;
 			width: 140px;
 			text-align: center;
-			top: 25px;
+			top: 20px;
 			right: 0;
 			padding: 10px;
 			background-color: #2d74d1;
@@ -98,7 +102,7 @@
 		}
 		
 		img {
-			margin-top: 100px;
+			margin-top: 120px;
 			width: 150px;
 			height: 150px;
 			border-radius: 30%;
