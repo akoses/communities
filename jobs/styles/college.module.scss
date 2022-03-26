@@ -86,25 +86,26 @@
 		.collegeHeader {
 			position: relative;
 			
-			.post {
-			align-self: flex-end;
+		
+		}
+		.post {
 			position: absolute;
-			width: 140px;
-			text-align: center;
-			top: 20px;
+			align-self: flex-end;
+			top: 10px;
 			right: 0;
-			padding: 10px;
-			background-color: #2d74d1;
+			width: 150px;
+			text-align: center;
+			padding: 8px;
+			background-color: #3780e0;
 			color: #fff;
-			border-radius: 15px;
-			font-size: 1rem;
+			border-radius: 5px;
+			font-size: 0.9rem;
 			cursor: pointer;
 
 			&:hover {
-				background-color: #2764b4;
+				background-color: #3177d1;
 				
 			}
-		}
 		}
 		
 		img {
@@ -127,16 +128,55 @@
 				color: rgb(46, 44, 44);
 				padding: 7px 18px;
 				font-size: 0.8rem;
-				border-radius: 30px;
+				border-radius: 20px;
 				cursor: pointer;
 				
 			}
-
 			.filter {
 				background-color: #609ae7;
 				color: #fff;
+		}
+
+			
+		}
+		
+	}
+
+	.options {
+		position: -webkit-sticky; /* Safari & IE */
+		position: sticky;
+		top: 0;
+		z-index: 1000000000;
+		top: 0;
+		right: 0;
+		width: 100%;
+		.selected {
+			background-color: #609ae7;
+			color: #fff;
+		}
+
+		ul {
+			display: flex;
+			
+			justify-content: space-between;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			margin-left: 0px;
+			padding-left: 0px;
+			li {
+				list-style: none;
+				width: 100%;
+				background-color: #f1f1f1;
+				white-space: nowrap;
+				color: rgb(71, 71, 71);
+				padding: 10px 18px;
+				font-size: 0.9rem;
+				text-align: center;
+				cursor: pointer;
 			}
 		}
+			
+		
 	}
 
 	.jobsContainer {
@@ -149,12 +189,12 @@
 			margin: 20px 0px;
 			border: 1px solid #e6e9ec;
 			padding: 15px;
-			border-radius: 8px;
+			border-radius: 10px;
 			color: rgb(68, 68, 68);
 			
 
 			&:hover{
-			
+				transition: all 0.2s ease-in-out;
 				background-color: #f0f8ff;
 			}
 			img {

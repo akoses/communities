@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import styles from '../../styles/college.module.scss'
+import styles from '../../../styles/college.module.scss'
 interface JobProps {
 	name: string;
 	company: string;

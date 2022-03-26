@@ -1,14 +1,22 @@
 import React from 'react'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import styles from '../../styles/college.module.scss'
-import Job from '../../src/common/Job'
+import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link'
 import {fetchCollegesNameID, fetchJobs, fetchCollege} from '../../lib/fetch'
+import JobsContainer from '../../src/common/jobs/JobsContainer'
+import ResourceContainer from '../../src/common/resources/ResourceContainer';
+import EventContainer from '../../src/common/events/EventContainer';
 
 interface collegeProps {
 	jobs: any[];
 	college:any;
+}
+
+enum CollegeSelect {
+	Opportunities,
+	Events,
+	Resources
 }
 
 const data = [
@@ -89,83 +97,85 @@ const data = [
 	},
 ]
 
+let resources = [
+	{link: "https://www.kaptest.com/mcat"},
+	{link: "https://medium.com/@neelesh-arora/stop-using-conditional-statements-everywhere-in-javascript-use-an-object-literal-instead-e780debcda18"},
+	{link: "https://medium.com/gitconnected/a-guide-to-service-workers-in-react-js-82aec1d6a22d"},
+	{link: "https://www.youtube.com"},
+
+]
+
+
+
+let events = [
+	{
+		id: 0,
+		title:'Mentor Night',
+		link: "https://www.facebook.com/events/238972408749093/",
+		host: "Mentee Mentor",
+		imgsrc:"https://picsum.photos/200",
+		date: new Date(2022, 5, 1, 19, 0, 0, 0),
+		location: 'Toronto, ON',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	},
+	{
+		id: 1,
+		title:'Minecraft Night',
+		link: "https://www.facebook.com/events/238972408749093/",
+		host: "School Day",
+		imgsrc:"https://picsum.photos/200",
+		date: new Date(2022, 5, 1, 19, 0, 0, 0),
+		location: 'Edmonton, AB',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	},
+	{
+		id: 2,
+		title:'Career Day',
+		link: "https://www.facebook.com/events/238972408749093/",
+		host: "UACS",
+		imgsrc:"https://picsum.photos/200",
+		date: new Date(2022, 6, 1, 19, 0, 0, 0),
+		location: 'Edmonton, AB',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	},
+]
 const College: React.FC<collegeProps> = ({jobs, college}) => {
-	const [displayedJobs, setDisplayedJobs] = useState(jobs);
-	const [disciplines, setDisciplines] = useState<(JSX.Element| undefined)[]>([]);
-	const [filter, setFilter] = useState<string>("");
-
-	const setFilterFn = (filterName:string) => {
-		if (filter === filterName) {
-			setFilter("");
-			setDisplayedJobs(jobs)
-		} else {
-		setFilter(filterName);
-		
-		setDisplayedJobs(jobs.filter(job => job.disciplines.includes(filterName)));
-		}
-	}
-
-	const findDisciplines = () => {
-		let map = new Map<string, number>();
-		for (let i = 0; i < jobs.length; i++) {
-			let disciplines = jobs[i].disciplines.split(",");
-			for (let j = 0; j < disciplines.length; j++) {
-				if (map.has(disciplines[j])) {
-					map.set(disciplines[j], map.get(disciplines[j])! + 1);
-				} else {
-					map.set(disciplines[j], 1);
-				}
-			}
-			
-		}
-		const temp = Array.from(map.entries());
-
-		let tempArray = temp.map((discipline, index) => {
-			if (discipline[0] !== "") {
-			return <div key={index} className={`${styles.discipline} ${filter === discipline[0]?styles.filter:''}`} onClick={() => {setFilterFn(discipline[0])}}>{discipline[0]} ({discipline[1]})</div>
-		}
-	}
-		
-		);
-		setDisciplines(tempArray);
-	
-	}
-	useEffect(() =>{
-		
-		findDisciplines();
-	},[])
-
-
+	const [selected, setSelected] = useState(CollegeSelect.Opportunities);
 		return (<div className={styles.collegePage}>
 			<Link href='/'><a className={styles.backToColleges}><div > {'<'} Back to Colleges</div></a></Link>
 			<div>
 			<img className={styles.banner} src={college.banner}/>
 			</div>
 			<div className={styles.body}>
+				
 				<img className={styles.collegeLogo} src={college.logo}/>
 				<div className={styles.collegeHeader}>
-				<div className={styles.post}>Post a Job</div>
+					
 				<h1 className={styles.name}>{college.name}</h1>
-				<p>{college.description}</p>
-				</div>
-				<div className={styles.disciplines}>
-					{disciplines}
-				</div>
+				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
+				<div className={styles.post} >Create Post</div>
+				</Tooltip>
 				
+				<p>{college.description}</p>
+				
+				</div>
 			</div>
-			<div className={styles.jobsContainer}> 
-				{displayedJobs.length > 0?displayedJobs.map((job) => {
-					return <Job key={job.id} 
-						name={job.name}
-						company={job.company}
-						logo={job.logo}
-						location={job.location}
-						workstyle={job.workstyle}
-						disciplines={job.disciplines}
-					    applyLink={job.applyLink}
-				    />
-				}):<h2 className={styles.nojobs}>There are no jobs yet.</h2>}
+			<div className={styles.options}>
+				<ul>
+					<li
+						onClick={() => setSelected(CollegeSelect.Opportunities)}
+					className={selected === CollegeSelect.Opportunities?styles.selected:""}>Opportunities</li>
+					<li 
+						onClick={() => setSelected(CollegeSelect.Events)}
+					className={selected === CollegeSelect.Events?styles.selected:""}>Events</li>
+					<li 
+						onClick={() => setSelected(CollegeSelect.Resources)}
+					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
+				</ul>
 			</div>
+			{selected === CollegeSelect.Opportunities && <JobsContainer jobs={data}/>}
+			{selected === CollegeSelect.Events && <EventContainer events={events}/>}
+			{selected === CollegeSelect.Resources && <ResourceContainer resources={resources}/>}
 		</div>);
 }
 
@@ -192,8 +202,8 @@ export async function getStaticPaths() {
   return { paths, fallback: false }
 }
 
-
 export async function getStaticProps({ params }:any) {
+
 	  // Call an external API endpoint to get jobs
 	  const collegeInfo = await fetchCollege(params.college);
 	   const jobs = await fetchJobs(collegeInfo.id);
