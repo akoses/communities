@@ -157,7 +157,7 @@ const College: React.FC<collegeProps> = ({jobs, college}) => {
 				</Tooltip>
 				
 				<p>{college.description}</p>
-				
+				<div className={styles.subscribe}>Subscribe to {college.name}</div>
 				</div>
 			</div>
 			<div className={styles.options}>

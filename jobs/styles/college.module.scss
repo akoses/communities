@@ -82,7 +82,21 @@
 		color: #2c2c2c;
 		display: flex;
 		flex-direction: column;
+		.subscribe {
+			background-color: #1c5eb4;
+			width: fit-content;
+			padding: 10px 20px;
+			border-radius: 10px;
+			color: #ffffff;
+			cursor: pointer;
+			font-size: 0.9rem;
+			margin-bottom: 15px;
 
+			&:hover {
+				background-color: #1755a5;
+				box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+			}
+		}
 		.collegeHeader {
 			position: relative;
 			

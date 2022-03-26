@@ -9,7 +9,7 @@ interface JobsContainerProps {
 const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 	const [displayedJobs, setDisplayedJobs] = useState(jobs);
 	const [filter, setFilter] = useState<string>("");
-	
+
 	const findDisciplines = () => {
 		let map = new Map<string, number>();
 		for (let i = 0; i < jobs.length; i++) {
@@ -51,6 +51,7 @@ const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 	useEffect(() =>{
 		findDisciplines();
 	},[displayedJobs])
+
 	const [disciplines, setDisciplines] = useState<(JSX.Element| undefined)[]>([]);
 		return (
 			<div>
