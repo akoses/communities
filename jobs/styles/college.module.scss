@@ -131,7 +131,11 @@
 			
 		}
 
-		.disciplines {
+		
+	}
+}
+
+.disciplines {
 			display: flex;
 			flex-wrap: wrap;
 			.discipline {
@@ -152,9 +156,9 @@
 		}
 
 			
-		}
+}
 		
-	}
+	
 
 	.options {
 		position: -webkit-sticky; /* Safari & IE */
@@ -202,6 +206,7 @@
 			align-items: center;
 			margin: 20px 0px;
 			border: 1px solid #e6e9ec;
+			background-color: #ffffff;
 			padding: 15px;
 			border-radius: 10px;
 			color: rgb(68, 68, 68);
@@ -240,4 +245,3 @@
 			}
 		}
 	}
-}

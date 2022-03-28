@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import styles from '../../../styles/event.module.scss'
 import  dateFormat from 'dateformat'
@@ -22,6 +22,16 @@ const Event: React.FC<EventProps> = ({
 	link,
 	host
 }) => {
+	const [image, setImage] = useState(imgsrc)
+	useEffect(() => {
+		if (imgsrc === "") {
+			setImage('https://via.placeholder.com/150')
+		}
+		else {
+			setImage(imgsrc)
+		}
+	}, [imgsrc])
+
 		return (<div className={styles.event}>
 			
 			<div className={styles.eventContent}>
@@ -31,7 +41,7 @@ const Event: React.FC<EventProps> = ({
 			<h3>{host}</h3>
 			
 			</div>
-			<img src={imgsrc}  alt={title}/>
+			<img src={image}  alt={title}/>
 		</div>);
 }
 export default Event

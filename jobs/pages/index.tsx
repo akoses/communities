@@ -23,6 +23,7 @@ const Home: NextPage = ({colleges}:any) => {
       name={college.name}
       description={college.description}
       logo={college.logo}
+      id={college.id}
     />))
   },[colleges])
   return (

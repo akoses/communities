@@ -6,12 +6,13 @@ interface CollegeProps {
 	name: string;
 	description: string;
 	logo: string;
+	id: number;
 }
 
-const College: React.FC<CollegeProps> = ({name, description, logo}) => {
+const College: React.FC<CollegeProps> = ({name, description, logo, id}) => {
 
 		return (
-			<Link href={`/colleges/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`}>
+			<Link href={`/${id}/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`}>
 			<a><div className={styles.college}><img src={logo} />
 			<div className={styles.content}><h1>{name}</h1>
 			<p>{description}</p></div>

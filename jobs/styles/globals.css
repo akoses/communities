@@ -14,3 +14,17 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.ql-editor{
+    min-height:500px;
+}
+
+.react-datetime-picker__wrapper {
+  padding: 5px;
+  cursor: pointer;
+  font-family: 'Poppins';
+  font-size: 14px;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid rgb(192, 180, 180) !important;
+}

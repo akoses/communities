@@ -61,3 +61,21 @@ export async function fetchCollege(name:string) {
 	client.release()
   }
 }
+
+
+export async function fetchCollegeName(id:string) {
+
+	//@ts-ignore
+	  const client = await pool.connect()
+	  
+  try {
+	const res = await client.query('SELECT name FROM colleges WHERE id=$1', [Number(id)])
+
+	return res.rows[0]
+  } catch (err) {
+	console.error(err)
+  } finally {
+	client.release()
+  }
+}
+

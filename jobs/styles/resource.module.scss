@@ -2,11 +2,13 @@
 	width: 80%;
 	margin: 0 auto;
 	max-width: 1000px;
-	.link {
+	
+}
+.link {
 		margin-bottom: 20px;
-
+		
+		color: #646464 !important;
 		&:hover {
 			text-decoration: underline;
 		}
 	}
-}

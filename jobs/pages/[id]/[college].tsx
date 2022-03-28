@@ -3,6 +3,8 @@ import { useState } from 'react'
 import styles from '../../styles/college.module.scss'
 import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link'
+import Router from 'next/router';
+
 import {fetchCollegesNameID, fetchJobs, fetchCollege} from '../../lib/fetch'
 import JobsContainer from '../../src/common/jobs/JobsContainer'
 import ResourceContainer from '../../src/common/resources/ResourceContainer';
@@ -102,6 +104,7 @@ let resources = [
 	{link: "https://medium.com/@neelesh-arora/stop-using-conditional-statements-everywhere-in-javascript-use-an-object-literal-instead-e780debcda18"},
 	{link: "https://medium.com/gitconnected/a-guide-to-service-workers-in-react-js-82aec1d6a22d"},
 	{link: "https://www.youtube.com"},
+	{link:'https://www.eliteprogram.ca/'}
 
 ]
 
@@ -153,7 +156,10 @@ const College: React.FC<collegeProps> = ({jobs, college}) => {
 					
 				<h1 className={styles.name}>{college.name}</h1>
 				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
-				<div className={styles.post} >Create Post</div>
+				<div onClick={() => Router.push({
+					pathname: '/create-post',
+					query: {college:college.id}
+				})} className={styles.post} >Create Post</div>
 				</Tooltip>
 				
 				<p>{college.description}</p>
@@ -191,8 +197,8 @@ export async function getStaticPaths() {
   {
 	return {
 	  params: {
+		id:String(id),
 		college:name.replace(/\s+/g, '-').toLowerCase(),
-		id
 	  }
 	}
   })
