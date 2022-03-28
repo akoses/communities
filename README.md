@@ -1,2 +1,2 @@
-# jobs
-The Akose Job Board 
+# Akose Colleges
+The Akose College Community. 
