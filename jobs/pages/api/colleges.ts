@@ -2,8 +2,16 @@
 import {pool} from "../../src/lib/pool";
 
 export default async function handler(req:any, res:any) {
-	
-  if (req.method === 'PUT') {
+
+	if (req.method === 'GET') {
+		try {
+			const result = await pool.query(`SELECT * FROM colleges`);
+			res.status(200).json(result.rows);
+		} catch (e) {
+			res.status(500).json({error: e});
+		}
+	}
+  else if (req.method === 'PUT') {
 	const client = await pool.connect();
 	try {
 		await client.query(`UPDATE colleges SET name=$1, description=$2, logo=$3, banner=$4  WHERE id=$5`, 

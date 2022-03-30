@@ -12,10 +12,10 @@ import Event from '../events/Event'
 import { v4 as uuidv4 } from 'uuid';
 
 interface EventProps {
-
+	id:number;
 }
 
-const CreateEvent: React.FC<EventProps> = ({}) => {
+const CreateEvent: React.FC<EventProps> = ({id}) => {
 	const [title, setTitle] = React.useState<string>("");
 	const [description, setDescription] = React.useState<string>("");
 	const [organization, setOrganization] = React.useState<string>("");
@@ -42,7 +42,7 @@ const CreateEvent: React.FC<EventProps> = ({}) => {
 			event_link: eventLink,
 			date: date,
 			org_logo: s3Link.location,
-			college_id: router.query['college'],
+			college_id: id,
 		}
 		await axios.post('/api/events', formData)
 		router.push(`/${router.query['college']}`)

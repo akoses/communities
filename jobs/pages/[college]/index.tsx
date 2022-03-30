@@ -12,6 +12,7 @@ import JobsContainer from '../../src/common/jobs/JobsContainer'
 import ResourceContainer from '../../src/common/resources/ResourceContainer';
 import EventContainer from '../../src/common/events/EventContainer';
 import EditCollegeModal from '../../src/common/modal/EditCollegeModal';
+import {convertName} from '../../src/common/utils'
 
 interface collegeProps {
 	opportunities: any[];
@@ -25,6 +26,7 @@ enum CollegeSelect {
 	Events,
 	Resources
 }
+
 
 
 const College: React.FC<collegeProps> = ({opportunities, events, resources, college}) => {
@@ -43,8 +45,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<div className={styles.midHead}>
 				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
 				<div onClick={() => Router.push({
-					pathname: '/create-post',
-					query: {college:college.id},
+					pathname: `/${convertName(college.name)}/create-post`,
 				}, undefined, {shallow: true})} className={styles.post} >Create Post</div>
 				</Tooltip>
 				<img className={styles.edit} 

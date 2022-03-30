@@ -29,6 +29,16 @@ a {
   border: 1px solid rgb(192, 180, 180) !important;
 }
 
+
+.react-datetime-picker__inputGroup__input.react-datetime-picker__inputGroup__amPm {
+  width: 50px;
+  margin-top: -5px;
+  margin-bottom: 0px;
+  height: fit-content;
+  background-color: white;
+  border: none;
+}
+
 .delete {
   height: 20px;
   opacity: 0.6;

@@ -1,12 +1,13 @@
-import React from 'react'
-import styles from "../styles/create.module.scss"
-import Opportunity from '../src/common/create/Opportunity'
-import Event from '../src/common/create/Event'
-import Resource from '../src/common/create/Resource'
+import React, {useContext, useEffect, useState} from 'react'
+import styles from "../../styles/create.module.scss"
+import Opportunity from '../../src/common/create/Opportunity'
+import Event from '../../src/common/create/Event'
+import Resource from '../../src/common/create/Resource'
 import Router from 'next/router'
+import AppContext from '../../contexts/AppContext'
 
 interface CreatePostProps {
-
+	
 }
 
 enum selectedComponent {
@@ -16,8 +17,16 @@ enum selectedComponent {
 	none
 }
 
-const CreatePost: React.FC<CreatePostProps> = ({}) => {
+const CreatePost: React.FC<CreatePostProps> = () => {
 	const [selected, setSelected] = React.useState<selectedComponent>(selectedComponent.none)
+	const [college, setCollege] = useState<any>({})
+	const context = useContext(AppContext)
+	useEffect(() => {
+		let pathName = window.location.pathname.split('/')[1]
+		//@ts-ignore
+		setCollege(context.collegeData[pathName])
+		
+	}, [context])
 		return (
 			<div>
 		{selected===selectedComponent.none && <div className={styles.container}>
@@ -25,7 +34,6 @@ const CreatePost: React.FC<CreatePostProps> = ({}) => {
 				<div className={styles.cancel} onClick={() => Router.back()}> Cancel</div>
 			</div>
 			<div className={styles.create}>
-
 			<div 
 			onClick={() => setSelected(selectedComponent.opportunity)} className={styles.createContent} >
 				<img src='/images/opportunity.png'  alt='opportunity'/>
@@ -50,10 +58,12 @@ const CreatePost: React.FC<CreatePostProps> = ({}) => {
 			</div>
 			</div>
 		</div>}
-		{selected===selectedComponent.opportunity && <Opportunity />}
-		{selected===selectedComponent.event && <Event />}
-		{selected===selectedComponent.resource && <Resource />}
+		{selected===selectedComponent.opportunity && <Opportunity id={college.id}/>}
+		{selected===selectedComponent.event && <Event id={college.id} />}
+		{selected===selectedComponent.resource && <Resource id={college.id} />}
 
 		</div>);
 }
+
+
 export default CreatePost

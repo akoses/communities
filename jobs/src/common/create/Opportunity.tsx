@@ -11,12 +11,12 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 interface OpportunityProps {
-
+	id:number;
 }
 
 
 
-const Opportunity: React.FC<OpportunityProps> = ({}) => {
+const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 	const [title, setTitle] = React.useState<string>("");
 	const [page, setPage] = React.useState<number>(1);
 	const [description, setDescription] = React.useState<string>("");
@@ -45,7 +45,7 @@ const Opportunity: React.FC<OpportunityProps> = ({}) => {
 			location: location,
 			workstyle: workstyle,
 			disciplines: disciplines,
-			college_id: router.query['college'],
+			college_id: id,
 			apply_link: applyLink,
 			org_logo: s3Link.location,
 		}

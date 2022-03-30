@@ -6,10 +6,10 @@ import resourceStyles from '../../../styles/resource.module.scss'
 import axios from 'axios';
 
 interface ResourceProps {
-
+	id: number;
 }
 
-const Resource: React.FC<ResourceProps> = ({}) => {
+const Resource: React.FC<ResourceProps> = ({id}) => {
 		const [url, setUrl] = React.useState<string>("");
 		const [customTitle, setCustomTitle] = React.useState<string>("");
 		const [customDescription, setCustomDescription] = React.useState<string>("");
@@ -20,7 +20,7 @@ const Resource: React.FC<ResourceProps> = ({}) => {
 				url: url,
 				custom_title: customTitle,
 				custom_description: customDescription,
-				college_id: Router.query['college'],
+				college_id: id,
 			}
 			await axios.post('/api/resources', formData)
 			Router.push(`/${Router.query['college']}`)

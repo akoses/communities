@@ -7,11 +7,10 @@ interface IdRedirectProps {
 }
 
 const IdRedirect: React.FC<IdRedirectProps> = ({name}) => {
-	
 
 	useEffect(() =>{
 		let pathname = window.location.pathname
-		Router.push(`/${pathname}/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`)
+		Router.push(`/${pathname}/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`, undefined, {shallow: true})
 	},[name])
 		return (null);
 }

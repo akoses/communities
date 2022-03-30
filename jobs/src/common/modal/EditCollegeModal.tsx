@@ -107,7 +107,7 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 	})
 	closeModal();
 	
-	window.location.href = window.location.origin+ `/${college.id}`
+	window.location.href = window.location.origin + `/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`
   }
 
   return (
