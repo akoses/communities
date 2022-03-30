@@ -15,7 +15,7 @@ const College: React.FC<CollegeProps> = ({name, description, logo, id}) => {
 			<Link href={`/${id}/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`}>
 			<a><div className={styles.college}><img src={logo} />
 			<div className={styles.content}><h1>{name}</h1>
-			<p>{description}</p></div>
+			<p>{description.length > 90?description.substring(0, 90) + '...':description}</p></div>
 			</div>
 			</a>
 			</Link>

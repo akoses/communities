@@ -44,8 +44,8 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
 				<div onClick={() => Router.push({
 					pathname: '/create-post',
-					query: {college:college.id}
-				})} className={styles.post} >Create Post</div>
+					query: {college:college.id},
+				}, undefined, {shallow: true})} className={styles.post} >Create Post</div>
 				</Tooltip>
 				<img className={styles.edit} 
 					onClick={() => setIsOpen(true)}
@@ -60,7 +60,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 			<div className={styles.options}>
 				<ul>
 					<li
-						onClick={() => setSelected(CollegeSelect.Opportunities)}
+						onClick={() => {setSelected(CollegeSelect.Opportunities);}}
 					className={selected === CollegeSelect.Opportunities?styles.selected:""}>Opportunities</li>
 					<li 
 						onClick={() => setSelected(CollegeSelect.Events)}
