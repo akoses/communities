@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import { LinkPreview } from '@dhaiwat10/react-link-preview/dist';
 import styles from '../../../styles/resource.module.scss'
+import Resource from './Resource'
+
 interface Resource {
-	link: string;
+	id:number
+	url: string;
+	custom_title: string;
+	custom_description: string;
 }
 
 interface ResourceContainerProps {
@@ -13,10 +17,24 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({resources}) => {
 	const [showResources, setResources] = useState<JSX.Element[]>([]);
 	useEffect(() => {
 		setResources(resources.map((res) => {
-			return <LinkPreview fallback={null} fallbackImageSrc={''} imageHeight='200px' className={styles.link} key={res.link} url={res.link} />
+			return <Resource filter={filterRequest} key={res.id} id={res.id} url={res.url} custom_title={res.custom_title} custom_description={res.custom_description}/>
 		}
 		))
 	},[resources])
-		return (<div className={styles.container}>{showResources}</div>);
+	
+	const filterRequest = (id:number) => {
+			let filteredResources = resources.filter((res) => {
+				return res.id === id
+			});
+			setResources(
+				filteredResources.map((res) => {
+					return <Resource filter={filterRequest} key={res.id} id={res.id} url={res.url} custom_title={res.custom_title} custom_description={res.custom_description}/>
+				})
+			)
+		}
+		return (<>
+		{showResources.length > 0?<div className={styles.container}>{showResources}</div>:<div className={styles.container}><h2>There are no resources available yet.</h2></div>}
+		</>
+		);
 }
 export default ResourceContainer

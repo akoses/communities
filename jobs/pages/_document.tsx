@@ -33,6 +33,8 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <div id='modal-spot'></div>
+          <div id='modal-event'></div>
         </body>
       </Html>
     )

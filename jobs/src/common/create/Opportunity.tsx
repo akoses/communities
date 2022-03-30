@@ -4,11 +4,17 @@ import styles from '../../../styles/create.module.scss'
 import jobStyles from '../../../styles/college.module.scss'
 import Router from 'next/router'
 import 'react-quill/dist/quill.snow.css'; // ES6
-import ReactQuill from 'react-quill'; 
+import ReactQuill from '../quill/QuillSSR'; 
+import { useRouter } from 'next/router'
+import S3Client from '../../lib/S3'
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 interface OpportunityProps {
 
 }
+
+
 
 const Opportunity: React.FC<OpportunityProps> = ({}) => {
 	const [title, setTitle] = React.useState<string>("");
@@ -16,12 +22,37 @@ const Opportunity: React.FC<OpportunityProps> = ({}) => {
 	const [description, setDescription] = React.useState<string>("");
 	const [organization, setOrganization] = React.useState<string>("");
 	const [location, setLocation] = React.useState<string>("");
-	const [workstyle, setWorkstyle] = React.useState<string>(" ");
+	const [workstyle, setWorkstyle] = React.useState<string>("remote");
 	const [logo, setLogo] = React.useState<string>("");
 	const [logoFile, setLogoFile] = React.useState<any>()
 	const [applyLink, setApplyLink] = React.useState<string>("");
 	const [disciplines, setDisciplines] = React.useState<string>('');
+	const router = useRouter()
+	const formSubmit = async (e:any) => {
+		e.preventDefault();
 
+		let s3Link = {
+			location:''
+		};
+		
+		if(logoFile)
+			s3Link = await S3Client.uploadFile(logoFile, uuidv4());
+
+		const formData = {
+			name: title,
+			description: description,
+			organization: organization,
+			location: location,
+			workstyle: workstyle,
+			disciplines: disciplines,
+			college_id: router.query['college'],
+			apply_link: applyLink,
+			org_logo: s3Link.location,
+		}
+
+		await axios.post('/api/opportunities', formData)
+		router.push(`/${router.query['college']}`)
+	}
 	
 	const setImageUrl = (evt:any) => {
 		let file = evt.target.files[0]
@@ -40,7 +71,7 @@ const Opportunity: React.FC<OpportunityProps> = ({}) => {
 			</div>
 			</div>
 			<div className={styles.body}>
-			<form className={styles.formBody}>
+			<form className={styles.formBody} onSubmit={formSubmit}>
 				<div id={styles.pageOne} style={{display:page== 1?"block":"none"}}>
 				<label>
 					<h3>Opportunity Name</h3>
@@ -54,7 +85,7 @@ const Opportunity: React.FC<OpportunityProps> = ({}) => {
 					<h3>Style of Work</h3>
 				</label>
 					<select id="workstyle" name="workstyle" value={workstyle} onChange={(e) => setWorkstyle(e.target.value)}>
-  						<option value="remote">Remote</option>
+  						<option defaultValue={"remote"} value="remote">Remote</option>
   						<option value="onsite">Onsite</option>
   						<option value="hybrid">Hybrid</option>
 					</select>
@@ -86,7 +117,10 @@ const Opportunity: React.FC<OpportunityProps> = ({}) => {
 					<h3>Job Description</h3>
 					<p>Enter the job description here if applicable.</p>
 					<br />
-					<ReactQuill  theme='snow' value={description} onChange={(e) => setDescription(e)} />
+					{
+						typeof document !== undefined && <ReactQuill value={description} onChange={(e) => setDescription(e)} />
+					}
+
 				</label>
 				</div>
 				
@@ -100,13 +134,14 @@ const Opportunity: React.FC<OpportunityProps> = ({}) => {
 			<div className={styles.preview}>
 			<div className={jobStyles.jobsContainer}>
 				<Job 
+					id={-1}
 					name={title}
 					company={organization}
 					logo={logo}
 					location={location}
 					workstyle={workstyle.at(0)?.toUpperCase() + workstyle.slice(1)}
 					disciplines={disciplines}
-					applyLink={applyLink}
+					apply_link={applyLink}
 				/>
 			</div>
 			</div>

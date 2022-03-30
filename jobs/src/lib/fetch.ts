@@ -13,10 +13,46 @@ export async function fetchColleges() {
   }
 }
 
-export async function fetchJobs(id:number) {
+export async function fetchData(id: number) {
+	const data: any = {};
+	[data.opportunities, data.events, data.resources] = await Promise.all([
+	fetchOpportunities(id),
+	fetchEvents(id),
+	fetchResources(id)
+	]);
+
+	return data;
+}
+
+async function fetchOpportunities(id:number) {
 	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT * FROM jobs WHERE id=$1', [id])
+	const res = await client.query('SELECT id, name, organization, location, workstyle, disciplines, description, org_logo, apply_link FROM opportunities WHERE college_id=$1', [id])
+	return res.rows
+  } catch (err) {
+	console.error(err)
+  } finally {
+	client.release()
+  }
+}
+
+
+async function fetchEvents(id:number) {
+	  const client = await pool.connect()
+  try {
+	const res = await client.query('SELECT id, name, organization, description, location, event_link, date, org_logo FROM events WHERE college_id=$1', [id])
+	return res.rows
+  } catch (err) {
+	console.error(err)
+  } finally {
+	client.release()
+  }
+}
+
+async function fetchResources(id:number) {
+	  const client = await pool.connect()
+  try {
+	const res = await client.query('SELECT id, url, custom_title, custom_description FROM resources WHERE college_id=$1', [id])
 	return res.rows
   } catch (err) {
 	console.error(err)
@@ -37,13 +73,6 @@ export async function fetchCollegesNameID() {
   }
 }
 
-const toTitleCase = (phrase:string) => {
-  return phrase
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 
 export async function fetchCollege(name:string) {
 

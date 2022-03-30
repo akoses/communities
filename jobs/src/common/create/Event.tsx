@@ -4,8 +4,13 @@ import Router from 'next/router'
 
 // @ts-ignore
 import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle'
-
+import { useRouter } from 'next/router'
+import S3Client from '../../lib/S3'
+import axios from 'axios'
 import Event from '../events/Event'
+
+import { v4 as uuidv4 } from 'uuid';
+
 interface EventProps {
 
 }
@@ -15,12 +20,34 @@ const CreateEvent: React.FC<EventProps> = ({}) => {
 	const [description, setDescription] = React.useState<string>("");
 	const [organization, setOrganization] = React.useState<string>("");
 	const [location, setLocation] = React.useState<string>("");
-
 	const [logo, setLogo] = React.useState<string>("");
 	const [logoFile, setLogoFile] = React.useState<any>()
 	const [eventLink, setEventLink] = React.useState<string>("");
 	const [date, setDate] = React.useState(new Date());
-	
+	const router = useRouter()
+
+	const formSubmit = async (e:any) => {
+		e.preventDefault();
+		let s3Link = {
+			location:''
+		};
+		if(logoFile)
+			s3Link = await S3Client.uploadFile(logoFile, uuidv4());
+
+		const formData = {
+			name: title,
+			description: description,
+			organization: organization,
+			location: location,
+			event_link: eventLink,
+			date: date,
+			org_logo: s3Link.location,
+			college_id: router.query['college'],
+		}
+		await axios.post('/api/events', formData)
+		router.push(`/${router.query['college']}`)
+	}
+
 	const setImageUrl = (evt:any) => {
 		let file = evt.target.files[0]
 		
@@ -38,7 +65,7 @@ const CreateEvent: React.FC<EventProps> = ({}) => {
 			</div>
 			</div>
 			<div className={styles.body}>
-			<form className={styles.formBody}>
+			<form className={styles.formBody} onSubmit={formSubmit}>
 				<div>
 				<label>
 					<h3>Event Title</h3>
@@ -81,13 +108,15 @@ const CreateEvent: React.FC<EventProps> = ({}) => {
 			<div className={styles.preview}>
 			<div className={styles.eventPreview}>
 				<Event 
-					title={title}
+					id={-1}
+					name={title}
 					description={description}
-					imgsrc={logo}
-					link={eventLink}
-					host={organization}
+					org_logo={logo}
+					event_link={eventLink}
+					organization={organization}
 					location={location}
 					date={date}
+					UTCOffset={true}
 				/>
 			
 			</div>

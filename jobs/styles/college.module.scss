@@ -16,6 +16,7 @@
 		object-fit: cover;
 		border-radius: 30%;
 	}
+	
 
 	.content {
 		margin-left: 20px;
@@ -49,7 +50,10 @@
 	h1.name {
 		width: 70%;
 		font-size: 1.6rem;
+		margin-bottom: 0px;
 	}
+
+
 	.backToColleges {
 		position: absolute;
 		top: 10px;
@@ -102,11 +106,24 @@
 			
 		
 		}
+
+		.topHead {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.midHead {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				width: 200px;
+			}
+		}
 		.post {
-			position: absolute;
-			align-self: flex-end;
-			top: 10px;
-			right: 0;
+			
+			
+			
 			width: 150px;
 			text-align: center;
 			padding: 8px;
@@ -130,6 +147,18 @@
 			object-fit: cover;
 			
 		}
+
+		.edit {
+		border-radius:0;
+		opacity: 0.7;
+		height: 25px;
+		width: 25px;
+		margin-top: 0px;
+		cursor: pointer;
+		
+		
+		
+	}
 
 		
 	}
@@ -164,7 +193,7 @@
 		position: -webkit-sticky; /* Safari & IE */
 		position: sticky;
 		top: 0;
-		z-index: 1000000000;
+		z-index: 100;
 		top: 0;
 		right: 0;
 		width: 100%;
@@ -202,6 +231,7 @@
 		max-width: 1000px;
 		margin: 0 auto;
 		.job {
+			position: relative;
 			display: flex;
 			align-items: center;
 			margin: 20px 0px;
@@ -211,12 +241,18 @@
 			border-radius: 10px;
 			color: rgb(68, 68, 68);
 			
+			.delete {
+				position: absolute;
+				right: 10px;
+				
+				bottom: 15px;
+			}
 
 			&:hover{
 				transition: all 0.2s ease-in-out;
 				background-color: #f0f8ff;
 			}
-			img {
+			img.logo {
 				width: 80px;
 				height: 80px;
 				object-fit: cover;

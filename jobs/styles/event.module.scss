@@ -42,19 +42,27 @@
 }
 
 .event {
-		
+		position: relative;
 		background-color: #ffffff;	
 		border: 1px solid #e6e9ec;
 		color: #454546;
 		margin-bottom: 20px;
 		border-radius: 10px;
 		display: flex;
-		justify-content: space-between;
+		flex-direction: row-reverse;
 		
 		align-items: center;
-		
-		img {
-			max-width: 420px;
+		.delete {
+			position: absolute;
+			right: 12px;
+			bottom: 12px;
+			
+			cursor: pointer;
+		}
+		img.logo {
+			
+			max-width: 220px;
+			
 			height: auto;
 			padding: 15px;
 			max-height: 180px;

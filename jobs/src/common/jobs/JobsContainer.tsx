@@ -9,15 +9,18 @@ interface JobsContainerProps {
 const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 	const [displayedJobs, setDisplayedJobs] = useState(jobs);
 	const [filter, setFilter] = useState<string>("");
-
-	const findDisciplines = () => {
+	const [filters] = useState<Map<string, any[]>>(new Map());
+	
+	const findDisciplines = (jobs: any[]) => {
 		let map = new Map<string, number>();
 		for (let i = 0; i < jobs.length; i++) {
 			let disciplines = jobs[i].disciplines.split(",");
 			for (let j = 0; j < disciplines.length; j++) {
 				if (map.has(disciplines[j])) {
+					filters.set(disciplines[j], [...filters.get(disciplines[j])!,  jobs[i]]);
 					map.set(disciplines[j], map.get(disciplines[j])! + 1);
 				} else {
+					filters.set(disciplines[j], [jobs[i]]);
 					map.set(disciplines[j], 1);
 				}
 			}
@@ -44,13 +47,23 @@ const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 			setDisplayedJobs(jobs)
 		} else {
 		setFilter(filterName);
-		setDisplayedJobs(jobs.filter(job => job.disciplines.includes(filterName)));
+		console.log(jobs)
+		setDisplayedJobs(filters.get(filterName)!);
 		}
 	}
 
 	useEffect(() =>{
-		findDisciplines();
-	},[displayedJobs])
+		findDisciplines(jobs);
+	},[displayedJobs, jobs])
+
+	const filterRequest = (id:number) => {
+			let filteredJobs = jobs.filter((job) => {
+				return job.id === id
+			});
+			setDisplayedJobs(filteredJobs);
+			findDisciplines(filteredJobs);
+	}
+	
 
 	const [disciplines, setDisciplines] = useState<(JSX.Element| undefined)[]>([]);
 		return (
@@ -64,15 +77,17 @@ const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 			<div className={styles.jobsContainer}> 
 				{displayedJobs.length > 0?displayedJobs.map((job) => {
 					return <Job key={job.id} 
+						filter={filterRequest}
+						id={job.id}
 						name={job.name}
 						company={job.company}
-						logo={job.logo}
+						logo={job.org_logo}
 						location={job.location}
 						workstyle={job.workstyle}
 						disciplines={job.disciplines}
-					    applyLink={job.applyLink}
+					    apply_link={job.apply_link}
 				    />
-				}):<h2 className={styles.nojobs}>There are no jobs yet.</h2>}
+				}):<h2 className={styles.nojobs}>There are no opportunities available yet.</h2>}
 			</div>
 			</div>
 		);

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import Router from 'next/router'
-import {fetchCollegeName, fetchCollegesNameID} from "../lib/fetch"
+import {fetchCollegeName, fetchCollegesNameID} from "../src/lib/fetch"
 
 interface IdRedirectProps {
 	name: string

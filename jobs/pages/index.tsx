@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import College from '../src/common/College'
-import { fetchColleges } from '../lib/fetch'
+import { fetchColleges } from '../src/lib/fetch'
 
 
 export async function getStaticProps() {
@@ -34,6 +34,7 @@ const Home: NextPage = ({colleges}:any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        
         <div className={styles.title}>
         <h1 >Colleges</h1>
         <p>Looking for an internship or new grad role? Check out the Akose colleges related to your degree or interests.</p>

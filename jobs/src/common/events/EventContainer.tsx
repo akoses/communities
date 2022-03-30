@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Event from './Event'
 import styles from '../../../styles/event.module.scss'
 
@@ -11,26 +11,46 @@ enum selectEvents {
 	upcoming
 }
 
+function convertUTCDateToLocalDate(date:Date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;   
+}
+
+
 const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 	const [selected, setSelected] = useState<selectEvents>(selectEvents.upcoming);
-	const [shownEvents, setEvents] = useState<any[]>(
-		events.filter((event) => {
-			return event.date > new Date();
-		})
-	)
+	const [shownEvents, setEvents] = useState<any[]>([]);
+	useEffect(() => {
+		setEvents(
+			events.filter((event) => {
+				return convertUTCDateToLocalDate(new Date(event.date)) > new Date();
+			})
+		)
+	},[events])
 
 		const selectEventType = (eventType: selectEvents) => {
 			setSelected(eventType);
 			if (eventType === selectEvents.upcoming) {
 				setEvents(events.filter((event) => {
-					return event.date > new Date();
+					return convertUTCDateToLocalDate(new Date(event.date)) > new Date();
 				}))
 			}
 			else {
 				setEvents(events.filter((event) => {
-					return event.date < new Date();
+					return convertUTCDateToLocalDate(new Date(event.date)) < new Date();
 				}))
 			}
+		}
+		const filterRequest = (id:number) => {
+			setEvents(events.filter((event) => {
+				return event.id === id
+			}))
 		}
 
 		return (
@@ -46,7 +66,7 @@ const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 		<div className={styles.container}>{
 			shownEvents.length === 0? <div className={styles.noEvents}>Sorry, no events were found.</div>:
 			shownEvents.map((event) => {
-				return <Event {...event} key={event.title}/>
+				return <Event {...event} UTCOffset={false} filter={filterRequest} key={event.title}/>
 			})
 			}</div>
 		</div>);
