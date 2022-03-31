@@ -176,7 +176,7 @@
 
 
 .event {
-	max-width: 500px;
+	max-width: 600px;
 	width: 100%;
 	img {
 		width: 100%;
@@ -252,4 +252,20 @@
 		justify-content: space-evenly;
 	}
 
+	.eventDescription {
+		margin: 10px 0px;
+		color: rgb(59, 59, 59);
+
+		h1, h2, h3 {
+			
+			color: rgb(59, 59, 59);
+			margin-bottom: 0px;
+			margin-top: 10px;
+			
+		}
+
+		p {
+			margin: 0px;
+		}
+	}
 }

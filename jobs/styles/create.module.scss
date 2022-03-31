@@ -80,13 +80,13 @@
 .body {
 	display: flex;
 	justify-content: center;
-	
+	height: calc(100vh);
 
+	
 	.preview {
 		width: 50%;
-		height: 100vh;
 		background-color: #e4e8f7;
-		
+		overflow: auto;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -255,7 +255,8 @@
 		flex-direction: column-reverse;
 
 		.preview {
-			width: 100%;
+
+			
 			align-items: center;
 			justify-content: center;
 			height: auto;

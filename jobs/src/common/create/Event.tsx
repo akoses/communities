@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import S3Client from '../../lib/S3'
 import axios from 'axios'
 import Event from '../events/Event'
+import ReactQuill from '../quill/QuillSSR'; 
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -25,6 +26,7 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 	const [eventLink, setEventLink] = React.useState<string>("");
 	const [date, setDate] = React.useState(new Date());
 	const router = useRouter()
+	const [page, setPage] = React.useState<number>(1);
 
 	const formSubmit = async (e:any) => {
 		e.preventDefault();
@@ -66,7 +68,8 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 			</div>
 			<div className={styles.body}>
 			<form className={styles.formBody} onSubmit={formSubmit}>
-				<div>
+				<div style={{display:page== 1?"block":"none"}}>
+				
 				<label>
 					<h3>Event Title</h3>
 					<input type="text" value={title} onChange={(e) => {setTitle(e.target.value)}} />
@@ -97,13 +100,23 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 					<p>Enter the event date here.</p>
 					<DateTimePicker className={styles.eventDate} onChange={setDate} value={date} />
 				</label>
+				</div>
+				<div style={{display:page === 2?"block":"none"}}>
 				<label>
 					<h3>Event Description</h3>
 					<p>Enter the event description here.</p>
-					<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+					{
+						typeof document !== undefined && <ReactQuill value={description} onChange={(e) => setDescription(e)} />
+					}
+					<input className={styles.submit} type='submit' value='Create Event'/>
 				</label>
 				</div>
-					<input className={styles.submit} type='submit' value='Create Event'/>
+				
+				<div className={styles.pages}>
+					<li style={{opacity:page === 1?0.5:1}} onClick={() => {setPage(1)}}>{'Previous'}</li>
+					<li style={{opacity:page === 2?0.5:1}} onClick={() => setPage(2)}>{'Next'}</li>
+				</div>
+					
 			</form>
 			<div className={styles.preview}>
 			<div className={styles.eventPreview}>

@@ -44,7 +44,7 @@ const Opportunity: React.FC<JobProps> = ({id, name, company, logo, location, wor
 		else{
 			setApplyLink(apply_link)
 		}
-	}, [logo])
+	}, [logo, apply_link])
 
 	const deleteOpportunity = async () => {
 		if (logo !== '') {
@@ -71,6 +71,7 @@ const Opportunity: React.FC<JobProps> = ({id, name, company, logo, location, wor
 			<h2>{company}</h2>
 			<h3>{location} {location !== '' && workstyle !== ''?"|":''} {workstyle.charAt(0)?.toUpperCase() + workstyle.slice(1)}</h3>
 			</div>
+
 			<img onClick={openModal} style={{display: id=== -1? 'none':'block'}} src={'/delete.png'} alt='delete' className={`${styles.delete} delete`}/>
 		</div>
 		<DeleteModal setOpen={setModalIsOpen} type='opportunity' func={deleteOpportunity} isOpen={modalIsOpen}/>

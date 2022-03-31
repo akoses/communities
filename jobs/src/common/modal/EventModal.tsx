@@ -74,8 +74,8 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 			<h3>{event.location}</h3>
 			<h3>Hosted by {event.organization}</h3>
 			</div>
-			<h2 className={styles.about}>About this event</h2>
-			<p>{event.description}</p>
+			{event.description.length > 0 &&<h2 className={styles.about}>About this event</h2>}
+			<div className={styles.eventDescription} dangerouslySetInnerHTML={{__html:event.description}}></div>
 			<div className={styles.buttons}>
 			<a href={event.event_link} target="_blank" rel="noopener noreferrer">Link To Event</a>
 			<button className={styles.close} onClick={closeModal}>Close</button>
