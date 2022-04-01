@@ -4,6 +4,7 @@ import Opportunity from '../../src/common/create/Opportunity'
 import Event from '../../src/common/create/Event'
 import Resource from '../../src/common/create/Resource'
 import Router from 'next/router'
+import Head from 'next/head'
 import AppContext from '../../contexts/AppContext'
 
 interface CreatePostProps {
@@ -27,8 +28,12 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 		setCollege(context.collegeData[pathName])
 		
 	}, [context])
+
 		return (
 			<div>
+				<Head>
+					<title>{college && college.name} | Create</title>
+				</Head>
 		{selected===selectedComponent.none && <div className={styles.container}>
 			<div id={styles.title}>What would you like to create?
 				<div className={styles.cancel} onClick={() => Router.back()}> Cancel</div>

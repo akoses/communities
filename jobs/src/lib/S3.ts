@@ -4,6 +4,8 @@ const config = {
     bucketName: 'akosejobs',
     dirName: 'logos-images', /* optional */
     region: 'ca-central-1',
+   
+    
 }
 const S3Client = new S3(config);
 

@@ -47,7 +47,7 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 			college_id: id,
 		}
 		await axios.post('/api/events', formData)
-		router.push(`/${router.query['college']}`)
+		router.push(`/${router.query['college']}/events`)
 	}
 
 	const setImageUrl = (evt:any) => {
@@ -105,11 +105,12 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 				<label>
 					<h3>Event Description</h3>
 					<p>Enter the event description here.</p>
+				</label>
 					{
 						typeof document !== undefined && <ReactQuill value={description} onChange={(e) => setDescription(e)} />
 					}
 					<input className={styles.submit} type='submit' value='Create Event'/>
-				</label>
+				
 				</div>
 				
 				<div className={styles.pages}>

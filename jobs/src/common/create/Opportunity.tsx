@@ -51,7 +51,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 		}
 
 		await axios.post('/api/opportunities', formData)
-		router.push(`/${router.query['college']}`)
+		router.push(`/${router.query['college']}/opportunities`)
 	}
 	
 	const setImageUrl = (evt:any) => {
@@ -116,12 +116,13 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 				<label>
 					<h3>Job Description</h3>
 					<p>Enter the job description here if applicable.</p>
+				</label>
 					<br />
 					{
 						typeof document !== undefined && <ReactQuill value={description} onChange={(e) => setDescription(e)} />
 					}
 
-				</label>
+				
 				</div>
 				
 				<input className={styles.submit} style={{display:page== 2?"block":"none"}} type='submit' value='Create Opportunity'/>

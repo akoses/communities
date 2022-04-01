@@ -99,7 +99,7 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 		locBanner = await S3Client.uploadFile(bannerFile, keyName)
 	}
 	await axios.put(`/api/colleges`, {
-		name,
+		name: name.replace(/\s\s+/g, ' ').trim(),
 		description,
 		logo: locLogo?.location || college.logo,
 		banner: locBanner?.location || college.banner,

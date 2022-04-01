@@ -45,13 +45,11 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 	useEffect(() => {
 		setIsOpen(isOpen)
 		setOpen(isOpen)
-		
 	}, [isOpen])
 
   function closeModal() {
     setIsOpen(false);
 	setOpen(false);
-	
   }
 
   return (
@@ -72,9 +70,9 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 			<div className={styles.details}>
 		  <h3 className={styles.date}>{dateFormat(convertUTCDateToLocalDate(new Date(event.date)) , "dddd, mmmm dS, yyyy, h:MM:ss TT", false)}</h3>
 			<h3>{event.location}</h3>
-			<h3>Hosted by {event.organization}</h3>
+			{event.organization && <h3>Hosted by {event.organization}</h3>}
 			</div>
-			{event.description.length > 0 &&<h2 className={styles.about}>About this event</h2>}
+			
 			<div className={styles.eventDescription} dangerouslySetInnerHTML={{__html:event.description}}></div>
 			<div className={styles.buttons}>
 			<a href={event.event_link} target="_blank" rel="noopener noreferrer">Link To Event</a>

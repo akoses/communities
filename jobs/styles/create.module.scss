@@ -70,7 +70,7 @@
 
 .eventDate {
 	margin-top: 5px;
-	font-family: 'Poppins';
+	font-family: 'Inter';
 	
 	width: 100%;
 	color: #5e5e5e;
@@ -150,7 +150,7 @@
 		border-radius: 10px;
 		width: 100%;
 		outline: 0;
-		font-family: 'Poppins';
+		font-family: 'Inter';
 	}
 
 	input[type='file'] {
@@ -169,7 +169,7 @@
 			background-color: #104385;
 		}
 		outline: none;
-		font-family: 'Poppins';
+		font-family: 'Inter';
 		border: none;
 	}
 	textarea {
@@ -181,7 +181,7 @@
 		padding: 10px;
 		outline: 0;
 		resize: vertical;
-		font-family: 'Poppins';
+		font-family: 'Inter';
 	}
 
 	.file {
@@ -196,7 +196,7 @@
 			background-color: #2d76b6;
 		cursor: pointer;
 		outline: 0;
-		font-family: 'Poppins';
+		font-family: 'Inter';
 		font-size: 0.9rem;
 		color: #fdfdfd;
 		transition: all 0.2s ease-in-out;
@@ -210,6 +210,7 @@
 		font-size: 0.8rem;
 		color: rgb(110, 104, 104);
 		margin:  0px;
+		margin-bottom: 5px;
 	}
 
 	select {
@@ -223,14 +224,14 @@
 		width: 100%;
 		outline: 0;
 		background-color: #f8f8f8;
-		font-family: 'Poppins';
+		font-family: 'Inter';
 
 		&:hover {
 			background-color: #f1f1f1;
 		}
 	}
 	option {
-		font-family: 'Poppins';
+		font-family: 'Inter';
 		border: 1px solid #ffffff;
 	}
 }
@@ -253,18 +254,22 @@
 
 	.body {
 		flex-direction: column-reverse;
-
+		height: auto;
 		.preview {
 
-			
+			width: 100%;
 			align-items: center;
 			justify-content: center;
-			height: auto;
+			
+			
 
+			
 			.resourcePreview {
 				margin: 30px auto;
 			}
 			.eventPreview {
+				
+
 				margin: 20px;
 			}		
 		}

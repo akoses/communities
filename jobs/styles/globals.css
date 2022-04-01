@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Poppins, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: Inter, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -22,13 +22,12 @@ a {
 .react-datetime-picker__wrapper {
   padding: 5px;
   cursor: pointer;
-  font-family: 'Poppins';
+  font-family: 'Inter';
   font-size: 14px;
   border-radius: 10px;
   outline: none;
   border: 1px solid rgb(192, 180, 180) !important;
 }
-
 
 .react-datetime-picker__inputGroup__input.react-datetime-picker__inputGroup__amPm {
   width: 50px;

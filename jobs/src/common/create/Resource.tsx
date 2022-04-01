@@ -23,7 +23,7 @@ const Resource: React.FC<ResourceProps> = ({id}) => {
 				college_id: id,
 			}
 			await axios.post('/api/resources', formData)
-			Router.push(`/${Router.query['college']}`)
+			Router.push(`/${Router.query['college']}/resources`)
 		}
 
 		return (<div>

@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Head from 'next/head'
 import styles from '../../styles/college.module.scss'
 import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link'
@@ -22,9 +23,9 @@ interface collegeProps {
 }
 
 enum CollegeSelect {
-	Opportunities,
-	Events,
-	Resources
+	Opportunities = 'opportunities',
+	Events = 'events',
+	Resources = 'resources'
 }
 
 
@@ -32,8 +33,35 @@ enum CollegeSelect {
 const College: React.FC<collegeProps> = ({opportunities, events, resources, college}) => {
 	const [selected, setSelected] = useState(CollegeSelect.Opportunities);
 	const [isOpen, setIsOpen] = useState(false);
+	
+	useEffect(() => {
+		
+		let path = Router.asPath.split('/')
+		switch (path[path.length-1]) {
+			case 'opportunities':
+				setSelected(CollegeSelect.Opportunities)
+				break;
+			case 'events':
+				setSelected(CollegeSelect.Events)
+				break;
+			case 'resources':
+				setSelected(CollegeSelect.Resources)
+				break;
+			default:
+				setSelected(CollegeSelect.Opportunities)
+		}
+	}, [])
+
+	const selectComponent = (collegeSelect: CollegeSelect) => {
+		setSelected(collegeSelect);
+		Router.push(`${convertName(college.name)}/${collegeSelect}`, undefined, {shallow: true});
+	}
+
 		return (<div className={styles.collegePage}>
-			<Link href='/'><a className={styles.backToColleges}><div > {'<'} Back to Colleges</div></a></Link>
+			<Head>
+				<title>{college.name} | College</title>
+			</Head>
+			<Link href='/'><a className={styles.backToColleges}><div >Back to Colleges</div></a></Link>
 			<div>
 			<img className={styles.banner} src={college.banner}/>
 			</div>
@@ -45,8 +73,9 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<div className={styles.midHead}>
 				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
 				<div onClick={() => Router.push({
-					pathname: `/${convertName(college.name)}/create-post`,
-				}, undefined, {shallow: true})} className={styles.post} >Create Post</div>
+					pathname: `/${convertName(college.name)}/create-post`},
+					undefined, {shallow: true}
+					)} className={styles.post} >Create Post</div>
 				</Tooltip>
 				<img className={styles.edit} 
 					onClick={() => setIsOpen(true)}
@@ -61,13 +90,13 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 			<div className={styles.options}>
 				<ul>
 					<li
-						onClick={() => {setSelected(CollegeSelect.Opportunities);}}
+						onClick={() => {selectComponent(CollegeSelect.Opportunities);}}
 					className={selected === CollegeSelect.Opportunities?styles.selected:""}>Opportunities</li>
 					<li 
-						onClick={() => setSelected(CollegeSelect.Events)}
+						onClick={() => selectComponent(CollegeSelect.Events)}
 					className={selected === CollegeSelect.Events?styles.selected:""}>Events</li>
 					<li 
-						onClick={() => setSelected(CollegeSelect.Resources)}
+						onClick={() => selectComponent(CollegeSelect.Resources)}
 					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
 				</ul>
 			</div>
@@ -85,12 +114,11 @@ export async function getStaticPaths() {
   if (!collegeNameIDs)
     return { paths: [], fallback: true };
 
-  const paths = collegeNameIDs.map(({name, id}) => 
+  const paths = collegeNameIDs.map(({name}) => 
   {
 	return {
 	  params: {
-		id:String(id),
-		college:name.replace(/\s+/g, '-').toLowerCase(),
+		  college: convertName(name),
 	  }
 	}
   })
@@ -101,9 +129,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }:any) {
-
+	
 	  // Call an external API endpoint to get jobs
 	  const collegeInfo = await fetchCollege(params.college);
+	  console.log(params.college)
+	  if (!collegeInfo)
+		return { props: {}, revalidate: 1 };
+	
 	   const {opportunities, events, resources }= await fetchData(collegeInfo.id);
 		
 	   let mappedEvents = events.map((event:any) => {
@@ -113,8 +145,7 @@ export async function getStaticProps({ params }:any) {
 			}
 		})
 		
-	   if (!collegeInfo)
-		return { props: {}, revalidate: 1 };
+	   
 	  return {
 		props: {
 		  opportunities,
