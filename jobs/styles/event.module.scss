@@ -56,8 +56,12 @@
 			position: absolute;
 			right: 12px;
 			bottom: 12px;
-			
+			opacity: 0.5;
 			cursor: pointer;
+
+			&:hover {
+				opacity: 0.8;
+			}
 		}
 		img.logo {
 			
@@ -72,6 +76,22 @@
 		.eventContent {
 			width: 80%;
 			padding: 5px 20px;
+
+			.editIcon {
+				position: absolute;
+				right: 37px;
+				bottom: 10px;
+				opacity: 0.5;
+				cursor: pointer;
+				width: 23px;
+				height: 23px;
+		
+				&:hover {
+					opacity: 0.8;
+				}
+		
+				
+			}
 		}
 		h1 {
 			font-size: 1.2rem;

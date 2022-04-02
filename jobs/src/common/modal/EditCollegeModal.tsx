@@ -45,7 +45,7 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 	useEffect(() => {
 		setIsOpen(isOpen)
 		setOpen(isOpen)
-		console.log(college);
+		
 	}, [isOpen, logo, banner])
 
   function closeModal() {

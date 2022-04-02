@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, {useContext, useEffect, useState} from 'react'
 import styles from "../../styles/create.module.scss"
 import Opportunity from '../../src/common/create/Opportunity'

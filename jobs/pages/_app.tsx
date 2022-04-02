@@ -1,6 +1,7 @@
 import React, {useEffect,useState} from 'react'
+
 import '../styles/globals.css'
-import 'react-datetime-picker/dist/DateTimePicker.css'
+import "antd/dist/antd.css";
 import 'react-calendar/dist/Calendar.css'
 import 'react-clock/dist/Clock.css'
 import {convertName} from '../src/common/utils'
@@ -11,6 +12,7 @@ import axios from 'axios'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [collegeData, setCollegeData] = useState<any>([]);
+  const [edit, setEdit] = useState<any>({});
     useEffect(() => {
       axios.get('/api/colleges')
         .then(res => {
@@ -24,8 +26,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         })
     
   }, [])
+
+  const editSend = (data:any) => {
+    setEdit(data)
+  }
+
   return (
-    <AppContext.Provider value={{collegeData}}>
+    <AppContext.Provider value={{collegeData, setEdit: editSend, editableData:edit}}>
     <Component {...pageProps} />
   </AppContext.Provider>
   )

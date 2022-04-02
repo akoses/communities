@@ -29,7 +29,7 @@ const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 	useEffect(() => {
 		setEvents(
 			events.filter((event) => {
-				return convertUTCDateToLocalDate(new Date(event.date)) > new Date();
+				return convertUTCDateToLocalDate(new Date(event.start_date)) > new Date();
 			})
 		)
 	},[events])
@@ -38,12 +38,12 @@ const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 			setSelected(eventType);
 			if (eventType === selectEvents.upcoming) {
 				setEvents(events.filter((event) => {
-					return convertUTCDateToLocalDate(new Date(event.date)) > new Date();
+					return convertUTCDateToLocalDate(new Date(event.start_date)) > new Date();
 				}))
 			}
 			else {
 				setEvents(events.filter((event) => {
-					return convertUTCDateToLocalDate(new Date(event.date)) < new Date();
+					return convertUTCDateToLocalDate(new Date(event.start_date)) < new Date();
 				}))
 			}
 		}

@@ -40,7 +40,7 @@ async function fetchOpportunities(id:number) {
 async function fetchEvents(id:number) {
 	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT id, name, organization, description, location, event_link, date, org_logo FROM events WHERE college_id=$1', [id])
+	const res = await client.query('SELECT id, name, organization, description, location, event_link, start_date, end_date, org_logo FROM events WHERE college_id=$1', [id])
 	return res.rows
   } catch (err) {
 	console.error(err)

@@ -2,6 +2,22 @@
 	width: 80%;
 	margin: 0 auto;
 	max-width: 1000px;
+
+	.editIcon {
+		position: absolute;
+		right: 36px;
+		bottom: 8px;
+		opacity: 0.5;
+		cursor: pointer;
+		width: 23px;
+		height: 23px;
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		
+	}
 	.resource {
 		position: relative;
 		.delete {
@@ -9,6 +25,11 @@
 			right: 10px;
 			bottom: 10px;
 			cursor: pointer;
+			opacity: 0.5;
+
+			&:hover {
+				opacity: 0.8;
+			}
 		}
 	}
 	h2  {

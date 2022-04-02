@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import Job from './Job'
+import Opportunity from './Opportunity'
 import styles from '../../../styles/college.module.scss'
 
-interface JobsContainerProps {
+interface OpportunityContainerProps {
 	jobs: any[];
 }
 
-const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
+const OpportunityContainer: React.FC<OpportunityContainerProps> = ({jobs}) => {
 	const [displayedJobs, setDisplayedJobs] = useState(jobs);
 	const [filter, setFilter] = useState<string>("");
 	const [filters] = useState<Map<string, any[]>>(new Map());
@@ -47,7 +47,7 @@ const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 			setDisplayedJobs(jobs)
 		} else {
 		setFilter(filterName);
-		console.log(jobs)
+		
 		setDisplayedJobs(filters.get(filterName)!);
 		}
 	}
@@ -76,11 +76,11 @@ const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 			</div>
 			<div className={styles.jobsContainer}> 
 				{displayedJobs.length > 0?displayedJobs.map((job) => {
-					return <Job key={job.id} 
-						filter={filterRequest}
+					return <Opportunity key={job.id} 
 						id={job.id}
 						name={job.name}
-						company={job.company}
+						description={job.description}
+						company={job.organization}
 						logo={job.org_logo}
 						location={job.location}
 						workstyle={job.workstyle}
@@ -92,4 +92,4 @@ const JobsContainer: React.FC<JobsContainerProps> = ({jobs}) => {
 			</div>
 		);
 }
-export default JobsContainer
+export default OpportunityContainer

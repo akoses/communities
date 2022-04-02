@@ -3,7 +3,7 @@
 import Modal from 'react-modal';
 import React, {useEffect} from 'react'
 import styles from "../../../styles/modal.module.scss"
-import  dateFormat from 'dateformat'
+
 
 
 const customStyles = {
@@ -22,16 +22,7 @@ const customStyles = {
 
 Modal.setAppElement('#modal-event');
 
-function convertUTCDateToLocalDate(date:Date) {
-    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
 
-    var offset = date.getTimezoneOffset() / 60;
-    var hours = date.getHours();
-
-    newDate.setHours(hours - offset);
-
-    return newDate;   
-}
 
 
 interface ModalProps{
@@ -46,6 +37,7 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 	useEffect(() => {
 		setIsOpen(isOpen)
 		setOpen(isOpen)
+		
 	}, [isOpen])
 
   function closeModal() {
@@ -64,12 +56,13 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 		  <div className={styles.event}>
 			  <div className={styles.header}>
 		  <h2 className={styles.question}>{event.name}</h2>
-		  <img className={styles.logo} src={event.org_logo}  alt={event.name}
+		  <img className={styles.logo} src={event.org_logo == ''? '/default.png':event.org_logo}  alt={event.name}
 				
 			/>
 			</div>
 			<div className={styles.details}>
-		  <h3 className={styles.date}>{dateFormat(convertUTCDateToLocalDate(new Date(event.date)) , "dddd, mmmm dS, yyyy, h:MM:ss TT", false)}</h3>
+		  <h3 className={styles.date}>{event.date_str}</h3>
+  
 			<h3>{event.location}</h3>
 			{event.organization && <h3>Hosted by {event.organization}</h3>}
 			</div>

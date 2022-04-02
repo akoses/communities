@@ -1,18 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import styles from '../../../styles/event.module.scss'
 import  dateFormat from 'dateformat'
 import axios from 'axios'
 import DeleteModal from '../../common/modal/DeleteModal'
 import S3Client from '../../lib/S3'
 import EventModal from '../../common/modal/EventModal'
+import {AiOutlineEdit} from 'react-icons/ai';
+import AppContext from '../../../contexts/AppContext';
+import Router from 'next/router'
 
 interface EventProps {
 	id:number;
 	name: string
 	description: string
 	organization: string
-	date: Date | string,
+	start_date: Date | string,
+	end_date: Date | string,
 	org_logo: string
 	location: string
 	event_link: string;
@@ -35,7 +39,8 @@ const Event: React.FC<EventProps> = ({
 	name,
 	organization,
 	description,
-	date,
+	start_date,
+	end_date,
 	location,
 	event_link,
 	org_logo,
@@ -45,6 +50,10 @@ const Event: React.FC<EventProps> = ({
 	const [image, setImage] = useState(org_logo)
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 	const [eventModalIsOpen, setEventModalIsOpen] = useState<boolean>(false);
+	const [formatStartDate, setFormatStartDate] = useState<string>('');
+	const [formatEndDate, setFormatEndDate] = useState<string>('');
+	const context = useContext(AppContext);
+
 	useEffect(() => {
 		if (org_logo === "") {
 			setImage('/default.png')
@@ -52,7 +61,26 @@ const Event: React.FC<EventProps> = ({
 		else {
 			setImage(org_logo)
 		}
-	}, [org_logo])
+		let sd = new Date(start_date)
+		let ed = new Date(end_date)
+		sd.setHours(0, 0, 0, 0)
+		ed.setHours(0, 0, 0, 0)
+		
+		if (start_date) {
+			setFormatStartDate(dateFormat(convertUTCDateToLocalDate(new Date(start_date)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
+		}
+		
+		if (sd.getDate() === ed.getDate()
+		&& sd.getMonth() === ed.getMonth()
+		&& sd.getFullYear() === ed.getFullYear() 
+		) { 
+			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(end_date)), "h:MM TT", UTCOffset))
+		}
+		else {
+			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(end_date)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
+		}
+
+	}, [org_logo, start_date, end_date])
 	
 	const deleteEvent = async () => {
 		if (org_logo !== '') {
@@ -62,9 +90,10 @@ const Event: React.FC<EventProps> = ({
 		await axios.delete(`/api/events`, {params: {id}})
 		window.location.reload()
 	}
+
 	const openEventModal = async (e:any) => {
-		console.log(e.target)
-		if (e.target.classList.contains('ReactModal__Overlay') || e.target.tagName === 'BUTTON') {
+		
+		if (e.target.classList.contains('ReactModal__Overlay') || e.target.tagName === 'BUTTON' || e.target.tagName === 'svg') {
 			return;
 		}
 		setEventModalIsOpen(true)
@@ -75,12 +104,34 @@ const Event: React.FC<EventProps> = ({
 		e.preventDefault()
 		setModalIsOpen(!modalIsOpen);
 	}
+
+	const sendEdit = () => {
+		let college_name = Router.asPath.split('/')[1]
+		
+		context.setEdit({
+			type:"EVENT",
+			college_name,
+			
+			id,
+			name,
+			organization,
+			description,
+			start_date,
+			end_date,
+			location,
+			event_link,
+			logo:org_logo
+		})
+		Router.push('/edit-post')
+	}
 		return (<div className={styles.event} onClick={openEventModal}>
 			<div className={styles.eventContent}>
 			<h1>{name}</h1>
-			<h2>{dateFormat(convertUTCDateToLocalDate(new Date(date)) , "dddd, mmmm dS, yyyy, h:MM:ss TT", UTCOffset)}</h2>
-			<h3>{location}</h3>
+			<h2>{formatStartDate}{formatEndDate}</h2>
+		
+			  <h3>{location}</h3>
 			<h3>{organization}</h3>
+			<AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>
 			</div>
 			<img className={styles.logo} src={image}  alt={name}
 				
@@ -90,7 +141,7 @@ const Event: React.FC<EventProps> = ({
 				name,
 				description,
 				organization,
-				date,
+				date_str:formatStartDate + formatEndDate,
 				location,
 				event_link,
 				org_logo

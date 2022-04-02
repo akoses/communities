@@ -29,7 +29,7 @@
 		p {
 			font-size: 0.8rem;
 			margin-top: 0px;
-		
+			color: #3d3d3d;
 			margin-bottom: 0px;
 		}
 	}
@@ -48,10 +48,17 @@
 		color: rgb(48, 48, 48);
 	}
 
+
+	p.description {
+		margin-top: 10px;
+		font-size: 15px;
+	}
+
 	h1.name {
 		width: 70%;
 		font-size: 1.6rem;
 		margin-bottom: 0px;
+		margin-top: 10px;
 	}
 
 
@@ -243,11 +250,32 @@
 			border-radius: 10px;
 			color: rgb(68, 68, 68);
 			
+			.editIcon {
+				position: absolute;
+				right: 36px;
+				bottom: 13px;
+				opacity: 0.5;
+				cursor: pointer;
+				width: 23px;
+				height: 23px;
+		
+				&:hover {
+					opacity: 0.8;
+				}
+		
+				
+			}
+
 			.delete {
 				position: absolute;
 				right: 10px;
-				
+				opacity: 0.5;
 				bottom: 15px;
+
+				cursor: pointer;
+				&:hover {
+					opacity: 0.8;
+				}
 			}
 
 			&:hover{
@@ -280,6 +308,8 @@
 					font-weight: 400;
 					margin-bottom: 0px;
 				}
+
+				
 			}
 		}
 	}

@@ -1,54 +1,96 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styles from '../../../styles/create.module.scss'
 import Router from 'next/router'
+import { DatePicker } from 'antd';
+import moment from 'moment';
 
+const { RangePicker } = DatePicker;
 // @ts-ignore
-import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle'
 import { useRouter } from 'next/router'
 import S3Client from '../../lib/S3'
 import axios from 'axios'
 import Event from '../events/Event'
 import ReactQuill from '../quill/QuillSSR'; 
+import AppContext from '../../../contexts/AppContext';
 
 import { v4 as uuidv4 } from 'uuid';
 
 interface EventProps {
-	id:number;
+	id?:number;
+	event?:any;
 }
 
-const CreateEvent: React.FC<EventProps> = ({id}) => {
-	const [title, setTitle] = React.useState<string>("");
-	const [description, setDescription] = React.useState<string>("");
-	const [organization, setOrganization] = React.useState<string>("");
-	const [location, setLocation] = React.useState<string>("");
-	const [logo, setLogo] = React.useState<string>("");
+const CreateEvent: React.FC<EventProps> = ({id, event}) => {
+	const [title, setTitle] = React.useState<string>(event?.name || "");
+	const [description, setDescription] = React.useState<string>(event?.description || "");
+	const [organization, setOrganization] = React.useState<string>(event?.organization || "");
+	const [location, setLocation] = React.useState<string>( event?.location || "");
+	const [logo, setLogo] = React.useState<string>( event?.logo || "");
 	const [logoFile, setLogoFile] = React.useState<any>()
-	const [eventLink, setEventLink] = React.useState<string>("");
-	const [date, setDate] = React.useState(new Date());
-	const router = useRouter()
+	const [eventLink, setEventLink] = React.useState<string>( event?.event_link || "");
+	const [startDate, setStartDate] = React.useState(event?.start_date || new Date());
+	const [endDate, setEndDate] = React.useState(event?.end_date || new Date());		
+	const router = useRouter();
+	const context = useContext(AppContext);
+
+
 	const [page, setPage] = React.useState<number>(1);
 
 	const formSubmit = async (e:any) => {
 		e.preventDefault();
 		let s3Link = {
-			location:''
+			location:null
 		};
 		if(logoFile)
 			s3Link = await S3Client.uploadFile(logoFile, uuidv4());
 
-		const formData = {
-			name: title,
-			description: description,
-			organization: organization,
-			location: location,
-			event_link: eventLink,
-			date: date,
-			org_logo: s3Link.location,
-			college_id: id,
+		if (id){
+			const formData = {
+				name: title,
+				description: description,
+				organization: organization,
+				location: location,
+				event_link: eventLink,
+				start_date: startDate || new Date(),
+				end_date: endDate || new Date(),
+				org_logo: s3Link.location || '',
+				college_id: id,
+			}
+			await axios.post('/api/events', formData)
 		}
-		await axios.post('/api/events', formData)
-		router.push(`/${router.query['college']}/events`)
+	
+		else if (event) {
+			const formData = {
+				name: title,
+				description: description,
+				organization: organization,
+				location: location,
+				event_link: eventLink,
+				start_date: new Date(startDate) || new Date(),
+				end_date: new Date(endDate) || new Date(),
+				org_logo: s3Link.location || event.logo,
+				id: event?.id,
+			}
+			await axios.put('/api/events', formData)
+			
+		}
+		router.push(`/${router.query['college'] || context.editableData?.college_name}/events`)
 	}
+
+	const onDateChange = (date:any, dateString:any) => {
+		if (date){
+			if (date[0]){
+				setStartDate(date[0]._d)
+			}
+			if (date[1]){
+				setEndDate(date[1]._d)
+			}
+
+		}
+		  
+		  setEndDate(date[1]._d)
+	}
+
 
 	const setImageUrl = (evt:any) => {
 		let file = evt.target.files[0]
@@ -62,8 +104,8 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 
 		return (<div>
 			<div>
-			<div id={styles.title}>Create Event
-				<div className={styles.cancel} onClick={() => Router.back()}> Cancel</div>
+			<div id={styles.title}>{event? "Edit Event" : "Create Event"}
+				<div className={styles.cancel} onClick={() => {Router.back(); context.setEdit({})}}> Cancel</div>
 			</div>
 			</div>
 			<div className={styles.body}>
@@ -95,13 +137,21 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png" />
 					<div className={styles.file}>Choose File</div>
 				</label>
-				<label>
-					<h3>Event Date</h3>
-					<p>Enter the event date here.</p>
-					<DateTimePicker className={styles.eventDate} onChange={setDate} value={date} />
-				</label>
+				
 				</div>
 				<div style={{display:page === 2?"block":"none"}}>
+				<label>
+					<h3>Event Date</h3>
+					<p>Enter the event date range here.</p>
+					
+   					<RangePicker
+      						showTime={{ format: 'HH:mm' }}
+      						format="YYYY-MM-DD HH:mm"
+     						onChange={onDateChange}
+							 className={styles.eventDate}
+							 defaultValue={[moment(startDate), moment(endDate)]}
+    					/>
+				</label>
 				<label>
 					<h3>Event Description</h3>
 					<p>Enter the event description here.</p>
@@ -109,7 +159,7 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 					{
 						typeof document !== undefined && <ReactQuill value={description} onChange={(e) => setDescription(e)} />
 					}
-					<input className={styles.submit} type='submit' value='Create Event'/>
+					<input className={styles.submit} type='submit' value={event? "Edit Event" : "Create Event"}/>
 				
 				</div>
 				
@@ -129,8 +179,9 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 					event_link={eventLink}
 					organization={organization}
 					location={location}
-					date={date}
-					UTCOffset={true}
+					start_date={startDate}
+					end_date={endDate}
+					UTCOffset={event?false:true}
 				/>
 			
 			</div>

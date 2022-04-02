@@ -1,5 +1,5 @@
-import React from 'react'
-import Job from '../jobs/Job'
+import React, {useContext, useEffect} from 'react'
+import Job from '../opportunities/Opportunity'
 import styles from '../../../styles/create.module.scss'
 import jobStyles from '../../../styles/college.module.scss'
 import Router from 'next/router'
@@ -9,35 +9,39 @@ import { useRouter } from 'next/router'
 import S3Client from '../../lib/S3'
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import AppContext from '../../../contexts/AppContext';
 
 interface OpportunityProps {
-	id:number;
+	id?:number; 
+	opportunity?:any;
 }
 
 
 
-const Opportunity: React.FC<OpportunityProps> = ({id}) => {
-	const [title, setTitle] = React.useState<string>("");
+const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
+	const [title, setTitle] = React.useState<string>(opportunity?.name || "");
 	const [page, setPage] = React.useState<number>(1);
-	const [description, setDescription] = React.useState<string>("");
-	const [organization, setOrganization] = React.useState<string>("");
-	const [location, setLocation] = React.useState<string>("");
-	const [workstyle, setWorkstyle] = React.useState<string>("remote");
-	const [logo, setLogo] = React.useState<string>("");
+	const [description, setDescription] = React.useState<string>(opportunity?.description || "");
+	const [organization, setOrganization] = React.useState<string>(opportunity?.organization || "");
+	const [location, setLocation] = React.useState<string>(opportunity?.location || "");
+	const [workstyle, setWorkstyle] = React.useState<string>(opportunity?.workstyle || "remote");
+	const [logo, setLogo] = React.useState<string>(opportunity?.logo || "");
 	const [logoFile, setLogoFile] = React.useState<any>()
-	const [applyLink, setApplyLink] = React.useState<string>("");
-	const [disciplines, setDisciplines] = React.useState<string>('');
+	const [applyLink, setApplyLink] = React.useState<string>(opportunity?.apply_link || "");
+	const [disciplines, setDisciplines] = React.useState<string>(opportunity?.disciplines || '');
 	const router = useRouter()
+	const context = useContext(AppContext);
 	const formSubmit = async (e:any) => {
 		e.preventDefault();
 
 		let s3Link = {
-			location:''
+			location:null
 		};
 		
 		if(logoFile)
 			s3Link = await S3Client.uploadFile(logoFile, uuidv4());
 
+		if (id) {
 		const formData = {
 			name: title,
 			description: description,
@@ -51,7 +55,22 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 		}
 
 		await axios.post('/api/opportunities', formData)
-		router.push(`/${router.query['college']}/opportunities`)
+	} 
+	else if (opportunity){
+		const formData = {
+			name: title,
+			description: description,
+			organization: organization,
+			location: location,
+			workstyle: workstyle,
+			disciplines: disciplines,
+			apply_link: applyLink,
+			org_logo: s3Link.location || opportunity.logo,
+			id: opportunity.id
+		}
+		await axios.put(`/api/opportunities`, formData)
+	}
+		router.push(`/${router.query['college'] || context.editableData?.college_name}/opportunities`)
 	}
 	
 	const setImageUrl = (evt:any) => {
@@ -66,8 +85,8 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 
 		return (<div>
 			<div>
-			<div id={styles.title}>Create Opportunity
-				<div className={styles.cancel} onClick={() => Router.back()}> Cancel</div>
+			<div id={styles.title}>{opportunity? "Edit Opportunity" :"Create Opportunity"}
+				<div className={styles.cancel} onClick={() => {Router.back(); context.setEdit({})}}> Cancel</div>
 			</div>
 			</div>
 			<div className={styles.body}>
@@ -125,7 +144,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 				
 				</div>
 				
-				<input className={styles.submit} style={{display:page== 2?"block":"none"}} type='submit' value='Create Opportunity'/>
+				<input className={styles.submit} style={{display:page== 2?"block":"none"}} type='submit' value={opportunity? "Edit Opportunity" :"Create Opportunity"}/>
 				<div className={styles.pages}>
 					<li style={{opacity:page === 1?0.5:1}} onClick={() => {setPage(1)}}>{'Previous'}</li>
 					<li style={{opacity:page === 2?0.5:1}} onClick={() => setPage(2)}>{'Next'}</li>
@@ -143,6 +162,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 					workstyle={workstyle.at(0)?.toUpperCase() + workstyle.slice(1)}
 					disciplines={disciplines}
 					apply_link={applyLink}
+					description={description}
 				/>
 			</div>
 			</div>

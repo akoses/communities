@@ -9,7 +9,7 @@ import Link from 'next/link'
 import Router from 'next/router';
 
 import {fetchCollegesNameID, fetchData,  fetchCollege} from '../../src/lib/fetch'
-import JobsContainer from '../../src/common/jobs/JobsContainer'
+import JobsContainer from '../../src/common/opportunities/OpportunityContainer'
 import ResourceContainer from '../../src/common/resources/ResourceContainer';
 import EventContainer from '../../src/common/events/EventContainer';
 import EditCollegeModal from '../../src/common/modal/EditCollegeModal';
@@ -82,7 +82,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				src="/edit.png" />
 				</div>
 				</div>	
-				<p>{college.description}</p>
+				<p className={styles.description}>{college.description}</p>
 				<div className={styles.subscribe}>Subscribe</div>
 				</div>
 				<EditCollegeModal college={college} isOpen={isOpen} setOpen={setIsOpen}/>
@@ -132,7 +132,7 @@ export async function getStaticProps({ params }:any) {
 	
 	  // Call an external API endpoint to get jobs
 	  const collegeInfo = await fetchCollege(params.college);
-	  console.log(params.college)
+	  
 	  if (!collegeInfo)
 		return { props: {}, revalidate: 1 };
 	
@@ -141,9 +141,11 @@ export async function getStaticProps({ params }:any) {
 	   let mappedEvents = events.map((event:any) => {
 			return {
 				...event,
-				date: event.date.toString()
+				start_date: event.start_date.toString(),
+				end_date: event.end_date.toString()
 			}
 		})
+		
 		
 	   
 	  return {

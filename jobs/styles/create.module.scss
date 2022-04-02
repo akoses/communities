@@ -7,7 +7,6 @@
 	cursor: pointer;
 	margin: 20px auto;
 	
-
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	img {
 		width: 100%;
@@ -16,6 +15,7 @@
 		object-fit: cover;
 	}
 	h2 {
+		margin-top: 20px;
 		font-size: 1.1rem;
 	}
 	p {
@@ -80,7 +80,7 @@
 .body {
 	display: flex;
 	justify-content: center;
-	height: calc(100vh);
+	height: calc(100%);
 
 	
 	.preview {
