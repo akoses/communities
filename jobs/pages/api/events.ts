@@ -25,7 +25,7 @@ export default async function handler(req:any, res:any) {
 
   } else if (req.method === 'PUT'){
 	const client = await pool.connect();
-	console.log(req.body);
+	
 	try {
 		await client.query(`UPDATE events SET
 			name = $1, organization = $2, description = $3, location = $4, event_link = $5, start_date = $6, end_date = $7, org_logo = $8 WHERE id = $9`, [
