@@ -92,7 +92,7 @@ const CreateEvent: React.FC<EventProps> = ({id}) => {
 				<label>
 					<h3>Event Image</h3>
 					<p>Enter the event image here.</p>
-					<input type='file' onChange={setImageUrl} />
+					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png" />
 					<div className={styles.file}>Choose File</div>
 				</label>
 				<label>

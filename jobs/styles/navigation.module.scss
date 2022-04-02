@@ -1,0 +1,47 @@
+.container {
+
+display: flex;
+align-items: center;
+background-color: #5b8ecf;
+width: 100%;
+padding: 10px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+
+
+
+button {
+	margin-right: 20px;
+	font-family: 'Inter';
+	font-size: 0.8rem;
+	padding: 10px 25px;
+	border: none;
+	border-radius: 20px;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	
+}
+
+.login {
+	background-color: #2c5f9c;
+	color: #fff;
+	border: 2px solid #fff;
+	
+}
+
+.signup {
+	background-color: #fff;
+	color: #2c5f9c;
+	border: 2px solid #2c5f9c;
+}
+
+.college {
+	border-radius: 5px;
+	background-color: rgb(27, 54, 141);
+	color: #fff;
+	justify-self:end;
+
+}
+}

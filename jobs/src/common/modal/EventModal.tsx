@@ -5,6 +5,7 @@ import React, {useEffect} from 'react'
 import styles from "../../../styles/modal.module.scss"
 import  dateFormat from 'dateformat'
 
+
 const customStyles = {
   content: {
     top: '50%',
@@ -64,7 +65,7 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 			  <div className={styles.header}>
 		  <h2 className={styles.question}>{event.name}</h2>
 		  <img className={styles.logo} src={event.org_logo}  alt={event.name}
-				onError={i => i.target.style.display='none'}
+				
 			/>
 			</div>
 			<div className={styles.details}>

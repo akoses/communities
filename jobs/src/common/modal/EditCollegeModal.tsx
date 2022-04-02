@@ -77,11 +77,10 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 
   const onLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
-	if (file.type === "image/jpeg" || file.type === "image/png"){
 	setLogoFile(file);
 	let url = URL.createObjectURL(e.target.files![0]);
 	setLogo(url);
-	}
+	
   }
 
   const submitEdit = async () => {	
@@ -124,7 +123,7 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 		<h2 className={styles.question}>Edit College Information</h2>
 		<div className={styles.inputs}>
 			<label>College Logo</label>
-			<input type='file' onChange={onLogoChange} />
+			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
 			<div className={styles.chooseFile}>Choose Image</div>
 			<label>College Banner</label>
 			<input type='file' onChange={onBannerChange}/>

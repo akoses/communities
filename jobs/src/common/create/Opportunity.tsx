@@ -107,7 +107,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id}) => {
 				<label>
 					<h3>Company Logo</h3>
 					<p>Enter the company logo here.</p>
-					<input type='file' onChange={setImageUrl} />
+					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png"/>
 					<div className={styles.file}>Choose File</div>
 				</label>
 				</div>

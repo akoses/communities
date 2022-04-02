@@ -3,20 +3,21 @@
   .title {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 10px;
+    padding: 10px 0px;
     color: #333;
-
-    
-    p {
-      margin-bottom: 20px;
-      margin-top: 10px;
+    margin-top: 10px;
+    input[type='text'] {
+      width: 100%;
+      padding: 12px;
+      outline: none;
+      border: 1px solid #d7d8d8;
+      border-radius: 3px;
       font-size: 0.9rem;
+      color: rgb(68, 68, 68);
+      font-family: 'Inter';
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
-
-    h1 {
-
-      margin-bottom: 10px;
-    }
+    
   }
  main {
    width: 80%;

@@ -14,6 +14,7 @@ import ResourceContainer from '../../src/common/resources/ResourceContainer';
 import EventContainer from '../../src/common/events/EventContainer';
 import EditCollegeModal from '../../src/common/modal/EditCollegeModal';
 import {convertName} from '../../src/common/utils'
+import Navigation from '../../src/common/Navigation';
 
 interface collegeProps {
 	opportunities: any[];
@@ -35,7 +36,6 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	const [isOpen, setIsOpen] = useState(false);
 	
 	useEffect(() => {
-		
 		let path = Router.asPath.split('/')
 		switch (path[path.length-1]) {
 			case 'opportunities':
@@ -61,7 +61,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 			<Head>
 				<title>{college.name} | College</title>
 			</Head>
-			<Link href='/'><a className={styles.backToColleges}><div >Back to Colleges</div></a></Link>
+			<Navigation isUserAuthenticated={false}/>
 			<div>
 			<img className={styles.banner} src={college.banner}/>
 			</div>
@@ -83,7 +83,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				</div>
 				</div>	
 				<p>{college.description}</p>
-				<div className={styles.subscribe}>Subscribe to {college.name}</div>
+				<div className={styles.subscribe}>Subscribe</div>
 				</div>
 				<EditCollegeModal college={college} isOpen={isOpen} setOpen={setIsOpen}/>
 			</div>

@@ -83,7 +83,7 @@ const Event: React.FC<EventProps> = ({
 			<h3>{organization}</h3>
 			</div>
 			<img className={styles.logo} src={image}  alt={name}
-				onError={i => i.target.style.display='none'}
+				
 			/>
 			<EventModal event={{
 				id,

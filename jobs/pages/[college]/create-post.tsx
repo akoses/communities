@@ -26,7 +26,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 		let pathName = window.location.pathname.split('/')[1]
 		//@ts-ignore
 		setCollege(context.collegeData[pathName])
-		
+
 	}, [context])
 
 		return (
@@ -34,7 +34,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 				<Head>
 					<title>{college && college.name} | Create</title>
 				</Head>
-		{selected===selectedComponent.none && <div className={styles.container}>
+		      {selected===selectedComponent.none && <div className={styles.container}>
 			<div id={styles.title}>What would you like to create?
 				<div className={styles.cancel} onClick={() => Router.back()}> Cancel</div>
 			</div>
