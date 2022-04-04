@@ -143,8 +143,8 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 				
 				<div  style={{display:page== 2?"block":"none"}}>
 				<label>
-					<h3>Job Description</h3>
-					<p>Enter the job description here if applicable.</p>
+					<h3>Description</h3>
+					<p>Enter the description for this opportunity if applicable.</p>
 				</label>
 					<br />
 					{
