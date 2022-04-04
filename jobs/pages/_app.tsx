@@ -1,5 +1,9 @@
 import React, {useEffect,useState} from 'react'
+import { SessionProvider, } from "next-auth/react"
+import { getSession, useSession} from 'next-auth/react'
 
+
+import App from 'next/app'
 import '../styles/globals.css'
 import "antd/dist/antd.css";
 import 'react-calendar/dist/Calendar.css'
@@ -10,9 +14,10 @@ import AppContext from '../contexts/AppContext'
 import type { AppProps } from 'next/app'
 import axios from 'axios'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [collegeData, setCollegeData] = useState<any>([]);
+function MyApp({ Component, pageProps:{session, ...pageProps}}: AppProps) {
+  const [collegeData, setCollegeData] = useState<Map<string, any>>(new Map());
   const [edit, setEdit] = useState<any>({});
+
     useEffect(() => {
       axios.get('/api/colleges')
         .then(res => {
@@ -24,7 +29,6 @@ function MyApp({ Component, pageProps }: AppProps) {
        
             setCollegeData(result)
         })
-    
   }, [])
 
   const editSend = (data:any) => {
@@ -32,9 +36,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
+    <SessionProvider session={session}>
     <AppContext.Provider value={{collegeData, setEdit: editSend, editableData:edit}}>
     <Component {...pageProps} />
-  </AppContext.Provider>
+    </AppContext.Provider>
+    </SessionProvider>
   )
 }
 

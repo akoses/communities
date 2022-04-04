@@ -6,10 +6,9 @@ import Router from 'next/router'
 import 'react-quill/dist/quill.snow.css'; // ES6
 import ReactQuill from '../quill/QuillSSR'; 
 import { useRouter } from 'next/router'
-import S3Client from '../../lib/S3'
-import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import AppContext from '../../../contexts/AppContext';
+import {useSession}	from 'next-auth/react';
 
 interface OpportunityProps {
 	id?:number; 
@@ -31,6 +30,10 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 	const [disciplines, setDisciplines] = React.useState<string>(opportunity?.disciplines || '');
 	const router = useRouter()
 	const context = useContext(AppContext);
+	const {data: session} = useSession();
+
+	
+
 	const formSubmit = async (e:any) => {
 		e.preventDefault();
 
@@ -38,9 +41,15 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 			location:null
 		};
 		
-		if(logoFile)
-			s3Link = await S3Client.uploadFile(logoFile, uuidv4());
-
+		if(logoFile) {
+			let form = new FormData();
+			form.append('file', logoFile);
+			let res = await axios.post('/api/file', form, {
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+			s3Link = res.data;
+		}
+			
 		if (id) {
 		const formData = {
 			name: title,
@@ -52,6 +61,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 			college_id: id,
 			apply_link: applyLink,
 			org_logo: s3Link.location,
+			user_id: session?.user?.id || ''
 		}
 
 		await axios.post('/api/opportunities', formData)

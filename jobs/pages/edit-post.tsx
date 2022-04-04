@@ -4,6 +4,7 @@ import Event from "../src/common/create/Event";
 import Resource from "../src/common/create/Resource";
 import AppContext from '../contexts/AppContext'
 import Head from 'next/head'
+import {useSession} from "next-auth/react"
 
 interface EditPostProps {
 
@@ -12,6 +13,9 @@ interface EditPostProps {
 const EditPost:React.FC<EditPostProps> = () => {
 	const context = useContext(AppContext);
 	const [selected] = useState(context.editableData?.type);
+	useSession({
+    required: true,
+  })
 		return (
 			<div>
 				<Head>

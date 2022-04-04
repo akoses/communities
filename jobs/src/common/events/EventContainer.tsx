@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Event from './Event'
 import styles from '../../../styles/event.module.scss'
+import {Events} from "@prisma/client";
 
 interface EventContainerProps {
-	events: any[];
+	events: Events[];
 }
 
 enum selectEvents {
@@ -25,11 +26,11 @@ function convertUTCDateToLocalDate(date:Date) {
 
 const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 	const [selected, setSelected] = useState<selectEvents>(selectEvents.upcoming);
-	const [shownEvents, setEvents] = useState<any[]>([]);
+	const [shownEvents, setEvents] = useState<Events[]>([]);
 	useEffect(() => {
 		setEvents(
 			events.filter((event) => {
-				return convertUTCDateToLocalDate(new Date(event.start_date)) > new Date();
+				return convertUTCDateToLocalDate(new Date(event.startDate)) > new Date();
 			})
 		)
 	},[events])
@@ -38,12 +39,12 @@ const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 			setSelected(eventType);
 			if (eventType === selectEvents.upcoming) {
 				setEvents(events.filter((event) => {
-					return convertUTCDateToLocalDate(new Date(event.start_date)) > new Date();
+					return convertUTCDateToLocalDate(new Date(event.startDate)) > new Date();
 				}))
 			}
 			else {
 				setEvents(events.filter((event) => {
-					return convertUTCDateToLocalDate(new Date(event.start_date)) < new Date();
+					return convertUTCDateToLocalDate(new Date(event.startDate)) < new Date();
 				}))
 			}
 		}
@@ -66,7 +67,7 @@ const EventContainer: React.FC<EventContainerProps> = ({events}) => {
 		<div className={styles.container}>{
 			shownEvents.length === 0? <div className={styles.noEvents}>Sorry, no events were found.</div>:
 			shownEvents.map((event) => {
-				return <Event {...event} UTCOffset={false} filter={filterRequest} key={event.title}/>
+				return <Event {...event} UTCOffset={true}  key={event.name}/>
 			})
 			}</div>
 		</div>);

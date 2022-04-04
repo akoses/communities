@@ -5,6 +5,7 @@ import Router from 'next/router'
 import resourceStyles from '../../../styles/resource.module.scss'
 import axios from 'axios';
 import AppContext from '../../../contexts/AppContext';
+import {useSession}	from 'next-auth/react';
 
 interface ResourceProps {
 	id?: number;
@@ -16,6 +17,7 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 		const [customTitle, setCustomTitle] = React.useState<string>(resource?.custom_title || "");
 		const [customDescription, setCustomDescription] = React.useState<string>(resource?.custom_description || "");
 		const context = useContext(AppContext);
+		const {data: session} = useSession();
 		const formSubmit = async (e:any) => {
 			e.preventDefault();
 			if(id){
@@ -24,6 +26,7 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 				custom_title: customTitle,
 				custom_description: customDescription,
 				college_id: id,
+				user_id: session?.user?.id || ''
 			}
 			await axios.post('/api/resources', formData)
 		}

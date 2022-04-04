@@ -5,22 +5,19 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 
 const { RangePicker } = DatePicker;
-// @ts-ignore
 import { useRouter } from 'next/router'
-import S3Client from '../../lib/S3'
 import axios from 'axios'
 import Event from '../events/Event'
 import ReactQuill from '../quill/QuillSSR'; 
 import AppContext from '../../../contexts/AppContext';
-
-import { v4 as uuidv4 } from 'uuid';
-
+import {useSession}	from 'next-auth/react';
 interface EventProps {
 	id?:number;
 	event?:any;
+	UTCOffset?:boolean;
 }
 
-const CreateEvent: React.FC<EventProps> = ({id, event}) => {
+const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 	const [title, setTitle] = React.useState<string>(event?.name || "");
 	const [description, setDescription] = React.useState<string>(event?.description || "");
 	const [organization, setOrganization] = React.useState<string>(event?.organization || "");
@@ -32,7 +29,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event}) => {
 	const [endDate, setEndDate] = React.useState(event?.end_date || new Date());		
 	const router = useRouter();
 	const context = useContext(AppContext);
-
+	const {data: session} = useSession();
 
 	const [page, setPage] = React.useState<number>(1);
 
@@ -41,8 +38,15 @@ const CreateEvent: React.FC<EventProps> = ({id, event}) => {
 		let s3Link = {
 			location:null
 		};
-		if(logoFile)
-			s3Link = await S3Client.uploadFile(logoFile, uuidv4());
+		if(logoFile) {
+			let form = new FormData();
+			form.append('file', logoFile);
+			let res = await axios.post('/api/file', 
+			form, {
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+			s3Link = res.data;
+		}
 
 		if (id){
 			const formData = {
@@ -55,6 +59,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event}) => {
 				end_date: endDate || new Date(),
 				org_logo: s3Link.location || '',
 				college_id: id,
+				user_id: session?.user?.id || '',
 			}
 			await axios.post('/api/events', formData)
 		}
@@ -175,13 +180,14 @@ const CreateEvent: React.FC<EventProps> = ({id, event}) => {
 					id={-1}
 					name={title}
 					description={description}
-					org_logo={logo}
-					event_link={eventLink}
+					orgLogo={logo}
+					eventLink={eventLink}
 					organization={organization}
 					location={location}
-					start_date={startDate}
-					end_date={endDate}
-					UTCOffset={event?false:true}
+					startDate={startDate}
+					endDate={endDate}
+					UTCOffset={UTCOffset || true}
+					userId={''}
 				/>
 			
 			</div>

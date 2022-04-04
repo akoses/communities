@@ -1,23 +1,28 @@
 import {pool} from "../../src/lib/pool";
-import { deleteEventFromDB } from "../../src/lib/delete";
-export default async function handler(req:any, res:any) {
+import { NextApiResponse, NextApiRequest } from "next";
+import prisma from '../../prisma'
+
+
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 	
   if (req.method === 'POST') {
-	const client = await pool.connect();
 	try {
-		await client.query(`INSERT INTO events (
-			name, organization, description, location, event_link, start_date, end_date, org_logo, college_id
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-		`, [req.body.name, 
-			req.body.organization, 
-			req.body.description, 
-			req.body.location,
-			req.body.event_link,
-			req.body.start_date,
-			req.body.end_date,
-			req.body.org_logo,
-			req.body.college_id]);
-		}
+		await prisma.events.create({
+			data: {
+				name: req.body.name,
+				description: req.body.description,
+				organization: req.body.organization,
+				location: req.body.location,
+				startDate: req.body.start_date,
+				endDate: req.body.end_date,
+				eventLink: req.body.event_link,
+				orgLogo: req.body.org_logo,
+				collegeId: req.body.college_id,
+				userId: req.body.user_id,
+			}
+		});
+		res.status(200).json({message: 'ok'});
+	}
 	catch (err) {
 		return res.status(500).send(err);
 	}
@@ -27,17 +32,22 @@ export default async function handler(req:any, res:any) {
 	const client = await pool.connect();
 	
 	try {
-		await client.query(`UPDATE events SET
-			name = $1, organization = $2, description = $3, location = $4, event_link = $5, start_date = $6, end_date = $7, org_logo = $8 WHERE id = $9`, [
-			req.body.name, 
-			req.body.organization, 
-			req.body.description, 
-			req.body.location,
-			req.body.event_link,
-			req.body.start_date,
-			req.body.end_date,
-			req.body.org_logo,
-			req.body.id]);
+		await prisma.events.update({
+			where: {
+				id: req.body.id
+			},
+			data: {
+				name: req.body.name,
+				description: req.body.description,
+				organization: req.body.organization,
+				location: req.body.location,
+				startDate: req.body.start_date,
+				endDate: req.body.end_date,
+				eventLink: req.body.event_link,
+				orgLogo: req.body.org_logo,
+			}
+		})
+		res.status(200).json({message: 'ok'});
 		}
 	catch (err) {
 		console.error(err);
@@ -48,10 +58,12 @@ export default async function handler(req:any, res:any) {
   }
   
   else if (req.method === 'DELETE') {
-	  
 	try {
-		
-		await deleteEventFromDB(req.query.id);
+		await prisma.events.delete({
+			where: {
+				id: Number(req.query.id)
+			}
+		})
 		}
 	catch (err) {
 		return res.status(500).send(err);

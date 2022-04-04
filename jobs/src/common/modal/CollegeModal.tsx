@@ -4,7 +4,9 @@ import Modal from 'react-modal';
 import React, {useEffect} from 'react'
 import styles from "../../../styles/modal.module.scss"
 import axios from 'axios'
-import S3Client from '../../lib/S3';
+import {useSession} from 'next-auth/react'
+import Router from 'next/router';
+import { convertName } from '../utils';
 
 const customStyles = {
   content: {
@@ -24,28 +26,30 @@ const customStyles = {
 
 Modal.setAppElement('#modal-spot');
 
+type ModalType ='edit' | 'create'
+
 
 interface ModalProps{
 	isOpen: boolean
-	college: any
+	college?: any
 	setOpen: (isOpen: boolean) => void;
+	type: ModalType
 }
 
-const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
+const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => {
 	const [modalIsOpen, setIsOpen] = React.useState(isOpen);
-	const [banner, setBanner] = React.useState(college.banner)
-	const [name, setName] = React.useState(college.name)
-	const [description, setDescription] = React.useState(college.description)
-	const [logo, setLogo] = React.useState(college.logo)
-	const [nameCount, setNameCount] = React.useState(college.name.length)
-	const [descriptionCount, setDescriptionCount] = React.useState(college.description.length)
+	const [banner, setBanner] = React.useState(college?.banner || '/default_banner.jpg');
+	const [name, setName] = React.useState(college?.name || '');
+	const [description, setDescription] = React.useState(college?.description || '');
+	const [logo, setLogo] = React.useState(college?.logo || '/default.png')
+	const [nameCount, setNameCount] = React.useState(college?.name.length || 0);
+	const [descriptionCount, setDescriptionCount] = React.useState(college?.description.length || 0);
 	const [bannerFile, setBannerFile] = React.useState<any>(null)
 	const [logoFile, setLogoFile] = React.useState<any>(null)
-	
+	const {data:session} = useSession();
 	useEffect(() => {
 		setIsOpen(isOpen)
 		setOpen(isOpen)
-		
 	}, [isOpen, logo, banner])
 
   function closeModal() {
@@ -83,27 +87,57 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 	
   }
 
-  const submitEdit = async () => {	
+  const submitCollege = async () => {	
 	  let locLogo;
 	  let locBanner;
 	let keyName = new URL(logo).pathname
-	if (keyName !== college.logo && logoFile !== null){
-		await S3Client.deleteFile(keyName)
-		locLogo = await S3Client.uploadFile(logoFile, keyName)
+	if (keyName !== college?.logo && logoFile !== null){
+		await axios.delete('/api/file', {
+			params: {
+				keyName
+			}
+		})
+		let form = new FormData();
+		form.append('file', logoFile);
+		let res = await axios.post('/api/file', form, {
+			headers: {"Content-Type": "multipart/form-data"}
+		})
+		locLogo = res.data;
 	}
 	keyName = new URL(banner).pathname
 
-	if (keyName !== college.banner && bannerFile !== null){
-		await S3Client.deleteFile(keyName)
-		locBanner = await S3Client.uploadFile(bannerFile, keyName)
+	if (keyName !== college?.banner && bannerFile !== null){
+		let form = new FormData();
+		form.append('file', bannerFile);
+		let res = await axios.post('/api/file', form, {
+			headers: {"Content-Type": "multipart/form-data"}
+		})
+		locBanner = res.data;
 	}
-	await axios.put(`/api/colleges`, {
-		name: name.replace(/\s\s+/g, ' ').trim(),
-		description,
-		logo: locLogo?.location || college.logo,
-		banner: locBanner?.location || college.banner,
-		id: college.id,
-	})
+	switch (type) {
+		case 'edit':
+			await axios.put(`/api/colleges`, {
+			name: name.replace(/\s\s+/g, ' ').trim(),
+			description,
+			logo: locLogo?.location || college?.logo,
+			banner: locBanner?.location || college?.banner,
+			id: college?.id,
+			})
+			break;
+		case 'create':
+			await axios.post(`/api/colleges`, {
+			name: name.replace(/\s\s+/g, ' ').trim(),
+			description,
+			logo: locLogo?.location || '',
+			banner: locBanner?.location || '',
+			//@ts-ignore
+			userId: session?.user?.id || ''
+			})
+			Router.push('/' + convertName(name.replace(/\s\s+/g, ' ').trim()));
+			closeModal();
+			return;
+	}
+	
 	closeModal();
 	
 	window.location.href = window.location.origin + `/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`
@@ -115,12 +149,12 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel={`Edit College`}
+        contentLabel={`College Modal`}
       >
 		  <div className={styles.editModal}>
 		<img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/>
-		<h2 className={styles.question}>Edit College Information</h2>
+		<h2 className={styles.question}>{type === 'edit'?'Edit College Information':"Create College"}</h2>
 		<div className={styles.inputs}>
 			<label>College Logo</label>
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
@@ -136,7 +170,7 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
 			<label>College Description <div className={styles.counter}>{descriptionCount}/300</div></label>
 			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
 			
-			<div className={styles.buttons}><input className={styles.submit} type="submit" value="Submit" onClick={submitEdit}/>
+			<div className={styles.buttons}><input className={styles.submit} type="submit" value="Submit" onClick={submitCollege}/>
 			<input className={styles.cancel} type="submit" value="Cancel" onClick={closeModal}/>
 			</div>
 		</div>
@@ -146,4 +180,4 @@ const EditModal:React.FC<ModalProps> = ({setOpen, isOpen, college}) => {
   );
 }
 
-export default EditModal
+export default CollegeModal

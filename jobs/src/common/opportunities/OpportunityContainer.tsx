@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Opportunity from './Opportunity'
 import styles from '../../../styles/college.module.scss'
+import {Opportunities} from '@prisma/client'
 
 interface OpportunityContainerProps {
-	jobs: any[];
+	jobs: Opportunities[];
 }
 
 const OpportunityContainer: React.FC<OpportunityContainerProps> = ({jobs}) => {
@@ -81,11 +82,12 @@ const OpportunityContainer: React.FC<OpportunityContainerProps> = ({jobs}) => {
 						name={job.name}
 						description={job.description}
 						company={job.organization}
-						logo={job.org_logo}
+						logo={job.orgLogo}
 						location={job.location}
 						workstyle={job.workstyle}
 						disciplines={job.disciplines}
-					    apply_link={job.apply_link}
+					    apply_link={job.applyLink}
+						userId={job.userId}
 				    />
 				}):<h2 className={styles.nojobs}>There are no opportunities available yet.</h2>}
 			</div>

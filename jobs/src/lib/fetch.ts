@@ -1,75 +1,88 @@
 
 import {pool} from './pool';
-
+import prisma from '../../prisma';
+import {getSession } from "next-auth/react";
 export async function fetchColleges() {
-	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT * FROM colleges')
-	return res.rows
+	const res = await prisma.colleges.findMany()
+	return res
   } catch (err) {
 	console.error(err)
-  } finally {
-	client.release()
-  }
+  } 
 }
 
 export async function fetchData(id: number) {
-	const data: any = {};
+	const data:any = {
+		opportunities: [],
+		events: [],
+		resources: [],
+
+	};
 	[data.opportunities, data.events, data.resources] = await Promise.all([
 	fetchOpportunities(id),
 	fetchEvents(id),
 	fetchResources(id)
 	]);
-
 	return data;
 }
 
 async function fetchOpportunities(id:number) {
-	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT id, name, organization, location, workstyle, disciplines, description, org_logo, apply_link FROM opportunities WHERE college_id=$1', [id])
-	return res.rows
+	const res = await prisma.opportunities.findMany({
+		where: {
+			collegeId: id
+		}
+	})
+	return res
   } catch (err) {
 	console.error(err)
-  } finally {
-	client.release()
-  }
+  } 
 }
 
 
 async function fetchEvents(id:number) {
-	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT id, name, organization, description, location, event_link, start_date, end_date, org_logo FROM events WHERE college_id=$1', [id])
-	return res.rows
+	const res = await prisma.events.findMany({
+		where: {
+			collegeId: id
+		}
+	})
+	return res
   } catch (err) {
 	console.error(err)
-  } finally {
-	client.release()
   }
 }
 
 async function fetchResources(id:number) {
-	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT id, url, custom_title, custom_description FROM resources WHERE college_id=$1', [id])
-	return res.rows
+	const res = await prisma.resources.findMany({
+		where: {
+			collegeId: id
+		}
+	})
+	return res
   } catch (err) {
 	console.error(err)
   } finally {
-	client.release()
   }
 }
 
 export async function fetchCollegesNameID() {
 	  const client = await pool.connect()
   try {
-	const res = await client.query('SELECT id, name FROM colleges')
-	return res.rows
+	const res = await prisma.colleges.findMany(
+		{
+			select:{
+				id: true,
+				name: true
+			}
+		}
+	)
+	return res
   } catch (err) {
 	console.error(err)
   } finally {
-	client.release()
+
   }
 }
 
@@ -78,33 +91,56 @@ export async function fetchCollege(name:string) {
 
 	//@ts-ignore
 	let collegeName = name.replace(/-/g, ' ');
-	  const client = await pool.connect()
-	  
+	
+	 
   try {
-	const res = await client.query('SELECT * FROM colleges WHERE LOWER(name)=$1', [collegeName])
+	const res = await prisma.colleges.findFirst({
+		where: {
+			name: {
+				contains: collegeName,
+				mode: 'insensitive'
+			}
+		},
 
-	return res.rows[0]
+	})
+	return res
   } catch (err) {
 	console.error(err)
-  } finally {
-	client.release()
-  }
+  } 
 }
 
 
 export async function fetchCollegeName(id:string) {
 
-	//@ts-ignore
-	  const client = await pool.connect()
 	  
   try {
-	const res = await client.query('SELECT name FROM colleges WHERE id=$1', [Number(id)])
+	const res = await prisma.colleges.findFirst({
+		where: {
+			id: Number(id)
+		},
+		select: {
+			name: true
+		}
+	});
 
-	return res.rows[0]
+	return res?.name
   } catch (err) {
 	console.error(err)
-  } finally {
-	client.release()
-  }
+  } 
+}
+
+export async function fetchJoinedCollege(userId:string, collegeId:number) {
+	try {
+		const res = await prisma.joined.count({
+			where: {
+				userId: userId,
+				collegeId: Number(collegeId)
+			}
+		})
+		return res
+	} catch (err) {
+		console.error(err)
+		return []
+	}
 }
 

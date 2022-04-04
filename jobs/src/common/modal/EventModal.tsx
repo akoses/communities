@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import React, {useEffect} from 'react'
 import styles from "../../../styles/modal.module.scss"
 
+import { Events } from '@prisma/client'
 
 
 const customStyles = {
@@ -23,10 +24,19 @@ const customStyles = {
 Modal.setAppElement('#modal-event');
 
 
-
+interface EventWithDateStr  {
+	date_str: string
+	id:number
+	name:string
+	description:string
+	organization:string
+	location:string
+	eventLink:string
+	orgLogo:string
+}
 
 interface ModalProps{
-	event:any;
+	event:EventWithDateStr;
 	isOpen: boolean
 	setOpen: (isOpen: boolean) => void;
 }
@@ -56,7 +66,7 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 		  <div className={styles.event}>
 			  <div className={styles.header}>
 		  <h2 className={styles.question}>{event.name}</h2>
-		  <img className={styles.logo} src={event.org_logo == ''? '/default.png':event.org_logo}  alt={event.name}
+		  <img className={styles.logo} src={event.orgLogo == ''? '/default.png':event.orgLogo}  alt={event.name}
 				
 			/>
 			</div>
@@ -69,7 +79,7 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 			
 			<div className={styles.eventDescription} dangerouslySetInnerHTML={{__html:event.description}}></div>
 			<div className={styles.buttons}>
-			<a href={event.event_link} target="_blank" rel="noopener noreferrer">Link To Event</a>
+			<a href={event.eventLink} target="_blank" rel="noopener noreferrer">Link To Event</a>
 			<button className={styles.close} onClick={closeModal}>Close</button>
 			</div>
 	</div>

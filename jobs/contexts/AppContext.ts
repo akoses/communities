@@ -1,10 +1,10 @@
 import React from 'react';
 const AppContext = React.createContext<{
-		collegeData: any[];
+		collegeData: Map<string, any>;
 		setEdit: (data:any) => void;
 		editableData: any;
 }>({
-	collegeData: [],
+	collegeData: new Map(),
 	setEdit: () => {},
 	editableData: {}
 });

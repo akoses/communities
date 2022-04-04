@@ -6,11 +6,11 @@ import Link from 'next/link'
 import styles from '../../../styles/college.module.scss'
 import axios from 'axios'
 import DeleteModal from '../modal/DeleteModal'
-import S3Client from '../../lib/S3';
 import {AiOutlineEdit} from 'react-icons/ai';
 import AppContext from '../../../contexts/AppContext';
-import Router from 'next/router'
+import Router, {useRouter} from 'next/router'
 import OpportunityModal from '../modal/OpportunityModal'
+import { useSession } from 'next-auth/react'
 
 interface JobProps {
 	id: number;
@@ -22,6 +22,7 @@ interface JobProps {
 	disciplines: string;
 	apply_link: string;
 	description: string;
+	userId: string;
 }
 
 const validateEmail = (email:string) => {
@@ -32,12 +33,16 @@ const validateEmail = (email:string) => {
     );
 };
 
-const Opportunity: React.FC<JobProps> = ({id, name, company, logo, location, workstyle, apply_link, disciplines, description}) => {
+const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, location, workstyle, apply_link, disciplines, description}) => {
 	const [dlogo, setLogo] = React.useState<string>(logo);
 	const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
 	const [opportunityModalIsOpen, setOpportunityModalIsOpen] = React.useState<boolean>(false);
 	const [applyLink, setApplyLink] = React.useState<string>(apply_link);
+	const router = useRouter()
+	const [collegeName] = React.useState<string>(router.asPath.split('/')[1] || '');
 	const context = useContext(AppContext);
+	const [collegeUserId, setCollegeUserId] = React.useState<string>('');
+	const {data: session} = useSession();
 	useEffect(() => {
 		if (logo === '') {
 			setLogo('/default.png')
@@ -51,12 +56,18 @@ const Opportunity: React.FC<JobProps> = ({id, name, company, logo, location, wor
 		else{
 			setApplyLink(apply_link)
 		}
-	}, [logo, apply_link])
+		// @ts-ignore
+		setCollegeUserId(context.collegeData[collegeName]?.userId)
+	}, [logo, apply_link, collegeUserId, session])
 
 	const deleteOpportunity = async () => {
 		if (logo !== '') {
 			let keyName = new URL(logo).pathname
-			await S3Client.deleteFile(keyName)
+			axios.delete('/api/file', {
+				params:{
+					keyName
+				}
+			})
 		}
 		
 		await axios.delete(`/api/opportunities`, {params: {id}})
@@ -66,13 +77,12 @@ const Opportunity: React.FC<JobProps> = ({id, name, company, logo, location, wor
 	const sendEdit = (e:any) => {
 		e.preventDefault();
 		e.stopPropagation();
-		
-		let college_name = Router.asPath.split('/')[1]
+		 
 		
 		
 		context.setEdit({
 			type: "OPPORTUNITY",
-			college_name,
+			collegeName,
 			id,
 			name,
 			organization:company,
@@ -116,8 +126,8 @@ const Opportunity: React.FC<JobProps> = ({id, name, company, logo, location, wor
 			<h2>{company}</h2>
 			<h3>{location} {location !== '' && workstyle !== ''?"|":''} {workstyle.charAt(0)?.toUpperCase() + workstyle.slice(1)}</h3>
 			</div>
-			<AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>
-			<img onClick={openModal} style={{display: id=== -1? 'none':'block'}} src={'/delete.png'} alt='delete' className={`${styles.delete} delete`}/>
+			{userId === session?.user?.id && <AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>}
+			{(collegeUserId === session?.user?.id || userId === session?.user?.id) && <img onClick={openModal} style={{display: id=== -1? 'none':'block'}} src={'/delete.png'} alt='delete' className={`${styles.delete} delete`}/>}
 		</div>
 		<DeleteModal setOpen={setModalIsOpen} type='opportunity' func={deleteOpportunity} isOpen={modalIsOpen}/>
 		

@@ -80,7 +80,8 @@
 .body {
 	display: flex;
 	justify-content: center;
-	height: calc(100%);
+	min-height: 100vh;
+	height: 100%;
 
 	
 	.preview {
@@ -254,7 +255,9 @@
 
 	.body {
 		flex-direction: column-reverse;
-		height: auto;
+		height: 100%;
+		align-items: flex-start;
+		justify-content: flex-end;
 		.preview {
 
 			width: 100%;

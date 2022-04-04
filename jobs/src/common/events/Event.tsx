@@ -4,23 +4,24 @@ import styles from '../../../styles/event.module.scss'
 import  dateFormat from 'dateformat'
 import axios from 'axios'
 import DeleteModal from '../../common/modal/DeleteModal'
-import S3Client from '../../lib/S3'
 import EventModal from '../../common/modal/EventModal'
 import {AiOutlineEdit} from 'react-icons/ai';
 import AppContext from '../../../contexts/AppContext';
 import Router from 'next/router'
+import {useSession} from 'next-auth/react'
 
 interface EventProps {
 	id:number;
 	name: string
 	description: string
 	organization: string
-	start_date: Date | string,
-	end_date: Date | string,
-	org_logo: string
+	startDate: Date | string,
+	endDate: Date | string,
+	orgLogo: string
 	location: string
-	event_link: string;
+	eventLink: string;
 	UTCOffset: boolean
+	userId: string
 }
 
 function convertUTCDateToLocalDate(date:Date) {
@@ -39,53 +40,62 @@ const Event: React.FC<EventProps> = ({
 	name,
 	organization,
 	description,
-	start_date,
-	end_date,
+	startDate,
+	endDate,
 	location,
-	event_link,
-	org_logo,
-	UTCOffset
+	eventLink,
+	orgLogo,
+	UTCOffset,
+	userId
 
 }) => {
-	const [image, setImage] = useState(org_logo)
+	const [image, setImage] = useState(orgLogo)
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 	const [eventModalIsOpen, setEventModalIsOpen] = useState<boolean>(false);
 	const [formatStartDate, setFormatStartDate] = useState<string>('');
 	const [formatEndDate, setFormatEndDate] = useState<string>('');
 	const context = useContext(AppContext);
-
+	const [collegeName] = React.useState<string>(Router.asPath.split('/')[1] || '');
+	const [collegeUserId, setCollegeUserId] = React.useState<string>('');
+	const {data: session} = useSession();
 	useEffect(() => {
-		if (org_logo === "") {
+		if (orgLogo === "") {
 			setImage('/default.png')
 		}
 		else {
-			setImage(org_logo)
+			setImage(orgLogo)
 		}
-		let sd = new Date(start_date)
-		let ed = new Date(end_date)
+		let sd = new Date(startDate)
+		let ed = new Date(endDate)
 		sd.setHours(0, 0, 0, 0)
 		ed.setHours(0, 0, 0, 0)
 		
-		if (start_date) {
-			setFormatStartDate(dateFormat(convertUTCDateToLocalDate(new Date(start_date)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
+		if (startDate) {
+			setFormatStartDate(dateFormat(convertUTCDateToLocalDate(new Date(startDate)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
 		}
 		
 		if (sd.getDate() === ed.getDate()
 		&& sd.getMonth() === ed.getMonth()
 		&& sd.getFullYear() === ed.getFullYear() 
 		) { 
-			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(end_date)), "h:MM TT", UTCOffset))
+			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(endDate)), "h:MM TT", UTCOffset))
 		}
 		else {
-			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(end_date)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
+			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(endDate)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
 		}
-
-	}, [org_logo, start_date, end_date])
+		// @ts-ignore
+		setCollegeUserId(context.collegeData[collegeName]?.userId)
+	}, [orgLogo, startDate, endDate, collegeUserId, session, context.collegeData, collegeName, UTCOffset])
 	
 	const deleteEvent = async () => {
-		if (org_logo !== '') {
-			let keyName = new URL(org_logo).pathname
-			await S3Client.deleteFile(keyName)
+		if (orgLogo !== '') {
+			let keyName = new URL(orgLogo).pathname
+			axios.delete('/api/file', {
+				params:{
+					keyName
+				}
+			})
+			
 		}
 		await axios.delete(`/api/events`, {params: {id}})
 		window.location.reload()
@@ -116,11 +126,11 @@ const Event: React.FC<EventProps> = ({
 			name,
 			organization,
 			description,
-			start_date,
-			end_date,
+			startDate,
+			endDate,
 			location,
-			event_link,
-			logo:org_logo
+			eventLink,
+			logo:orgLogo
 		})
 		Router.push('/edit-post')
 	}
@@ -131,7 +141,7 @@ const Event: React.FC<EventProps> = ({
 		
 			  <h3>{location}</h3>
 			<h3>{organization}</h3>
-			<AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>
+			{userId === session?.user?.id && <AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>}
 			</div>
 			<img className={styles.logo} src={image}  alt={name}
 				
@@ -143,17 +153,18 @@ const Event: React.FC<EventProps> = ({
 				organization,
 				date_str:formatStartDate + formatEndDate,
 				location,
-				event_link,
-				org_logo
+				eventLink,
+				orgLogo
+
 			}}
 				isOpen={eventModalIsOpen}
 				setOpen={setEventModalIsOpen}
 			/>
-			<img
+			{(collegeUserId === session?.user?.id || userId === session?.user?.id) && <img
 				onClick={openModal}
 			 src={'/delete.png'} alt='delete'
 			className={`${styles.delete} delete`}
-			style={{display: id=== -1? 'none':'block'}}/>
+			style={{display: id=== -1? 'none':'block'}}/>}
 			<DeleteModal setOpen={setModalIsOpen} type='event' func={deleteEvent} isOpen={modalIsOpen}/>
 		</div>);
 }

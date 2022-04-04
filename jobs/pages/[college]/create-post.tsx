@@ -7,7 +7,8 @@ import Resource from '../../src/common/create/Resource'
 import Router from 'next/router'
 import Head from 'next/head'
 import AppContext from '../../contexts/AppContext'
-
+import { useSession } from "next-auth/react"
+import { convertName } from '../../src/common/utils'
 interface CreatePostProps {
 	
 }
@@ -23,6 +24,10 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 	const [selected, setSelected] = React.useState<selectedComponent>(selectedComponent.none)
 	const [college, setCollege] = useState<any>({})
 	const context = useContext(AppContext)
+	
+	useSession({
+    required: true,
+  })
 	useEffect(() => {
 		let pathName = window.location.pathname.split('/')[1]
 		//@ts-ignore
@@ -37,7 +42,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 				</Head>
 		      {selected===selectedComponent.none && <div className={styles.container}>
 			<div id={styles.title}>What would you like to create?
-				<div className={styles.cancel} onClick={() => Router.back()}> Cancel</div>
+				<div className={styles.cancel} onClick={() => Router.push(`/${convertName(college.name)}`)}> Cancel</div>
 			</div>
 			<div className={styles.create}>
 			<div 

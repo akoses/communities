@@ -5,22 +5,25 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import styles from '../../styles/college.module.scss'
 import Tooltip from '@mui/material/Tooltip';
-import Link from 'next/link'
 import Router from 'next/router';
 
-import {fetchCollegesNameID, fetchData,  fetchCollege} from '../../src/lib/fetch'
-import JobsContainer from '../../src/common/opportunities/OpportunityContainer'
+import {fetchJoinedCollege, fetchData,  fetchCollege} from '../../src/lib/fetch'
+import OpportunityContainer from '../../src/common/opportunities/OpportunityContainer'
 import ResourceContainer from '../../src/common/resources/ResourceContainer';
 import EventContainer from '../../src/common/events/EventContainer';
-import EditCollegeModal from '../../src/common/modal/EditCollegeModal';
+import CollegeModal from '../../src/common/modal/CollegeModal';
 import {convertName} from '../../src/common/utils'
 import Navigation from '../../src/common/Navigation';
+import { useSession, getSession } from "next-auth/react";
+import AuthModal from '../../src/common/modal/AuthModal';
+import axios from 'axios';
 
 interface collegeProps {
 	opportunities: any[];
 	events: any[];
 	resources: any[];
 	college:any;
+	hasJoinedCollege: boolean;
 }
 
 enum CollegeSelect {
@@ -31,11 +34,14 @@ enum CollegeSelect {
 
 
 
-const College: React.FC<collegeProps> = ({opportunities, events, resources, college}) => {
+const College: React.FC<collegeProps> = ({opportunities, events, resources, college, hasJoinedCollege}) => {
 	const [selected, setSelected] = useState(CollegeSelect.Opportunities);
 	const [isOpen, setIsOpen] = useState(false);
-	
+	const {data: session, status} = useSession();
+	const [openLogin, setOpenLogin] = useState(false);
+	const [hasJoined, setHasJoined] = useState(hasJoinedCollege);
 	useEffect(() => {
+		
 		let path = Router.asPath.split('/')
 		switch (path[path.length-1]) {
 			case 'opportunities':
@@ -50,42 +56,70 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 			default:
 				setSelected(CollegeSelect.Opportunities)
 		}
-	}, [])
+
+	}, [session])
+
+	const goToCreatePost = () => {
+		
+		if (status === 'authenticated') {
+		Router.push({
+					pathname: `/${convertName(college.name)}/create-post`},
+					undefined, {shallow: true}
+		)
+		} else {
+			
+			setOpenLogin(true)
+	}
+	}
+
+	const joinCollege =async () => {
+		
+		if (status === 'authenticated') {
+			if (!hasJoined){
+				await axios.post('/api/join', {userId: session?.user?.id, collegeId: college.id})
+				setHasJoined(true)
+			}
+			else {
+				await axios.delete('/api/join', {params: {userId: session?.user?.id, collegeId: college.id}})
+				setHasJoined(false)
+			}
+			
+		} else {
+			setOpenLogin(true)
+		}
+	}
 
 	const selectComponent = (collegeSelect: CollegeSelect) => {
 		setSelected(collegeSelect);
 		Router.push(`${convertName(college.name)}/${collegeSelect}`, undefined, {shallow: true});
 	}
-
 		return (<div className={styles.collegePage}>
 			<Head>
-				<title>{college.name} | College</title>
+				<title>{college?.name} | College</title>
 			</Head>
-			<Navigation isUserAuthenticated={false}/>
+			<Navigation />
+			<AuthModal type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
 			<div>
-			<img className={styles.banner} src={college.banner}/>
+			<img className={styles.banner} src={college?.banner}/>
 			</div>
 			<div className={styles.body}>
-				<img className={styles.collegeLogo} src={college.logo}/>
+				<img className={styles.collegeLogo} src={college?.logo}/>
 				<div className={styles.collegeHeader}>
 				<div className={styles.topHead}>
-				<h1 className={styles.name}>{college.name}</h1>
+				<h1 className={styles.name}>{college?.name}</h1>
 				<div className={styles.midHead}>
 				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
-				<div onClick={() => Router.push({
-					pathname: `/${convertName(college.name)}/create-post`},
-					undefined, {shallow: true}
-					)} className={styles.post} >Create Post</div>
+				<div onClick={goToCreatePost} className={styles.post} >Create Post</div>
 				</Tooltip>
-				<img className={styles.edit} 
+				{college?.userId === session?.user?.id &&<img className={styles.edit} 
 					onClick={() => setIsOpen(true)}
-				src="/edit.png" />
+				src="/edit.png" />}
 				</div>
 				</div>	
-				<p className={styles.description}>{college.description}</p>
-				<div className={styles.subscribe}>Subscribe</div>
+				<p className={styles.description}>{college?.description}</p>
+				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
 				</div>
-				<EditCollegeModal college={college} isOpen={isOpen} setOpen={setIsOpen}/>
+				<CollegeModal type={'edit'} college={college} isOpen={isOpen} setOpen={setIsOpen}/>
 			</div>
 			<div className={styles.options}>
 				<ul>
@@ -100,66 +134,43 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
 				</ul>
 			</div>
-			{selected === CollegeSelect.Opportunities && <JobsContainer jobs={opportunities}/>}
+			{selected === CollegeSelect.Opportunities && <OpportunityContainer jobs={opportunities}/>}
 			{selected === CollegeSelect.Events && <EventContainer events={events}/>}
 			{selected === CollegeSelect.Resources && <ResourceContainer resources={resources}/>}
 		</div>);
 }
 
-export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-	const collegeNameIDs = await fetchCollegesNameID();
-
-  // Get the paths we want to pre-render based on posts
-  if (!collegeNameIDs)
-    return { paths: [], fallback: true };
-
-  const paths = collegeNameIDs.map(({name}) => 
-  {
-	return {
-	  params: {
-		  college: convertName(name),
-	  }
-	}
-  })
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false }
-}
-
-export async function getStaticProps({ params }:any) {
+export async function getServerSideProps({ params, req}:any) {
 	
 	  // Call an external API endpoint to get jobs
+
 	  const collegeInfo = await fetchCollege(params.college);
-	  
+	 
+	  let session = await getSession({req});
+
 	  if (!collegeInfo)
-		return { props: {}, revalidate: 1 };
-	
+		return { props: {
+			opportunities: [],
+			events: [],
+			resources: [],
+			college: null,
+			hasJoinedCollege: false
+		}};
+	  const joinedCollege = await fetchJoinedCollege(session?.user?.id || '', collegeInfo?.id || -1);
 	   const {opportunities, events, resources }= await fetchData(collegeInfo.id);
-		
-	   let mappedEvents = events.map((event:any) => {
-			return {
-				...event,
-				start_date: event.start_date.toString(),
-				end_date: event.end_date.toString()
-			}
-		})
-		
-		
-	   
 	  return {
 		props: {
 		  opportunities,
-		  events:mappedEvents,
+		  events,
 		  resources,
-		  college:collegeInfo
+		  college:collegeInfo,
+		  hasJoinedCollege: joinedCollege > 0 && session,
 		},
 		// By returning the value of the `nextUpdate` key here,
 		// Next.js will optimize the page away if no data needs to be refreshed.
-		revalidate: 1
 	  }
 
 }	
+
 
 export default College

@@ -1,26 +1,51 @@
+import { NextApiResponse, NextApiRequest } from "next";
+import  prisma from '../../prisma';
 
-import {pool} from "../../src/lib/pool";
 
-export default async function handler(req:any, res:any) {
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
 	if (req.method === 'GET') {
 		try {
-			const result = await pool.query(`SELECT * FROM colleges`);
-			res.status(200).json(result.rows);
+			const colleges = await prisma.colleges.findMany()
+			res.status(200).json(colleges);
 		} catch (e) {
 			res.status(500).json({error: e});
 		}
 	}
-  else if (req.method === 'PUT') {
-	const client = await pool.connect();
-	try {
-		await client.query(`UPDATE colleges SET name=$1, description=$2, logo=$3, banner=$4  WHERE id=$5`, 
-			[req.body.name, 
-			req.body.description,
-			req.body.logo,
-			req.body.banner,
-			req.body.id]);
+
+else if (req.method === 'POST') {
+		try {
+			await prisma.colleges.create({
+				data: {
+					name: req.body.name,
+					description: req.body.description,
+					logo: req.body.logo,
+					banner: req.body.banner,
+					userId: req.body.userId,
+				}
+			});
+		} catch (e) {
+			res.status(500).json({error: e});
 		}
+		res.status(200).json({message: 'ok'});
+	}
+  else if (req.method === 'PUT') {
+	
+	try {
+		await prisma.colleges.update({
+			where: {
+				id: req.body.id
+			},
+			data: {
+				name: req.body.name,
+				description: req.body.description,
+				logo: req.body.logo,
+				banner: req.body.banner
+			}
+		})
+		res.status(200).json({message: 'ok'});
+	}
+
 	catch (err) {
 		return res.status(500).send(err);
 	}
