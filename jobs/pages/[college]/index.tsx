@@ -16,6 +16,8 @@ import {convertName} from '../../src/common/utils'
 import Navigation from '../../src/common/Navigation';
 import { useSession, getSession } from "next-auth/react";
 import AuthModal from '../../src/common/modal/AuthModal';
+import {BsFillBellFill, BsFillBellSlashFill} from 'react-icons/bs';
+
 import axios from 'axios';
 
 interface collegeProps {
@@ -24,6 +26,7 @@ interface collegeProps {
 	resources: any[];
 	college:any;
 	hasJoinedCollege: boolean;
+	emailNotification: boolean;
 }
 
 enum CollegeSelect {
@@ -34,12 +37,13 @@ enum CollegeSelect {
 
 
 
-const College: React.FC<collegeProps> = ({opportunities, events, resources, college, hasJoinedCollege}) => {
+const College: React.FC<collegeProps> = ({opportunities, events, resources, college, hasJoinedCollege, emailNotification}) => {
 	const [selected, setSelected] = useState(CollegeSelect.Opportunities);
 	const [isOpen, setIsOpen] = useState(false);
 	const {data: session, status} = useSession();
 	const [openLogin, setOpenLogin] = useState(false);
 	const [hasJoined, setHasJoined] = useState(hasJoinedCollege);
+	const [hasNotifications, setHasNotifications] = useState(emailNotification);
 	useEffect(() => {
 		
 		let path = Router.asPath.split('/')
@@ -77,13 +81,37 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		if (status === 'authenticated') {
 			if (!hasJoined){
 				await axios.post('/api/join', {userId: session?.user?.id, collegeId: college.id})
-				setHasJoined(true)
+				setHasJoined(true);
+				setHasNotifications(true);
 			}
 			else {
 				await axios.delete('/api/join', {params: {userId: session?.user?.id, collegeId: college.id}})
 				setHasJoined(false)
+				
 			}
 			
+		} else {
+			setOpenLogin(true)
+		}
+	}
+
+	const handleNotifications = async () => {
+		if (status === 'authenticated') {
+			if (hasNotifications) {
+				await axios.put('/api/join/notifications', {
+					userId: session?.user?.id,
+					collegeId: college.id,
+					emailNotification: false
+				})
+				setHasNotifications(false)
+			} else {
+				await axios.put('/api/join/notifications', {
+					userId: session?.user?.id,
+					collegeId: college.id,
+					emailNotification: true
+				})
+				setHasNotifications(true)
+			}
 		} else {
 			setOpenLogin(true)
 		}
@@ -117,7 +145,10 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				</div>
 				</div>	
 				<p className={styles.description}>{college?.description}</p>
+				<div className={styles.bottomHead}>
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
+				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This College':"Turn Off Email Notifications For This College"}><div onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
+				</div>
 				</div>
 				<CollegeModal type={'edit'} college={college} isOpen={isOpen} setOpen={setIsOpen}/>
 			</div>
@@ -134,9 +165,11 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
 				</ul>
 			</div>
+			<div className={styles.objectContent}>
 			{selected === CollegeSelect.Opportunities && <OpportunityContainer jobs={opportunities}/>}
 			{selected === CollegeSelect.Events && <EventContainer events={events}/>}
 			{selected === CollegeSelect.Resources && <ResourceContainer resources={resources}/>}
+			</div>
 		</div>);
 }
 
@@ -158,13 +191,15 @@ export async function getServerSideProps({ params, req}:any) {
 		}};
 	  const joinedCollege = await fetchJoinedCollege(session?.user?.id || '', collegeInfo?.id || -1);
 	   const {opportunities, events, resources }= await fetchData(collegeInfo.id);
+	  
 	  return {
 		props: {
 		  opportunities,
 		  events,
 		  resources,
 		  college:collegeInfo,
-		  hasJoinedCollege: joinedCollege > 0 && session,
+		  hasJoinedCollege: joinedCollege.length > 0 && session,
+		  emailNotification: joinedCollege.length > 0 && joinedCollege[0].emailNotification
 		},
 		// By returning the value of the `nextUpdate` key here,
 		// Next.js will optimize the page away if no data needs to be refreshed.

@@ -72,11 +72,10 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 
   const onBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
-	if (file.type === "image/jpeg" || file.type === "image/png"){
 	setBannerFile(file);
 	let url = URL.createObjectURL(e.target.files![0]);
 	setBanner(url);
-	}
+	
   }
 
   const onLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,7 +159,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
 			<div className={styles.chooseFile}>Choose Image</div>
 			<label>College Banner</label>
-			<input type='file' onChange={onBannerChange}/>
+			<input type='file' accept="image/jpeg, image/png" onChange={onBannerChange}/>
 			<div className={styles.chooseFile}>Choose Image</div>
 			<label>College Name <div className={styles.counter}>{nameCount}/50</div></label>
 			

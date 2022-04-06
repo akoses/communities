@@ -1,5 +1,8 @@
 .container {
-
+position: sticky;
+top: 0;
+position: -webkit-sticky;
+z-index: 5000;
 display: flex;
 align-items: center;
 background-color: #5b8ecf;
@@ -48,8 +51,8 @@ button {
 }
 
 .college {
-	border-radius: 5px;
-	background-color: rgb(53, 83, 180);
+	border-radius: 3px;
+	background-color: rgb(14, 43, 138);
 	color: #fff;
 	justify-self:end;
 
@@ -60,5 +63,52 @@ button {
 	background-color: rgb(24, 54, 110);
 	color: #fff;
 	justify-self:end;
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	svg {
+		
+		width: 18px;
+		height: 18px;
+	}
+
+	.homeDropdown {
+		display: flex;
+		justify-content: space-evenly;
+		flex-direction: row;
+		margin-right: 10px;
+		width: 100%;
+	}
+	.dropdown {
+		width: 200px;
+		font-family: 'Inter';
+		 cursor: pointer;
+		color: rgb(49, 49, 49);
+		box-shadow: 0px 5px 5px rgb(66, 113, 175);
+		
+	}
+
+	.menu {
+		  border-bottom-right-radius: 10px;
+  			border-bottom-left-radius: 10px;
+  
+	}
+
+	.control {
+		border: none;
+  		padding: 10px 15px;
+  		display: flex;
+  		align-items: center;
+  		justify-content: space-between;
+  		background-color: rgb(14, 43, 138);
+  		color: white;
+  		font-size: 13px;
+ 
+	}
+
+	
 }
 }

@@ -10,6 +10,7 @@
 	padding: 10px;
 	cursor: pointer;
 	height: 100px;
+	background-color: #ffffff;
 	img {
 		width: 70px;
 		height: 70px;
@@ -98,33 +99,42 @@
 		color: #2c2c2c;
 		display: flex;
 		flex-direction: column;
+		.bottomHead {
+			display: flex;
+			align-items: center;
+			
+			svg {
+				margin-top: 5px;
+				width: 25px;
+				height: 30px;
+				cursor: pointer;
+				fill: #081e46;
+			}
+		}
 		.subscribe {
 			background-color: #265ca3;
-			width: fit-content;
-			padding: 10px 30px;
-			border-radius: 20px;
+			width: 100px;
+			text-align: center;
+			padding: 8px 30px;
+			border-radius: 15px;
 			color: #ffffff;
 			cursor: pointer;
 			font-size: 0.9rem;
-			margin-bottom: 15px;
+			margin-right: 10px;
 			box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
 			&:hover {
 				background-color: #1755a5;
 				box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
 			}
 		}
-		.collegeHeader {
-			position: relative;
-			
 		
-		}
 
 		.topHead {
 			width: 100%;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-
+			
 			.midHead {
 				display: flex;
 				justify-content: space-between;
@@ -142,7 +152,7 @@
 			background-color: #3780e0;
 			color: #fff;
 			border-radius: 5px;
-			font-size: 0.9rem;
+			font-size: 0.85rem;
 			cursor: pointer;
 
 			&:hover {
@@ -169,6 +179,7 @@
 		margin-top: 0px;
 		cursor: pointer;
 		box-shadow: none;
+		
 		
 		
 	}
@@ -198,6 +209,10 @@
 		}
 
 			
+}
+
+.objectContent {
+	padding: 10px;
 }
 		
 	
@@ -243,11 +258,14 @@
 		width: 80%;
 		max-width: 1000px;
 		margin: 0 auto;
-		.job {
+		
+	}
+
+	.job {
 			position: relative;
 			display: flex;
 			align-items: center;
-			margin: 20px 0px;
+			margin-bottom: 20px;
 			border: 1px solid #e6e9ec;
 			background-color: #ffffff;
 			padding: 15px;
@@ -316,4 +334,3 @@
 				
 			}
 		}
-	}

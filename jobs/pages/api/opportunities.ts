@@ -1,6 +1,8 @@
 import prisma from '../../prisma';
 
 import { NextApiResponse, NextApiRequest } from "next";
+import SendMails, {OpportunityInformation} from "../../src/lib/email/send";
+import {fetchJoinedNotifications} from "../../src/lib/fetch";
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 	
@@ -21,11 +23,33 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				orgLogo: req.body.org_logo,
 			}
 		})
+		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
+
+		let notifiedUsersObjects:OpportunityInformation[] = notifiedUsers.map(user => {
+			return ({
+				name: user.user.name || '',
+				email: user.user.email || '',
+				college: user.college.name || '',
+				opportunityTitle: req.body.name,
+				opportunityImage: req.body.org_logo,
+				opportunityLink: req.body.apply_link,
+				opportunityLocation: req.body.location,
+				opportunityOrganization: req.body.organization,
+				opportunityWorkStyle: req.body.workstyle,
+				unsubscribeLink:'http://localhost:3000' + '/unsubscribe/' + user.user.id + '/' + user.college.id
+			})	
+		})
+
+		res.status(200).send('ok');
+		
+		await SendMails(notifiedUsersObjects, 'Opportunity')
+
+		
 		}
 	catch (err) {
 		return res.status(500).send(err);
 	}
-	return res.status(200).send('ok');
+	
   }
 
   else if (req.method === 'PUT'){

@@ -1,14 +1,12 @@
 import NextAuth from 'next-auth'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
+import LinkedInProvider from 'next-auth/providers/linkedin'
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from '../../../prisma';
-import {Session} from 'next-auth'
 
 
-interface sessionWithId extends Session {
-	id: string
-}
+
 
 export default NextAuth({
   providers: [
@@ -21,6 +19,10 @@ export default NextAuth({
       clientId: process.env.GOOGLE_ID || '',
       clientSecret: process.env.GOOGLE_SECRET || ''
     }),
+    LinkedInProvider({
+      clientId: process.env.LINKEDIN_ID || '',
+      clientSecret: process.env.LINKEDIN_SECRET || ''
+    })
   ],
   adapter: PrismaAdapter(prisma),
   callbacks:{

@@ -1,6 +1,9 @@
 import {pool} from "../../src/lib/pool";
 import { NextApiResponse, NextApiRequest } from "next";
 import prisma from '../../prisma'
+import SendMails, {EventInformation} from "../../src/lib/email/send";
+import { fetchJoinedNotifications } from "../../src/lib/fetch";
+import  dateFormat from 'dateformat'
 
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
@@ -21,15 +24,46 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				userId: req.body.user_id,
 			}
 		});
+		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
+
+		let sd = new Date(req.body.start_date)
+		let ed = new Date(req.body.end_date)
+		let endDate:string;
+		if (sd.getDate() === ed.getDate()
+		&& sd.getMonth() === ed.getMonth()
+		&& sd.getFullYear() === ed.getFullYear() ){
+			endDate = dateFormat(ed, "h:MM TT")
+		}
+		else{
+			endDate = dateFormat(ed, "ddd, mmm d yyyy, h:MM TT")
+		}
+		let startDate = dateFormat(sd, "ddd, mmm d yyyy, h:MM TT")
+		
+		let notifiedUsersObjects:EventInformation[] = notifiedUsers.map(user => {
+			return ({
+				name: user.user.name || '',
+				email: user.user.email || '',
+				college: user.college.name || '',
+				eventTitle: req.body.name,
+				eventImage: req.body.org_logo,
+				eventLink: req.body.event_link,
+				eventLocation: req.body.location,
+				eventDate: startDate + " - " + endDate,
+				eventOrganization: req.body.organization,
+				unsubscribeLink:'http://localhost:3000' + '/unsubscribe/' + user.user.id + '/' + user.college.id
+			})	
+		})
 		res.status(200).json({message: 'ok'});
+
+		await SendMails(notifiedUsersObjects, 'Event')
 	}
 	catch (err) {
 		return res.status(500).send(err);
 	}
-	return res.status(200).send('ok');
+	
 
   } else if (req.method === 'PUT'){
-	const client = await pool.connect();
+	
 	
 	try {
 		await prisma.events.update({
@@ -53,7 +87,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 		console.error(err);
 		return res.status(500).send(err);
 	}
-	return res.status(200).send('ok');
+	
 
   }
   

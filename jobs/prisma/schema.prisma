@@ -118,7 +118,9 @@ model Resources {
 	customDescription String
 	url String
 	collegeId Int
-	userId String
+	userId String 
+	image String @default("")
+	hostname String @default("")
 	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 	college Colleges @relation(fields: [collegeId], references: [id], onDelete: Cascade)
 }
@@ -128,6 +130,7 @@ model Joined {
 	createdAt DateTime @default(now())
 	userId String
 	collegeId Int
+	emailNotification Boolean @default(true)
 	college Colleges @relation(fields: [collegeId], references: [id], onDelete: Cascade)
 	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

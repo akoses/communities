@@ -121,7 +121,6 @@ const Event: React.FC<EventProps> = ({
 		context.setEdit({
 			type:"EVENT",
 			college_name,
-			
 			id,
 			name,
 			organization,

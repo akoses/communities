@@ -43,3 +43,12 @@ a {
   opacity: 0.6;
   z-index: 1000;
 }
+
+
+.Dropdown-option {
+  font-size: 14px;
+}
+
+.Dropdown-arrow-wrapper {
+  padding-top: 4px;
+}

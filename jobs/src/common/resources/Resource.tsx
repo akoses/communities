@@ -10,6 +10,7 @@ import Router from 'next/router'
 import {useSession} from 'next-auth/react'
 import { useEffect } from 'react';
 
+
 interface ResourceProps {
 	id: number;
 	url: string
@@ -24,6 +25,7 @@ const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custo
 		const context = useContext(AppContext);
 		const [collegeName] = React.useState<string>(Router.asPath.split('/')[1] || '');
 		const [collegeUserId, setCollegeUserId] = React.useState<string>('');
+
 		const {data: session} = useSession();
 
 		const deleteResource = async () => {
@@ -63,7 +65,7 @@ const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custo
 				style={{display: id=== -1? 'none':'block'}}
 			alt='delete'/>}
 			{userId === session?.user?.id &&  <AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>}
-			<LinkPreview customDescription={custom_description} customTitle={custom_title} fallback={null} fallbackImageSrc={''} imageHeight='200px' 
+			<LinkPreview customDescription={custom_description} customTitle={custom_title}  fallbackImageSrc={''} imageHeight='200px' 
 			className={styles.link} 
 			key={url} 
 			url={url} />

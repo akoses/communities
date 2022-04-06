@@ -1,0 +1,85 @@
+.container {
+	width: 90%;
+	margin: 0 auto;
+	max-width: 1000px;
+	margin-top: 20px;
+
+	.colleges {
+		margin-bottom: 30px;
+		
+	}
+
+	div.collegeName {
+		width: 100%;
+		border: 1px solid #e7e7e7;
+		padding: 5px 20px;	
+		background-color: #f7f7f7;
+		border-bottom: none;
+		margin-bottom: -10px;
+		padding-bottom: 15px;
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+		a {
+			color: #616975;
+			font-family: Inter;
+			font-size: 0.9rem;
+		}
+		
+	}
+	h1.title {
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: #2c2c2c;
+		margin-bottom: 20px;
+		font-family: Inter;
+	}
+	h2.college {
+		font-size: 1rem;
+		font-weight: bold;
+		margin-bottom: -10px;
+		font-family: Inter;
+		
+		padding: 15px 15px;
+		padding-bottom: 22px;
+		color: #ffffff;
+		background-color: #4a80c7e0;
+		border-radius: 5px;
+	}
+
+	.options {
+		
+		
+		display: flex;
+		align-items: center;
+		justify-content: space-evenly;
+		margin-bottom: 20px;
+		margin-top: 20px;
+		padding: 10px;
+		width: 100%;
+		border: 1px solid #e6e9ec;
+		border-radius: 10px;
+		background-color: #ffffff;
+
+		button {
+			width: 100px;
+			border: none;
+			border-radius: 15px;
+			background-color: #b8b8b8;
+			color: #fff;
+			cursor: pointer;
+			font-size: 0.8rem;
+			font-family: 'Inter';
+			padding: 3px;
+			text-align: center;
+		}
+
+		.selected {
+			background-color: #2169c7;
+			color: #fff;
+		}
+	}
+
+	.posts {
+		padding-bottom: 30px;
+	}
+}

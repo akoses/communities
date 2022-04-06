@@ -173,6 +173,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 					disciplines={disciplines}
 					apply_link={applyLink}
 					description={description}
+					userId={''}
 				/>
 			</div>
 			</div>

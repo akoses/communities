@@ -131,7 +131,7 @@ export async function fetchCollegeName(id:string) {
 
 export async function fetchJoinedCollege(userId:string, collegeId:number) {
 	try {
-		const res = await prisma.joined.count({
+		const res = await prisma.joined.findMany({
 			where: {
 				userId: userId,
 				collegeId: Number(collegeId)
@@ -144,3 +144,128 @@ export async function fetchJoinedCollege(userId:string, collegeId:number) {
 	}
 }
 
+export async function fetchUserColleges(id:string) {
+	try {
+		const allRes = await Promise.all([prisma.joined.findMany({
+			select:{
+				college:true
+			},
+			where: {
+				userId: id
+			}
+		}),prisma.colleges.findMany({
+			where: {
+				userId: id
+			}
+		})])
+		return allRes
+	} catch (err) {
+		console.error(err)
+		return []
+	}
+}
+
+export async function fetchUserPosts(id:string) {
+	try {
+		const res = await prisma.user.findUnique({
+			select:{
+				events: {
+					select: {
+						id: true,
+						name: true,
+						description: true,
+						college: {
+							select: {
+								name: true
+							}
+						},
+						createdAt: true,
+						updatedAt: true,
+						startDate: true,
+						endDate: true,
+						organization:true,
+						location:true,
+						orgLogo:true,
+						userId: true,
+						eventLink: true,
+					}
+				},
+				opportunities: {
+					select: {
+						id: true,
+						createdAt: true,
+						updatedAt: true,
+						name: true,
+						description: true,
+						location: true,
+						organization: true,
+						disciplines: true,
+						college: {
+							select: {
+								name: true
+							}
+						},
+						userId: true,
+						applyLink: true,
+						orgLogo: true,
+						workstyle: true,
+					}
+				},
+				resources: {
+					select: {
+						id: true,
+						createdAt: true,
+						updatedAt: true,
+						customTitle: true,
+						customDescription: true,
+						college: {
+							select: {
+								name: true
+							}
+						},
+						userId: true,
+						url: true,
+					}
+				},
+				
+			},
+			where: {
+				id: id
+			}
+		})
+		return res
+	} catch (err) {
+		console.error(err)
+		return {
+			events: [],
+			opportunities: [],
+			resources: []
+		}
+	}
+}
+
+export async function fetchJoinedNotifications(collegeId:number) {
+	let users = await prisma.joined.findMany({
+			where: {
+				emailNotification: true,
+				collegeId: collegeId
+			},
+			select:{
+				user:{
+					select:{
+						name: true,
+						email: true,
+						id: true
+
+					}
+				},
+				college:{
+					select:{
+						name: true,
+						id: true
+					}
+				}
+			}
+		})
+	return users
+}

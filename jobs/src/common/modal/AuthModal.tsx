@@ -1,9 +1,9 @@
 import Modal from 'react-modal';
 import React from 'react'
 import styles from "../../../styles/modal.module.scss"
-import {GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
-import { FaFacebook } from "react-icons/fa";
+
+import { FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { BiX } from "react-icons/bi";
 import {signIn} from "next-auth/react"
 
@@ -49,19 +49,15 @@ const customStyles = {
 			<h2 className={styles.logsign}>{type}</h2>
 	<p className={styles.terms}>By continuing, you agree to our <a href="https://akose.ca/terms">terms of service</a> and <a href="https://akose.ca/privacy-policy">privacy policy</a>.</p>
 	<div onClick={() => signIn('facebook')} className={styles.LoginItem}>
-	<FacebookLogin
-	appId=""
-	textButton=' Continue with Facebook'
-	cssClass={styles.facebook}
-	callback={() => {}}
-	icon={<FaFacebook />}/>
+	<button className={`${styles.authButton} ${styles.facebook}`}>
+		<FaFacebook/> Continue with Facebook
+	</button>
 	</div>
 	<div onClick={() => {signIn('google')}} className={styles.LoginItem}>
-	<GoogleLogin
-	clientId=""
-    buttonText="Continue With Google"
-	className={styles.google}
-  />
+	<button className={`${styles.authButton} ${styles.google}`}><FcGoogle />Continue with Google</button>
+  </div>
+  <div onClick={() => {signIn('linkedin')}} className={styles.LoginItem}>
+	<button className={`${styles.authButton} ${styles.linkedin}`}><FaLinkedin />Continue with Linkedin</button>
   </div>
   </div>
 

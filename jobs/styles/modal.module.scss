@@ -180,16 +180,18 @@
 .event {
 	
 	max-width: 800px;
-	padding: 20px;
+	padding: 10px;
 	width: 100%;
 	min-width: 400px;
 	max-height: 85vh;
+	
 	img {
 		width: 100%;
 		height: 100%;
-		width: 100px;
+		max-width: 800px;
 		object-fit: cover;
 		border-radius: 10px;
+		max-height:200px;
 	}
 
 	.header {
@@ -257,7 +259,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-evenly;
-		padding-bottom: 0px;
+		padding-bottom: 20px;
 	}
 
 	.eventDescription {
@@ -315,22 +317,9 @@
 	margin: 10px;
 
 }
-.google {
-	opacity: 1 !important;
-	position: relative;
-	width: 80% ;
-	border-radius: 30px !important;
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	div {
-		padding: 0px !important;
-		
-		
-	}
-}
 
-.facebook {
+
+.authButton {
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -348,10 +337,26 @@
 	}
 	margin : 0 auto;
 	font-weight: bold;
+	
+	box-shadow: 0 2px 2px #c3c3c5;
+
+}
+
+.facebook {
 	background-color: #3b5998;
 	color: #fff;
-	box-shadow: 0 2px 2px #c3c3c5;
 }
+
+.google {
+	background-color: #ffffff;
+	color: #757577;
+	border: 1px solid #d1d1d1;
+}
+.linkedin {
+	background-color: #0077b5;
+	color: #fff;
+}
+
 .LoginItem {
 	width: 100%;
 	margin: 5px;

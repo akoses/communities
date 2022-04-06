@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import styles from '../../../styles/create.module.scss'
 import { LinkPreview } from '@dhaiwat10/react-link-preview/dist';
 import Router from 'next/router'
@@ -6,6 +6,7 @@ import resourceStyles from '../../../styles/resource.module.scss'
 import axios from 'axios';
 import AppContext from '../../../contexts/AppContext';
 import {useSession}	from 'next-auth/react';
+import { getLinkPreview, getPreviewFromContent } from "link-preview-js";
 
 interface ResourceProps {
 	id?: number;
@@ -17,15 +18,31 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 		const [customTitle, setCustomTitle] = React.useState<string>(resource?.custom_title || "");
 		const [customDescription, setCustomDescription] = React.useState<string>(resource?.custom_description || "");
 		const context = useContext(AppContext);
+		const [apiData, setApiData] = React.useState<any>(null);
 		const {data: session} = useSession();
+		const [sendUrl, setSendUrl] = React.useState<string>('');
+
+
+		useEffect(() => {
+    		const delayDebounceFn = setTimeout(() => {
+			  setSendUrl(url);
+    		}, 800)
+
+    		return () => clearTimeout(delayDebounceFn)
+  			}, [url])
+
 		const formSubmit = async (e:any) => {
-			e.preventDefault();
+			e.preventDefault();	
+			console.log(apiData);	
+			if(!apiData) return;
 			if(id){
 			const formData = {
 				url: url,
-				custom_title: customTitle,
-				custom_description: customDescription,
+				custom_title: customTitle === '' ?apiData?.title || '' : customTitle,
+				custom_description: customDescription === ''? apiData?.description || '' : customDescription,
+				image: apiData?.image || "",
 				college_id: id,
+				hostname: apiData?.hostname || "",
 				user_id: session?.user?.id || ''
 			}
 			await axios.post('/api/resources', formData)
@@ -33,8 +50,10 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 		else if (resource){
 			const formData = {
 				url: url,
-				custom_title: customTitle,
-				custom_description: customDescription,
+				custom_title: customTitle === '' ?apiData?.title || '' : customTitle,
+				custom_description: customDescription === ''? apiData?.description || '' : customDescription,
+				image: apiData?.image || "",
+				hostname: apiData?.hostname || "",
 				id: resource.id,
 			}
 
@@ -72,7 +91,8 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 			</form>
 			<div className={styles.preview}>
 			<div className={styles.resourcePreview}>
-				<LinkPreview customTitle={customTitle} customDescription={customDescription}  fallbackImageSrc={''} imageHeight='200px' className={resourceStyles.link} url={url} />
+				
+				<LinkPreview setApiData={setApiData} customTitle={customTitle} customDescription={customDescription}  fallbackImageSrc={''} imageHeight='200px' className={resourceStyles.link} url={sendUrl} />
 				<br />
 			</div>
 			</div>

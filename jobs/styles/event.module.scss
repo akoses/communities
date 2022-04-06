@@ -116,3 +116,21 @@
 			transition: all 0.2s ease-in-out;
 		}
 	}
+
+
+@media  screen and (max-width: 768px) {
+	.event {
+		flex-direction: column-reverse;
+		align-items: center;
+		.eventContent {
+			width: 100%;
+			padding: 5px 20px;
+		}
+		img.logo {
+			width: 100%;
+			max-width: none;
+		}
+	}
+}
+
+	
