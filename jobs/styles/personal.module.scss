@@ -3,7 +3,21 @@
 	margin: 0 auto;
 	max-width: 1000px;
 	margin-top: 20px;
-
+.collegeCreate {
+	position: relative;
+}
+	.deleteCollege {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		right: 15px;
+		bottom: 15px;
+		cursor: pointer;
+		opacity: 0.7;
+		&:hover {
+			opacity: 1;
+		}
+	}
 	.colleges {
 		margin-bottom: 30px;
 		

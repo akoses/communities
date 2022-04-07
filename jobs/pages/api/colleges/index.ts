@@ -1,9 +1,9 @@
 import { NextApiResponse, NextApiRequest } from "next";
 import  prisma from '../../../prisma';
-
+import {getSession} from 'next-auth/react';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
-
+	  const session = await getSession({req});
 	if (req.method === 'GET') {
 		try {
 			const colleges = await prisma.colleges.findMany()
@@ -50,6 +50,30 @@ else if (req.method === 'POST') {
 		return res.status(500).send(err);
 	}
 		return res.status(200).send('ok');
+  }
+  else if (req.method === 'DELETE') {
+	  if (!session){
+		  return res.status(401).send('Unauthorized');
+	  }
+	  if (!req.query.id) {
+		  return res.status(400).send('id is required');
+	  }
+	  if (req.query.userId !== session?.user?.id) {
+		  return res.status(400).send('userId must be same as session id');
+	  }
+	try {
+		await prisma.colleges.deleteMany({
+			where: {
+				id: Number(req.query.id),
+				userId: req.query.userId as string
+			}
+		})
+		res.status(200).json({message: 'ok'});
+	}
+
+	catch (err) {
+		return res.status(500).send(err);
+	}
   }
  
 }

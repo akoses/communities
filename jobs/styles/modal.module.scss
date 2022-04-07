@@ -17,17 +17,34 @@
 	padding: 0px;
 	
 }
+
+.permanently {
+	color: #525252;
+	font-size: 0.8rem;
+	margin: 0px 1px;
+	padding: 0px;
+	input[type='text'] {
+		border: 1px solid #c3c3c3;
+		width: 100%;
+		padding: 5px;
+		border-radius: 5px;
+		margin-bottom: 15px;
+		
+	}
+}
+
 .options {
 	width: 100%;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 
 	button {
-		margin-right: 20px;
+		
 		font-family: 'Inter';
 		font-size: 0.8rem;
 		padding: 10px 20px;
 		border: none;
+		width: 40%;
 		border-radius: 5px;
 		background-color: #609ae7;
 		color: #fff;
