@@ -82,7 +82,7 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 			
 			<div className={styles.eventDescription} dangerouslySetInnerHTML={{__html:event.description}}></div>
 			<div className={styles.buttons}>
-			{event.eventLink !== '' && <a href={event.eventLink} target="_blank" rel="noopener noreferrer">Link To Event</a>}
+			{event.eventLink !== '' && <a className={styles.eLink} href={event.eventLink} target="_blank" rel="noopener noreferrer">Link To Event</a>}
 			<button className={styles.close} onClick={closeModal}>Close</button>
 			</div>
 	</div>

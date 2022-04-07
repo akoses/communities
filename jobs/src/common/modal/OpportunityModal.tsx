@@ -60,7 +60,7 @@ const OpportunityModal:React.FC<ModalProps> = ({setOpen, isOpen, opportunity}) =
 			<h3>{opportunity.organization}</h3> 
 			<h3>{opportunity.location} | {opportunity.workstyle.charAt(0).toUpperCase() + opportunity.workstyle.slice(1)}</h3>
 			<div className={styles.opportunityButton}>
-			<a href={opportunity.apply_link} className={styles.applyLink} target="_blank" rel="noopener noreferrer">Apply</a>
+			<a href={opportunity.apply_link} className={`${styles.applyLink} ${styles.eLink}`} target="_blank" rel="noopener noreferrer">Apply</a>
 			</div>
 			
 			</div>

@@ -56,16 +56,18 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 
 	const router = useRouter()
 		return (<div className={styles.container}>
+			<div className={styles.college} onClick={() => router.push('/')}>
+				<img className={styles.akoseLogo} src="/logo.png" alt="Akose Logo"/>
+			</div>
 			<div>
 			{status === 'unauthenticated' && <button className={styles.login} onClick={() => {setIsOpen(true); setType('Login');}}>Login</button>}
 			{status === 'unauthenticated' && <button className={styles.signup} onClick={() => {setIsOpen(true); setType('Sign Up')}}>Sign Up</button>}
 			
-			<div className={styles.college} onClick={() => router.push('/')}>
-				<img className={styles.akoseLogo} src="/logo.png" alt="Akose Logo"/>
+			
 			</div>
-			</div>
-			<div className={styles.buttons}>
-				{status === 'authenticated' && <Dropdown 
+			
+			{status === 'authenticated' &&<div className={styles.buttons}>
+				 <Dropdown 
 					ref={dropDownRef}
 					arrowClosed={<RiArrowDownSLine/>}
 					arrowOpen={<RiArrowUpSLine/>}
@@ -75,8 +77,8 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 					//@ts-ignore
 					placeholder={<div className={styles.homeDropdown}><AiTwotoneHome />Dashboard</div>}
 					arrowClassName={styles.arrow}
-				className={styles.dropdown} options={dropdownOptions} onChange={changeDashboard} />}
-			</div>
+				className={styles.dropdown} options={dropdownOptions} onChange={changeDashboard} />
+			</div>}
 			<CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
 			<AuthModal type={type} setOpen={setIsOpen} isOpen={isOpen} />
 		</div>);
