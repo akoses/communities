@@ -57,6 +57,7 @@ const Home: NextPage = ({colleges}:any) => {
         {reactColleges}
         </SimpleBar>}
       </main>
+     <br />
 
     </div>
   )
