@@ -48,7 +48,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
 		if (req.query.eventCursor && req.query.opportunityCursor && req.query.resourceCursor) {
 			[events, opportunities, resources] = await Promise.all([prisma.events.findMany({
-			take: Number(req.query.take) || 1,
+			take: Number(req.query.take) || 5,
 			skip: Number(req.query.skip) || 0,
 			where: {
 				collegeId: {
@@ -83,7 +83,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 			}
 
 		}), prisma.opportunities.findMany({
-			take: Number(req.query.take) || 1,
+			take: Number(req.query.take) || 5,
 			skip: Number(req.query.skip) || 0,
 			where: {
 				collegeId: {
@@ -118,7 +118,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 			},
 
 		}), prisma.resources.findMany({
-			take: Number(req.query.take) || 1,
+			take: Number(req.query.take) || 5,
 			skip: Number(req.query.skip) || 0,
 			where: {
 				collegeId: {
@@ -132,7 +132,6 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 						customTitle: true,
 						customDescription: true,
 						image: true,
-						hostname: true,
 						collegeId: true,
 						college: {
 							select: {
@@ -152,7 +151,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
 		} else {
 			[events, opportunities, resources] = await Promise.all([prisma.events.findMany({
-			take: Number(req.query.take) || 7,
+			take: Number(req.query.take) || 6,
 			skip: Number(req.query.skip) || 0,
 			where: {
 				collegeId: {
@@ -184,7 +183,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 			},
 
 		}), prisma.opportunities.findMany({
-			take: Number(req.query.take) || 7,
+			take: Number(req.query.take) || 6,
 			skip: Number(req.query.skip) || 0,
 			where: {
 				collegeId: {
@@ -217,7 +216,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 			},
 
 		}), prisma.resources.findMany({
-			take: Number(req.query.take) || 7,
+			take: Number(req.query.take) || 6,
 			skip: Number(req.query.skip) || 0,
 			where: {
 				collegeId: {
@@ -230,7 +229,6 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 						customTitle: true,
 						customDescription: true,
 						image: true,
-						hostname: true,
 						college: {
 							select: {
 								name: true

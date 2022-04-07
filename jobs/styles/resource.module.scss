@@ -57,3 +57,19 @@
 		}
 		border: 1px solid #e7e7e7 !important;
 	}
+
+
+@media screen  and (max-width:425px){
+	.container {
+		width: 95%;
+		h2 {
+			font-size: 1.1rem;
+			margin-top: 0px;
+		}
+	}
+
+	.editIcon {
+		right: 8px;
+		bottom: 32px;
+	}
+}

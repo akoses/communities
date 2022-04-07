@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, {useContext} from 'react'
 import styles from '../../../styles/resource.module.scss'
-import { LinkPreview } from '@dhaiwat10/react-link-preview/dist';
+import LinkPreview from './LinkPreview';
 import axios from 'axios'
 import DeleteModal from '../../common/modal/DeleteModal'
 import {AiOutlineEdit} from 'react-icons/ai';
@@ -16,11 +16,11 @@ interface ResourceProps {
 	url: string
 	custom_title: string
 	custom_description: string
+	image: string
 	userId: string
-	filter: (id:number) => void
 }
 
-const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custom_description}) => {
+const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custom_description, image}) => {
 		const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
 		const context = useContext(AppContext);
 		const [collegeName] = React.useState<string>(Router.asPath.split('/')[1] || '');
@@ -65,10 +65,7 @@ const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custo
 				style={{display: id=== -1? 'none':'block'}}
 			alt='delete'/>}
 			{userId === session?.user?.id &&  <AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>}
-			<LinkPreview customDescription={custom_description} customTitle={custom_title}  fallbackImageSrc={''} imageHeight='200px' 
-			className={styles.link} 
-			key={url} 
-			url={url} />
+			<LinkPreview description={custom_description} title={custom_title}  image={image} url={url} key={id} />
 			<DeleteModal setOpen={setModalIsOpen} type='resource' func={deleteResource} isOpen={modalIsOpen}/></div>
 		</div>);
 }

@@ -4,9 +4,18 @@
 	margin-bottom: 5px;
 	text-align: center;
 }
+
 .gone {
 	color: #585858;
 	font-size: 0.9rem;
+}
+
+.invalid {
+	color: #cf1010;
+	font-size: 0.8rem;
+	margin: 0px 1px;
+	padding: 0px;
+	
 }
 .options {
 	width: 100%;
@@ -83,8 +92,9 @@
 	}
 	.buttons {
 		display: flex;
-		justify-content: space-evenly;
+		justify-content: space-between;
 		align-items: center;
+		width: 100%;
 	}
 	.submit, .cancel {
 		width: 45%;
@@ -180,17 +190,17 @@
 .event {
 	
 	max-width: 800px;
-	padding: 10px;
+	padding: 0px;
 	width: 100%;
 	min-width: 400px;
 	max-height: 85vh;
 	
 	img {
-		width: 100%;
+		width:  100%;
 		height: 100%;
 		max-width: 800px;
 		object-fit: cover;
-		border-radius: 10px;
+		border-radius: 0px;
 		max-height:200px;
 	}
 
@@ -205,8 +215,8 @@
 
 	.details {
 		background-color: #ffffff;
-		
-		padding:  0px;
+		padding: 0px 20px;
+
 		border-radius: 5px;
 		h3 {
 			font-size: 1rem;
@@ -214,13 +224,14 @@
 			margin-top: 3px;
 			color: #286dc7;
 			margin-bottom: 0px;
-			font-weight: normal;
+			
 			
 		}
 	}
 	.about {
 		margin-top: 30px;
 		font-size: 1.2rem;
+		
 	}
 	h2 {
 		font-size: 1.5rem;
@@ -228,14 +239,17 @@
 		color: rgb(92, 92, 92);
 		margin-top: 10px;
 		text-align: left;
+		padding: 0px 20px;
 	}
 	 p {
 		font-size: 0.9rem;
 		color: rgb(83, 83, 83);
 		margin-top: 10px;
 		margin-bottom: 30px;
+		padding: 0px 20px;
 	 }
 	a, .close {
+		
 		outline: none;
 		border: none;
 		cursor: pointer;
@@ -256,16 +270,17 @@
 	}
 
 	.buttons {
+		padding: 0px 20px;
 		width: 100%;
 		display: flex;
-		justify-content: space-evenly;
+		justify-content: space-between;
 		padding-bottom: 20px;
 	}
 
-	.eventDescription {
+	.eventDescription, .oppDescription {
 		margin: 20px 0px;
 		color: rgb(59, 59, 59);
-
+		
 		h1, h2, h3 {
 			
 			color: rgb(59, 59, 59);
@@ -276,7 +291,12 @@
 
 		p {
 			margin: 0px;
+			padding: 0px;
 		}
+	}
+
+	.eventDescription {
+		padding: 0px 20px;
 	}
 }
 
@@ -367,10 +387,12 @@
 }
 
 
+
 h2.opportunityHead {
 	margin: 0px;
 	padding: 0px;
 	font-size: 1.2rem;
+	padding-right: 10px;
 }
 
 .opportunityDetails {
@@ -385,6 +407,7 @@ h2.opportunityHead {
 }
 
 .opportunityHeader {
+	margin-top: 30px;
 	display: flex;
 	align-items:flex-start;
 	flex-direction: row;
@@ -394,6 +417,7 @@ h2.opportunityHead {
 		border-radius: 50%;
 		object-fit: cover;
 		height: 100px;
+		width: 100px;
 	}
 }
 
@@ -417,3 +441,47 @@ h2.opportunityHead {
 	right:10px;
 	top: 10px;
 }
+
+@media screen and (max-width:425px) {
+	.event {
+		min-width: 0px;
+
+		.details {
+			width: 100%;
+
+			h3 {
+				font-size: 0.9rem;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+		}
+
+		h2 {
+			font-size: 1.2rem;
+
+		}
+	}
+
+	.authModalContent {
+		width: 95%;
+		.authButton {
+			width: 100%;
+		}
+	}
+
+	.opportunityHeader {
+		
+	display: flex;
+	align-items:flex-start;
+	flex-direction: row;
+	justify-content: space-between;
+	
+	img {
+		border-radius: 50%;
+		object-fit: cover;
+		height: 80px;
+		width: 80px;
+	}
+}
+}
+

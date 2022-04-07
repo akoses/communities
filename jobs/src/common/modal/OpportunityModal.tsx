@@ -14,7 +14,10 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-	borderTop: '3px solid #ccc'
+	borderTop: '3px solid #ccc',
+	width: '95vw',
+	maxWidth:"800px",
+	maxHeight: '80vh',
   },
   overlay: {zIndex: 1000,
 	opacity: 1,
@@ -68,7 +71,7 @@ const OpportunityModal:React.FC<ModalProps> = ({setOpen, isOpen, opportunity}) =
 			</div>
 			
 		
-			<div className={styles.eventDescription} dangerouslySetInnerHTML={{__html:opportunity.description}}></div>
+			<div className={styles.oppDescription} dangerouslySetInnerHTML={{__html:opportunity.description}}></div>
 			<br />
 	</div>
 	  </Modal>

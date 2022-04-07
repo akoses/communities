@@ -9,6 +9,9 @@ import { useRouter } from 'next/router'
 import axios from 'axios';
 import AppContext from '../../../contexts/AppContext';
 import {useSession}	from 'next-auth/react';
+import {validateText} from './Resource';
+import {useAlert} from 'react-alert'
+import { BsArrowReturnLeft } from 'react-icons/bs'
 
 interface OpportunityProps {
 	id?:number; 
@@ -25,23 +28,29 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 	const [location, setLocation] = React.useState<string>(opportunity?.location || "");
 	const [workstyle, setWorkstyle] = React.useState<string>(opportunity?.workstyle || "remote");
 	const [logo, setLogo] = React.useState<string>(opportunity?.logo || "");
-	const [logoFile, setLogoFile] = React.useState<any>()
+	const [logoFile, setLogoFile] = React.useState<any>(opportunity?.logo || null);
 	const [applyLink, setApplyLink] = React.useState<string>(opportunity?.apply_link || "");
 	const [disciplines, setDisciplines] = React.useState<string>(opportunity?.disciplines || '');
 	const router = useRouter()
 	const context = useContext(AppContext);
+	const alert = useAlert();
 	const {data: session} = useSession();
 
 	
 
 	const formSubmit = async (e:any) => {
+
 		e.preventDefault();
 
+		if ((title === '') || (organization === '') || (location === '') || (applyLink === '') || (logoFile === undefined)) {
+			alert.error('Please fill out all the required fields.', {timeout: 3000});
+			return;
+		}
 		let s3Link = {
 			location:null
 		};
 		
-		if(logoFile) {
+		if(logoFile && typeof logoFile !== 'string') {
 			let form = new FormData();
 			form.append('file', logoFile);
 			let res = await axios.post('/api/file', form, {
@@ -57,7 +66,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 			organization: organization,
 			location: location,
 			workstyle: workstyle,
-			disciplines: disciplines,
+			disciplines: Array.from(new Set(disciplines.trim().replace(/\s*,\s*/g, ",").split(','))).join(','),
 			college_id: id,
 			apply_link: applyLink,
 			org_logo: s3Link.location,
@@ -73,14 +82,14 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 			organization: organization,
 			location: location,
 			workstyle: workstyle,
-			disciplines: disciplines,
+			disciplines: Array.from(new Set(disciplines.trim().replace(/\s*,\s*/g, ",").split(','))).join(','),
 			apply_link: applyLink,
 			org_logo: s3Link.location || opportunity.logo,
 			id: opportunity.id
 		}
 		await axios.put(`/api/opportunities`, formData)
 	}
-		router.push(`/${router.query['college'] || context.editableData?.college_name}/opportunities`)
+		router.push(`/${router.query['college'] || context.editableData?.collegeName}/opportunities`)
 	}
 	
 	const setImageUrl = (evt:any) => {
@@ -92,7 +101,6 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
     	setLogo(url)
  	 }
 	}
-
 		return (<div>
 			<div>
 			<div id={styles.title}>{opportunity? "Edit Opportunity" :"Create Opportunity"}
@@ -103,29 +111,29 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 			<form className={styles.formBody} onSubmit={formSubmit}>
 				<div id={styles.pageOne} style={{display:page== 1?"block":"none"}}>
 				<label>
-					<h3>Opportunity Name</h3>
-					<input type="text" value={title} onChange={(e) => {setTitle(e.target.value)}} />
+					<h3>Opportunity Name <span className="required">*</span></h3>
+					<input type="text" value={title} onChange={(e) => {validateText(e, setTitle)}} />
 				</label>
 				<label>
-					<h3>Organization</h3>
-					<input type='text'	value={organization} onChange={(e) => setOrganization(e.target.value)} />
+					<h3>Organization <span className="required">*</span></h3>
+					<input type='text'	value={organization} onChange={(e) => validateText(e, setOrganization)} />
 				</label>
 				<label htmlFor="workstyle">
-					<h3>Style of Work</h3>
+					<h3>Style of Work <span className="required">*</span></h3>
 				</label>
-					<select id="workstyle" name="workstyle" value={workstyle} onChange={(e) => setWorkstyle(e.target.value)}>
+					<select id="workstyle" name="workstyle" value={workstyle} onChange={(e) => validateText(e, setWorkstyle)}>
   						<option defaultValue={"remote"} value="remote">Remote</option>
   						<option value="onsite">Onsite</option>
   						<option value="hybrid">Hybrid</option>
 					</select>
 				<label>
-					<h3>Location</h3>
-					<input type='text'	value={location} onChange={(e) => setLocation(e.target.value)} />
+					<h3>Location <span className="required">*</span></h3>
+					<input type='text'	value={location} onChange={(e) => validateText(e, setLocation)} />
 				</label>
 				<label>
-					<h3>Link to Apply</h3>
+					<h3>Link to Apply <span className="required">*</span></h3>
 					<p>Enter the link or email applicants will use to apply here.</p>
-					<input type='text'	value={applyLink} onChange={(e) => setApplyLink(e.target.value)} />
+					<input type='text'	value={applyLink} onChange={(e) => validateText(e, setApplyLink)} />
 				</label>
 				<label>
 					<h3>Disciplines</h3>
@@ -134,7 +142,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 				</label>
 				
 				<label>
-					<h3>Company Logo</h3>
+					<h3>Company Logo <span className="required">*</span></h3>
 					<p>Enter the company logo here.</p>
 					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png"/>
 					<div className={styles.file}>Choose File</div>

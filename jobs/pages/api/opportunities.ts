@@ -3,12 +3,20 @@ import prisma from '../../prisma';
 import { NextApiResponse, NextApiRequest } from "next";
 import SendMails, {OpportunityInformation} from "../../src/lib/email/send";
 import {fetchJoinedNotifications} from "../../src/lib/fetch";
+import {getSession} from 'next-auth/react';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
-	
+  let session = await getSession({req});
+  if (!session) {
+		return res.status(401).send('Unauthorized');
+	}
   if (req.method === 'POST') {
 	
 	try {
+		if (req.body.user_id !== session?.user?.id) {
+			return res.status(401).send('Unauthorized');
+		}
+
 		await prisma.opportunities.create({
 			data: {
 				name: req.body.name,
@@ -23,6 +31,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				orgLogo: req.body.org_logo,
 			}
 		})
+
 		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
 
 		let notifiedUsersObjects:OpportunityInformation[] = notifiedUsers.map(user => {
@@ -44,7 +53,6 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 		
 		await SendMails(notifiedUsersObjects, 'Opportunity')
 
-		
 		}
 	catch (err) {
 		return res.status(500).send(err);
@@ -53,12 +61,11 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   }
 
   else if (req.method === 'PUT'){
-	
 	try {
-
-		await prisma.opportunities.update({
+		await prisma.opportunities.updateMany({
 			where: {
-				id: req.body.id
+				id: req.body.id,
+				userId: session?.user?.id || ''
 		}, data: {
 			name: req.body.name,
 			description: req.body.description,
@@ -78,9 +85,8 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   }
 
   else if (req.method === 'DELETE') {
-	  
 	try {
-		await prisma.opportunities.delete({
+		await prisma.opportunities.deleteMany({
 			where: {
 				id: Number(req.query.id),
 			}

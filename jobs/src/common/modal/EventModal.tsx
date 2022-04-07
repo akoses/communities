@@ -15,6 +15,9 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+	padding: '0px',
+	maxWidth: '95vw',
+	maxHeight: '80vh',
   },
   overlay: {zIndex: 1000,
 	opacity: 1,
@@ -79,7 +82,7 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
 			
 			<div className={styles.eventDescription} dangerouslySetInnerHTML={{__html:event.description}}></div>
 			<div className={styles.buttons}>
-			<a href={event.eventLink} target="_blank" rel="noopener noreferrer">Link To Event</a>
+			{event.eventLink !== '' && <a href={event.eventLink} target="_blank" rel="noopener noreferrer">Link To Event</a>}
 			<button className={styles.close} onClick={closeModal}>Close</button>
 			</div>
 	</div>

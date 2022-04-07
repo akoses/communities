@@ -72,7 +72,7 @@
 	margin-top: 5px;
 	font-family: 'Inter';
 	
-	width: 100%;
+	width: 95%;
 	color: #5e5e5e;
 	
 }
@@ -95,7 +95,7 @@
 			width: 90%;
 		}
 		.resourcePreview {
-			min-height: 400px;	
+			
 			width: 90%;
 		}
 	}
@@ -261,6 +261,7 @@
 		.preview {
 
 			width: 100%;
+			margin: 0 auto;
 			align-items: center;
 			justify-content: center;
 			padding-top: 20px;
@@ -282,5 +283,58 @@
 
 	.formBody {
 		width: 90%;
+	}
+}
+
+@media screen  and (max-width:425px){
+	#title {
+		padding: 20px;
+		font-size: 1rem;
+		.cancel {
+			padding: 8px 12px;
+		}
+	}
+
+	.createContent {
+		width: 95%;
+		img {
+			height: 150px;
+		}
+
+		h2 {
+			font-size: 1rem;
+		}
+	}
+
+	.formBody {
+		h3 {
+			font-size: 0.8rem;
+		}
+		p {
+			font-size: 0.7rem;
+		}
+		input[type='text'] {
+			padding: 10px 8px;
+			font-size: 0.8rem;
+		}
+	}
+
+	.body {
+		.preview {
+			.eventPreview {
+				margin: 5px 5px;
+			}
+			.resourcePreview {
+				min-height: 0px;
+				margin: 5px 5px;
+			}
+		}
+	}
+
+	.pages {
+		li {
+			font-size: 00.9rem;
+
+		}
 	}
 }

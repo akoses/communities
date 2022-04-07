@@ -71,7 +71,7 @@ const Event: React.FC<EventProps> = ({
 		ed.setHours(0, 0, 0, 0)
 		
 		if (startDate) {
-			setFormatStartDate(dateFormat(convertUTCDateToLocalDate(new Date(startDate)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
+			setFormatStartDate(dateFormat(convertUTCDateToLocalDate(new Date(startDate)), "mmm d yyyy, h:MM TT", UTCOffset))
 		}
 		
 		if (sd.getDate() === ed.getDate()
@@ -81,7 +81,7 @@ const Event: React.FC<EventProps> = ({
 			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(endDate)), "h:MM TT", UTCOffset))
 		}
 		else {
-			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(endDate)), "ddd, mmm d yyyy, h:MM TT", UTCOffset))
+			setFormatEndDate(' - ' + dateFormat(convertUTCDateToLocalDate(new Date(endDate)), "mmm d yyyy, h:MM TT", UTCOffset))
 		}
 		// @ts-ignore
 		setCollegeUserId(context.collegeData[collegeName]?.userId)
@@ -133,7 +133,7 @@ const Event: React.FC<EventProps> = ({
 		})
 		Router.push('/edit-post')
 	}
-		return (<div className={styles.event} onClick={openEventModal}>
+		return (<div className={styles.event} onClick={openEventModal} key={id}>
 			<div className={styles.eventContent}>
 			<h1>{name}</h1>
 			<h2>{formatStartDate}{formatEndDate}</h2>

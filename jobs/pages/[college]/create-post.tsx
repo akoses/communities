@@ -9,6 +9,7 @@ import Head from 'next/head'
 import AppContext from '../../contexts/AppContext'
 import { useSession } from "next-auth/react"
 import { convertName } from '../../src/common/utils'
+
 interface CreatePostProps {
 	
 }
@@ -36,6 +37,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 	}, [context])
 
 		return (
+			
 			<div>
 				<Head>
 					<title>{college && college.name} | Create</title>
@@ -73,7 +75,8 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 		{selected===selectedComponent.event && <Event id={college.id} />}
 		{selected===selectedComponent.resource && <Resource id={college.id} />}
 
-		</div>);
+		</div>
+		);
 }
 
 

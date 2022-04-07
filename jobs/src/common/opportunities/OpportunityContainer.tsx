@@ -69,7 +69,7 @@ const OpportunityContainer: React.FC<OpportunityContainerProps> = ({jobs}) => {
 	const [disciplines, setDisciplines] = useState<(JSX.Element| undefined)[]>([]);
 		return (
 			<div>
-			<div className={styles.body}>
+			<div>
 				<div className={styles.disciplines}>
 					{disciplines}
 				</div>

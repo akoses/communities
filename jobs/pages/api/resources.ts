@@ -1,11 +1,20 @@
 import prisma from '../../prisma';
 import SendMails, { ResourceInformation } from '../../src/lib/email/send';
 import {fetchJoinedNotifications} from '../../src/lib/fetch';
+import {getSession} from 'next-auth/react';
 
 export default async function handler(req:any, res:any) {
+  let session = await getSession({req});
+  if (!session) {
+	return res.status(401).send('Unauthorized');
+  }
+
   if (req.method === 'POST') {
 	
 	try {
+		if (req.body.user_id !== session?.user?.id) {
+			return res.status(401).send('Unauthorized');
+		}
 		await prisma.resources.create({
 			data: {
 				customTitle: req.body.custom_title,
@@ -14,7 +23,6 @@ export default async function handler(req:any, res:any) {
 				collegeId: req.body.college_id,
 				userId: req.body.user_id,
 				image: req.body.image,
-				hostname: req.body.hostname,
 			}
 		});
 		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
@@ -44,15 +52,15 @@ export default async function handler(req:any, res:any) {
   	else if (req.method === 'PUT'){
 
 	try {
-		await prisma.resources.update({
+		await prisma.resources.updateMany({
 			where: {
-				id: req.body.id
+				id: req.body.id,
+				userId: session?.user?.id || ''
 			}, data: {
 				customTitle: req.body.custom_title,
 				customDescription: req.body.custom_description,
 				url: req.body.url,
 				image: req.body.image,
-				hostname: req.body.hostname,
 			}
 		})
 		}
@@ -65,9 +73,10 @@ export default async function handler(req:any, res:any) {
 	  
   else if (req.method === 'DELETE') {
 	try {
-		await prisma.resources.delete({
+		await prisma.resources.deleteMany({
 			where: {
-				id: Number(req.query.id)
+				id: Number(req.query.id),
+				
 			}
 		})
 		}

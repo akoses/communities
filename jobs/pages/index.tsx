@@ -6,7 +6,9 @@ import College from '../src/common/College'
 import { fetchColleges } from '../src/lib/fetch'
 import Navigation from '../src/common/Navigation'
 import {Colleges} from '@prisma/client'
-
+import SimpleBar from 'simplebar-react'
+import Content from '../src/common/Content'
+import Footer from '../src/common/Footer'
 export async function getServerSideProps() {
   const colleges = await fetchColleges();
   return {
@@ -48,13 +50,39 @@ const Home: NextPage = ({colleges}:any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
+      <div className={styles.header}>
+        <div className={styles.overlay}>
+            <h1>Find Your College. Find Your Home.</h1>
+            </div>
+          </div>
       <main>
+        <div>
+          
+        </div>
         <div className={styles.title}>
           <input onChange={filterColleges} type="text" placeholder="Search for a college" />
         </div>
+        <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 600}}>
         {reactColleges}
+        </SimpleBar>
+      <div className={styles.whatIs}>
+        <h1>What Can You Do With Akose?</h1>
+      </div>
+          <div className={styles.contents}>
+            <Content title="Find Your Next Hub"
+            description="Join an Akose College to find opportunities, events and resources, related to your interests. Never miss out on a new opportunity or event. "
+
+            />
+            <Content title="Build a Community For Your People"
+            description="By creating an Akose College, you can create a place where people with similar interests can come together to provide career related support."
+            />
+            <Content title="Provide for your Community"
+            description="When you provide for your college by posting, you make your college stronger and better place for all." 
+            />
+
+        </div>
       </main>
-    
+    <Footer />
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import middleware from '../../middleware/middleware'
 import nextConnect from 'next-connect';
 import fs from 'fs';
+import {getSession} from 'next-auth/react';
 
 const handler = nextConnect();
 
@@ -26,11 +27,13 @@ function getUrlFromBucket(s3Bucket:any,fileName:string):string {
 };
 
 handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
-
-		let file = req.files.file;
-		const fileName = uuidv4();
-		const func = async () => {
-			const command = new PutObjectCommand(
+		getSession({req}).then(session => {
+			if (!session)
+				res.status(401).send('Unauthorized');
+				let file = req.files.file;
+				const fileName = uuidv4();
+				const func = async () => {
+				const command = new PutObjectCommand(
 				{
 					Bucket: process.env.BUCKET_NAME || '',
 					Key: process.env.S3_KEY_PREFIX + fileName,
@@ -44,10 +47,15 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 			});
 		}
 		func()
+		});
+		
 })
 
 handler.delete((req:NextApiRequest, res:NextApiResponse) => {
-	const func = async () => {
+	getSession({req}).then(session => {
+		if (!session)
+			res.status(401).send('Unauthorized');
+		const func = async () => {
 		const command = new DeleteObjectCommand(
 			{
 				Bucket: process.env.BUCKET_NAME || '',
@@ -59,6 +67,8 @@ handler.delete((req:NextApiRequest, res:NextApiResponse) => {
 	}
 	func()
 		
+	})
+	
 })
 
 export default handler

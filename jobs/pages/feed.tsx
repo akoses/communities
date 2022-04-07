@@ -29,7 +29,6 @@ const Feed: React.FC<feedProps> = ({}) => {
 	})
 	const [feedData, setFeedData]  = React.useState<JSX.Element[]>([]);
 	const [hasMore, setHasMore] = React.useState<boolean>(true);
-	const [start, setStart] = React.useState<boolean>(true);
 	const [eventCursor, setEventCursor] = React.useState<number>(0);
 	const [resourceCursor, setResourceCursor] = React.useState<number>(0);
 	const [opportunityCursor, setOpportunityCursor] = React.useState<number>(0);
@@ -54,6 +53,7 @@ const Feed: React.FC<feedProps> = ({}) => {
 		setFeedData(reactPosts)
 		}
 		fn()
+		
 	}, [])
 	const fetchData = async () => {
 		let res = await axios.get('/api/posts/feed', {
@@ -89,14 +89,20 @@ const Feed: React.FC<feedProps> = ({}) => {
 			<Head><title>{session?.user?.name} | Feed</title></Head>
 			<Navigation/>
 			<div className={styles.container}>
-				<InfiniteScroll
+				{feedData.length > 0 &&  <InfiniteScroll
 					next={fetchData}
 					hasMore={hasMore}
 					loader={<Spinner />}
 					dataLength={feedData.length}
 					>
 					{feedData}
-				</InfiniteScroll>
+				</InfiniteScroll>}
+				{
+					(feedData.length === 0 && !hasMore) && <div className={styles.empty}>
+						<h1>No posts yet</h1>
+						<p>Be the first to post something!</p>
+					</div>
+				}
 			</div>
 		</div>);
 }

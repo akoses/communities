@@ -26,7 +26,7 @@ const Colleges: React.FC<collegesProps> = ({joinedColleges, createdColleges}) =>
 			</Head>
 			{status === 'authenticated' && <><Navigation/>
 			<div className={styles.container}>
-			<h1 className={styles.title}>{session?.user?.name?.endsWith('s')?session.user.name + "'":session?.user?.name + "'s"} Colleges</h1>
+			
 			{createdColleges.length > 0 && <div className={styles.createdColleges}>
 				<h2 className={styles.college}>Created Colleges</h2>
 				<div className={styles.colleges}>
@@ -52,7 +52,7 @@ const Colleges: React.FC<collegesProps> = ({joinedColleges, createdColleges}) =>
 				</div>
 				</div>}
 			{
-				(joinedColleges.length === 0 && createdColleges.length === 0) && <div className={styles.noColleges}>
+				(joinedColleges.length === 0 && createdColleges.length === 0) && <div className={styles.empty}>
 					<h2>You have not joined or created any colleges yet.</h2>
 					<h3>Join or create a college to get started.</h3>
 				</div>

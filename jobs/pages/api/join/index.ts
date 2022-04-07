@@ -1,11 +1,17 @@
 import prisma from '../../../prisma'
 
 import { NextApiResponse, NextApiRequest } from "next";
+import {getSession} from 'next-auth/react';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
+	let session = await getSession({req});
+	if (!session) {
+		return res.status(401).send('Unauthorized');
+	}
 
 	if (req.method === 'POST') {
 		try {
+			
 			await prisma.joined.create({
 				data: {
 					userId: req.body.userId,

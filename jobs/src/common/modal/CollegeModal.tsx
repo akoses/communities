@@ -7,6 +7,7 @@ import axios from 'axios'
 import {useSession} from 'next-auth/react'
 import Router from 'next/router';
 import { convertName } from '../utils';
+import  { AxiosError } from 'axios';
 
 const customStyles = {
   content: {
@@ -18,8 +19,11 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
 	padding: '0px',
 	border: 'none',
+	width: '95vw',
+	maxHeight: '80vh',
+	maxWidth: '900px',
   },
-  overlay: {zIndex: 1000,
+  overlay: {zIndex: 20000,
 	opacity: 1,
 	backgroundColor: 'rgba(0, 0, 0, 0.5)'}
 };
@@ -44,8 +48,9 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	const [logo, setLogo] = React.useState(college?.logo || '/default.png')
 	const [nameCount, setNameCount] = React.useState(college?.name.length || 0);
 	const [descriptionCount, setDescriptionCount] = React.useState(college?.description.length || 0);
-	const [bannerFile, setBannerFile] = React.useState<any>(null)
-	const [logoFile, setLogoFile] = React.useState<any>(null)
+	const [bannerFile, setBannerFile] = React.useState<any>(college?.logo || null)
+	const [logoFile, setLogoFile] = React.useState<any>(college?.logo || null)
+	const [validName, setValidName] = React.useState(true);
 	const {data:session} = useSession();
 	useEffect(() => {
 		setIsOpen(isOpen)
@@ -63,12 +68,29 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	return /^([a-zA-Z0-9 _]+)$/.test(name);
   }
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+	  let val = e.target.value
+	  if (college && college.name === e.target.value) {
+		  setName(val)
+		  setNameCount(val.length)
+		  setValidName(true)
+		  return
+	  }
 	if (isOnlyAlphaNumeric(e.target.value)){
-	setName(e.target.value);
-	setNameCount(e.target.value.length);
+		try {
+			await axios.get(`/api/colleges/name`, {params: {name: val}})
+			setValidName(true)
+			e.target.classList.remove('errorInput')
+		} catch (error) {
+			setValidName(false)
+			e.target.classList.add('errorInput')
+			}
+		}
+		
+	setName(val);
+	setNameCount(val.length);
   	} 
-  }
+  
 
   const onBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
@@ -89,8 +111,11 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
   const submitCollege = async () => {	
 	  let locLogo;
 	  let locBanner;
+	  if (!logoFile || !bannerFile || !validName) {
+		  return
+	  }
 	let keyName = new URL(logo).pathname
-	if (keyName !== college?.logo && logoFile !== null){
+	if (keyName !== college?.logo && logoFile !== null && typeof logoFile !== "string") {
 		await axios.delete('/api/file', {
 			params: {
 				keyName
@@ -105,7 +130,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	}
 	keyName = new URL(banner).pathname
 
-	if (keyName !== college?.banner && bannerFile !== null){
+	if (keyName !== college?.banner && bannerFile !== null && typeof bannerFile !== "string") {
 		let form = new FormData();
 		form.append('file', bannerFile);
 		let res = await axios.post('/api/file', form, {
@@ -150,25 +175,25 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
         style={customStyles}
         contentLabel={`College Modal`}
       >
-		  <div className={styles.editModal}>
+		<div className={styles.editModal}>
 		<img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/>
 		<h2 className={styles.question}>{type === 'edit'?'Edit College Information':"Create College"}</h2>
 		<div className={styles.inputs}>
-			<label>College Logo</label>
+			<label> <div>College Logo <span className="required">*</span></div> </label>
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
 			<div className={styles.chooseFile}>Choose Image</div>
-			<label>College Banner</label>
+			<label><div>College Banner <span className="required">*</span></div></label>
 			<input type='file' accept="image/jpeg, image/png" onChange={onBannerChange}/>
 			<div className={styles.chooseFile}>Choose Image</div>
-			<label>College Name <div className={styles.counter}>{nameCount}/50</div></label>
-			
+			<label><div>College Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/50</div></label>
+			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>This name is not available.</p>
 			<input className={styles.input} maxLength={50} type="text" placeholder="Name" value={name} onChange={onInputChange}/>
 			<div className={styles.rules}>Only alphanumeric characters are allowed.</div>
 
-			<label>College Description <div className={styles.counter}>{descriptionCount}/300</div></label>
-			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
-			
+			<label>College Description <div className={styles.counter}>{descriptionCount}/500</div></label>
+			<textarea className={styles.input} maxLength={500} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
+			<div className={styles.rules}>Feel free to additionally add any contact information for your college here.</div>
 			<div className={styles.buttons}><input className={styles.submit} type="submit" value="Submit" onClick={submitCollege}/>
 			<input className={styles.cancel} type="submit" value="Cancel" onClick={closeModal}/>
 			</div>

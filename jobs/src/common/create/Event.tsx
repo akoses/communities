@@ -11,6 +11,9 @@ import Event from '../events/Event'
 import ReactQuill from '../quill/QuillSSR'; 
 import AppContext from '../../../contexts/AppContext';
 import {useSession}	from 'next-auth/react';
+import {validateText} from './Resource';
+import {useAlert} from 'react-alert';
+
 interface EventProps {
 	id?:number;
 	event?:any;
@@ -23,22 +26,28 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 	const [organization, setOrganization] = React.useState<string>(event?.organization || "");
 	const [location, setLocation] = React.useState<string>( event?.location || "");
 	const [logo, setLogo] = React.useState<string>( event?.logo || "");
-	const [logoFile, setLogoFile] = React.useState<any>()
-	const [eventLink, setEventLink] = React.useState<string>( event?.event_link || "");
+	const [logoFile, setLogoFile] = React.useState<any>(event?.logo || null);
+	const [eventLink, setEventLink] = React.useState<string>( event?.eventLink || "");
 	const [startDate, setStartDate] = React.useState(event?.start_date || new Date());
 	const [endDate, setEndDate] = React.useState(event?.end_date || new Date());		
 	const router = useRouter();
+	 const alert = useAlert()
 	const context = useContext(AppContext);
 	const {data: session} = useSession();
 
 	const [page, setPage] = React.useState<number>(1);
 
 	const formSubmit = async (e:any) => {
+		
 		e.preventDefault();
+		if (title === '' || organization === '' || location === '' || logoFile === undefined) {
+			alert.error('Please fill out all the required fields.',{timeout: 3000});
+			return;
+		}
 		let s3Link = {
 			location:null
 		};
-		if(logoFile) {
+		if(logoFile && typeof logoFile !== 'string') {
 			let form = new FormData();
 			form.append('file', logoFile);
 			let res = await axios.post('/api/file', 
@@ -76,13 +85,13 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 				org_logo: s3Link.location || event.logo,
 				id: event?.id,
 			}
-			await axios.put('/api/events', formData)
-			
+			await axios.put('/api/events', formData)	
 		}
+		console.log(context.editableData)
 		router.push(`/${router.query['college'] || context.editableData?.college_name}/events`)
 	}
 
-	const onDateChange = (date:any, dateString:any) => {
+	const onDateChange = (date:any) => {
 		if (date){
 			if (date[0]){
 				setStartDate(date[0]._d)
@@ -101,7 +110,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 		let file = evt.target.files[0]
 		
   	if (file) {
-		  let url = URL.createObjectURL(file)
+		let url = URL.createObjectURL(file)
 		setLogoFile(file)
     	setLogo(url)
  	 }
@@ -118,18 +127,18 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 				<div style={{display:page== 1?"block":"none"}}>
 				
 				<label>
-					<h3>Event Title</h3>
-					<input type="text" value={title} onChange={(e) => {setTitle(e.target.value)}} />
+					<h3>Event Title <span className="required">*</span></h3>
+					<input type="text" value={title} onChange={(e) => {validateText(e, setTitle)}} />
 				</label>
 				<label>
-					<h3>Organization</h3>
+					<h3>Organization <span className="required">*</span></h3>
 					<p>Enter the organization name.</p>
-					<input type='text'	value={organization} onChange={(e) => setOrganization(e.target.value)} />
+					<input type='text'	value={organization} onChange={(e) => validateText(e, setOrganization)} />
 				</label>
 				
 				<label>
-					<h3>Location</h3>
-					<input type='text'	value={location} onChange={(e) => setLocation(e.target.value)} />
+					<h3>Location <span className="required">*</span></h3>
+					<input type='text'	value={location} onChange={(e) => validateText(e, setLocation)} />
 				</label>
 				<label>
 					<h3>Event Link</h3>
@@ -137,7 +146,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 					<input type='text'	value={eventLink} onChange={(e) => setEventLink(e.target.value)} />
 				</label>
 				<label>
-					<h3>Event Image</h3>
+					<h3>Event Image <span className="required">*</span></h3>
 					<p>Enter the event image here.</p>
 					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png" />
 					<div className={styles.file}>Choose File</div>
@@ -146,7 +155,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 				</div>
 				<div style={{display:page === 2?"block":"none"}}>
 				<label>
-					<h3>Event Date</h3>
+					<h3>Event Date <span className="required">*</span></h3>
 					<p>Enter the event date range here.</p>
 					
    					<RangePicker

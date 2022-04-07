@@ -1,0 +1,27 @@
+.container {
+	background-color: rgba(248, 170, 170, 0.781);
+	padding: 15px;
+	font-family: 'Inter';
+	font-size: 0.9rem;
+	border-radius: 5px;
+	width: 100%;
+	color: #5c0f0f;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 100%;
+	margin-top: 10px;
+
+	.close {
+		
+		margin-left: 20px;
+		margin-top: 6px;
+		svg {
+			cursor: pointer;
+			width: 18px;
+		height: 18px;
+		fill: #5c0f0f;
+		}
+	}
+}

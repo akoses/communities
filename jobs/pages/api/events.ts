@@ -1,15 +1,21 @@
-import {pool} from "../../src/lib/pool";
 import { NextApiResponse, NextApiRequest } from "next";
 import prisma from '../../prisma'
 import SendMails, {EventInformation} from "../../src/lib/email/send";
 import { fetchJoinedNotifications } from "../../src/lib/fetch";
 import  dateFormat from 'dateformat'
-
+import {getSession} from 'next-auth/react';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
-	
+let session = await getSession({req});
   if (req.method === 'POST') {
+	  
+	  if (!session) {
+		  return res.status(401).send('Unauthorized');
+	  }
 	try {
+		if (req.body.user_id !== session?.user?.id) {
+			return res.status(401).send('Unauthorized');
+		}
 		await prisma.events.create({
 			data: {
 				name: req.body.name,
@@ -50,7 +56,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				eventLocation: req.body.location,
 				eventDate: startDate + " - " + endDate,
 				eventOrganization: req.body.organization,
-				unsubscribeLink:'http://localhost:3000' + '/unsubscribe/' + user.user.id + '/' + user.college.id
+				unsubscribeLink:`http://localhost:3000/api/unsubscribe/${user.college.id}/${user.user.id}`
 			})	
 		})
 		res.status(200).json({message: 'ok'});
@@ -63,12 +69,15 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 	
 
   } else if (req.method === 'PUT'){
-	
+	  if (!session) {
+		  return res.status(401).send('Unauthorized');
+	  }
 	
 	try {
-		await prisma.events.update({
+		await prisma.events.updateMany({
 			where: {
-				id: req.body.id
+				id: req.body.id,
+				userId: session?.user?.id || ''
 			},
 			data: {
 				name: req.body.name,
@@ -92,10 +101,14 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   }
   
   else if (req.method === 'DELETE') {
+	  if (!session) {
+		  return res.status(401).send('Unauthorized');
+	  }
 	try {
-		await prisma.events.delete({
+		await prisma.events.deleteMany({
 			where: {
-				id: Number(req.query.id)
+				id: Number(req.query.id),
+				
 			}
 		})
 		}

@@ -124,6 +124,16 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		return (<div className={styles.collegePage}>
 			<Head>
 				<title>{college?.name} | College</title>
+				<meta name="description" content={college?.description} />
+				<meta property="og:title" content={college?.name} />
+				<meta property="og:description" content={college?.description} />
+				<meta property="og:image" content={college?.image} />
+				<meta property="og:url" content={`http://localhost:3000/${convertName(college?.name || '')}`} />
+				<meta property="og:type" content="website" />
+				<meta property="og:site_name" content={"Akose College"} />
+				<meta property="og:locale" content="en_US" />
+				<meta property="og:locale:alternate" content="en_US" />
+
 			</Head>
 			<Navigation />
 			<AuthModal type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
@@ -182,13 +192,9 @@ export async function getServerSideProps({ params, req}:any) {
 	  let session = await getSession({req});
 
 	  if (!collegeInfo)
-		return { props: {
-			opportunities: [],
-			events: [],
-			resources: [],
-			college: null,
-			hasJoinedCollege: false
-		}};
+		return { 
+			notFound: true
+		};
 	  const joinedCollege = await fetchJoinedCollege(session?.user?.id || '', collegeInfo?.id || -1);
 	   const {opportunities, events, resources }= await fetchData(collegeInfo.id);
 	  

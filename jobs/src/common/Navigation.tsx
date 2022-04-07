@@ -60,7 +60,9 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 			{status === 'unauthenticated' && <button className={styles.login} onClick={() => {setIsOpen(true); setType('Login');}}>Login</button>}
 			{status === 'unauthenticated' && <button className={styles.signup} onClick={() => {setIsOpen(true); setType('Sign Up')}}>Sign Up</button>}
 			
-			<button className={styles.college} onClick={() => router.push('/')}>Find Colleges</button>
+			<div className={styles.college} onClick={() => router.push('/')}>
+				<img className={styles.akoseLogo} src="/logo.png" alt="Akose Logo"/>
+			</div>
 			</div>
 			<div className={styles.buttons}>
 				{status === 'authenticated' && <Dropdown 

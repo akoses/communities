@@ -54,7 +54,7 @@ type PostOption = 'all' | 'events' | 'resources' | 'opportunities'
 			custom_description={resource.customDescription}
 			url={resource.url}
 			userId={resource.userId}
-			filter={() => {}}
+			image={resource.image}
 			/></div>
 	}
 
@@ -150,7 +150,7 @@ const Posts: React.FC<postsProps> = ({posts}) => {
 			</Head>
 			{status === 'authenticated' && <><Navigation/>
 			<div className={styles.container}>
-			<h1 className={styles.title}>{session?.user?.name?.endsWith('s')?session.user.name + "'":session?.user?.name + "'s"} Posts</h1>
+			
 				<div className={styles.options}>
 					<button onClick={() => changeOptions('all')}
 					 className={options === 'all'?styles.selected:''}>All</button>
@@ -163,8 +163,13 @@ const Posts: React.FC<postsProps> = ({posts}) => {
 				</div>
 				<div className={styles.posts}>
 					{shownPosts}
-
 				</div>
+				{
+					shownPosts.length === 0 && <div className={styles.empty}>
+						<h1>No posts yet</h1>
+						<p>Go post in your favorite colleges!</p>
+					</div>
+				}
 			</div></>}
 		</div>);
 }

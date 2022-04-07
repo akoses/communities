@@ -118,7 +118,7 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 
 
 	return (
-		<div>
+		<div key={id}>
 		<Link  href={applyLink}><a target="_blank" onClick={linkClick}><div className={styles.job}>
 			<img className={styles.logo} src={dlogo} 
 			/>

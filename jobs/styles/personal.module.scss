@@ -44,6 +44,7 @@
 		color: #ffffff;
 		background-color: #4a80c7e0;
 		border-radius: 5px;
+		
 	}
 
 	.options {
@@ -63,7 +64,7 @@
 		button {
 			width: 100px;
 			border: none;
-			border-radius: 15px;
+			border-radius: 8px;
 			background-color: #b8b8b8;
 			color: #fff;
 			cursor: pointer;
@@ -82,4 +83,31 @@
 	.posts {
 		padding-bottom: 30px;
 	}
+
+	.empty {
+		margin-top: 20px;
+		font-size: 1.2rem;
+		color: #616975;
+		font-family: Inter;
+		text-align: center;
+		
+	}
+}
+
+@media screen and (max-width:425px){
+	.container {
+		width: 95%;
+		.options {
+		padding: 0px;
+		border: none;
+		button {
+			border-radius: 0px;
+			font-size: 0.8rem;
+			width: 100px;
+		}
+		
+	}
+	}
+
+	
 }

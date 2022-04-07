@@ -71,7 +71,7 @@
 			padding: 15px;
 			max-height: 180px;
 			object-fit: cover;
-			border-radius: 30px;
+			border-radius: 20px;
 		}
 		.eventContent {
 			width: 80%;
@@ -129,8 +129,49 @@
 		img.logo {
 			width: 100%;
 			max-width: none;
+			padding: 0px;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
 		}
 	}
 }
 
 	
+@media  screen and (max-width:425px){
+	.eventOptions {
+		margin-left: 0px;
+		margin-right: 0px;
+		padding-left: 0px;
+		margin-bottom: 20px;
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			padding: 10px 20px;
+			font-size: 0.8rem;
+		}
+	}
+
+	.event {
+		.eventContent {
+			.editIcon {
+			right: 10px;
+			bottom: 35px
+		}
+		}
+		
+		h1 {
+			font-size: 1rem;
+		}
+		h2 {
+			display: none;
+			font-size: 0.9rem;
+		}
+		h3 {
+			font-size: 0.8rem;
+		}
+	}
+}

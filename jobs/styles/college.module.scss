@@ -137,9 +137,9 @@
 			
 			.midHead {
 				display: flex;
-				justify-content: space-between;
+				margin-top: 20px;
 				align-items: center;
-				width: 200px;
+				width: 300px;
 			}
 		}
 		.post {
@@ -147,6 +147,7 @@
 			
 			
 			width: 150px;
+			margin-right: 20px;
 			text-align: center;
 			padding: 8px;
 			background-color: #3780e0;
@@ -189,6 +190,10 @@
 }
 
 .disciplines {
+	max-width: 1000px;
+	width: 80%;
+	margin: 0 auto;
+	margin-bottom: 10px;
 			display: flex;
 			flex-wrap: wrap;
 			.discipline {
@@ -334,3 +339,121 @@
 				
 			}
 		}
+
+
+@media screen and (max-width:425px) {
+
+	.collegePage {
+
+		p.description {
+			font-size: 14px;
+		}
+
+		.banner {
+			height: 100px;
+		}
+		.body {
+			width: 85%;
+			img {
+				width: 80px;
+				height: 80px;
+				margin-top: 60px;
+			}
+
+			.subscribe {
+				font-size: 0.8rem;
+			}
+
+			.post {
+				width: 120px;
+				margin-top: 15px;
+				align-self: flex-end;
+				margin-right: 10px;
+			}
+
+			.topHead {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				.midHead {
+					width: 100%;
+					display: flex;
+					
+				}
+			}
+
+			h1.name {
+				font-size: 1.4rem;
+				
+				margin-bottom: 0px;
+			}
+		}
+	}
+
+	.options {
+		ul {
+			
+			li {
+				font-size: 0.8rem;
+				
+			}
+		}
+	}
+
+	.disciplines {
+		width: 100% ;
+		margin: 0;
+		padding: 0;
+		.discipline {
+			padding: 5px 10px;
+			
+		}
+	
+}
+
+	.objectContent {
+		padding: 10px;
+	}
+
+	
+
+	.jobsContainer {
+		width: 97%;	
+		margin: 0 auto;
+
+		h2.nojobs {
+		font-size: 1rem;
+		}
+		
+	}
+
+	.job {
+			.editIcon {
+				right: 8px;
+				bottom: 36px;
+			}
+			.delete {
+				width: 18px;
+				height: 18px;
+			}
+
+			
+
+			.jobContent {
+				h1 {
+					font-size: 1rem;
+					margin-bottom: 0px;
+				}
+				h2 {
+					font-size: 0.8rem;
+					margin-top: 0px;
+					margin-bottom: 0px;
+				}
+				h3 {
+					font-size: 0.7rem;
+					margin-top: 0px;
+					margin-bottom: 0px;
+				}
+			}
+		}
+}

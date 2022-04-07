@@ -31,6 +31,9 @@ async function fetchOpportunities(id:number) {
 	const res = await prisma.opportunities.findMany({
 		where: {
 			collegeId: id
+		},
+		orderBy: {
+			createdAt: 'desc'
 		}
 	})
 	return res
@@ -45,6 +48,9 @@ async function fetchEvents(id:number) {
 	const res = await prisma.events.findMany({
 		where: {
 			collegeId: id
+		},
+		orderBy: {
+			createdAt: 'desc'
 		}
 	})
 	return res
@@ -58,6 +64,9 @@ async function fetchResources(id:number) {
 	const res = await prisma.resources.findMany({
 		where: {
 			collegeId: id
+		},
+		orderBy: {
+			createdAt: 'desc'
 		}
 	})
 	return res
@@ -218,6 +227,7 @@ export async function fetchUserPosts(id:string) {
 						updatedAt: true,
 						customTitle: true,
 						customDescription: true,
+						image: true,
 						college: {
 							select: {
 								name: true

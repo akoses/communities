@@ -62,7 +62,7 @@ model Colleges {
 	id Int @id @default(autoincrement())
 	createdAt DateTime @default(now())
 	updatedAt DateTime @updatedAt
-	name String
+	name String @unique
 	description String
 	logo String
 	banner String
@@ -115,12 +115,11 @@ model Resources {
 	createdAt DateTime @default(now())
 	updatedAt DateTime @updatedAt
 	customTitle String
-	customDescription String
+	customDescription String 
 	url String
 	collegeId Int
 	userId String 
 	image String @default("")
-	hostname String @default("")
 	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 	college Colleges @relation(fields: [collegeId], references: [id], onDelete: Cascade)
 }

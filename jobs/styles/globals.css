@@ -52,3 +52,14 @@ a {
 .Dropdown-arrow-wrapper {
   padding-top: 4px;
 }
+
+.errorInput {
+  border: 1px solid rgb(196, 12, 12) !important;
+  
+}
+
+.required {
+  color: rgb(196, 12, 12);
+  font-size: 12px;
+  font-weight: bold;
+}
