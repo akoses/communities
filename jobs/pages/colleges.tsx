@@ -7,13 +7,14 @@ import styles from '../styles/personal.module.scss'
 import {fetchUserColleges} from '../src/lib/fetch'
 import College from '../src/common/College'
 import {Colleges as TypeColleges} from '@prisma/client'
+import { NextPage } from 'next'
 
 interface collegesProps {
 	joinedColleges: TypeColleges[];
 	createdColleges: {college:TypeColleges}[];
 }
 
-const Colleges: React.FC<collegesProps> = ({joinedColleges, createdColleges}) => {
+const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) => {
 	const {data: session, status} = useSession({
 		required: true,
 		onUnauthenticated: () => {

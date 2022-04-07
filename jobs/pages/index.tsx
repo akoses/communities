@@ -1,5 +1,6 @@
 import { useEffect,useState } from 'react'
 import type { NextPage } from 'next'
+
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import College from '../src/common/College'
@@ -9,6 +10,10 @@ import {Colleges} from '@prisma/client'
 import SimpleBar from 'simplebar-react'
 import Content from '../src/common/Content'
 import Footer from '../src/common/Footer'
+import Router from 'next/router'
+import {useSession} from 'next-auth/react'
+import CollegeModal from '../src/common/modal/CollegeModal';
+import AuthModal from '../src/common/modal/AuthModal';
 export async function getServerSideProps() {
   const colleges = await fetchColleges();
   return {
@@ -21,7 +26,9 @@ export async function getServerSideProps() {
 
 const Home: NextPage = ({colleges}:any) => {
   const [reactColleges, setColleges] = useState<JSX.Element[]>([])
-  
+  const {data: session, status} = useSession();
+  const [isCollegeOpen, setIsCollegeOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const filterColleges = (e:any) => {
   let colls = colleges.filter((college:any) => {
     return college.name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -38,9 +45,22 @@ const Home: NextPage = ({colleges}:any) => {
       id={college.id}
     />
   }
+  const newCollege =() => {
+    if (status === 'authenticated'){
+      setIsCollegeOpen(true);
+    }
+    else {
+      setIsOpen(true);
+    }
+  }
   
   useEffect(() => {
     setColleges(colleges.map(mapColleges))
+    let path = Router.asPath.split('/')
+    if (path[1] === 'create-college'){
+      setIsCollegeOpen(true);
+      Router.push('/')
+    }
   },[colleges])
   return (
     <div className={styles.container}>
@@ -62,9 +82,9 @@ const Home: NextPage = ({colleges}:any) => {
         <div className={styles.title}>
           <input onChange={filterColleges} type="text" placeholder="Search for a college" />
         </div>
-        <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 600}}>
+       {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 600}}>
         {reactColleges}
-        </SimpleBar>
+        </SimpleBar>}
       <div className={styles.whatIs}>
         <h1>What Can You Do With Akose?</h1>
       </div>
@@ -81,7 +101,13 @@ const Home: NextPage = ({colleges}:any) => {
             />
 
         </div>
+        <div className={styles.build}>
+          <h2>Want to build your own college?</h2>
+          <button onClick={newCollege}>Create a New College</button>
+        </div>
       </main>
+      <AuthModal callBackUrl={'http://localhost:3000/create-college'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
+      <CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
     <Footer />
     </div>
   )

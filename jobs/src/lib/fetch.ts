@@ -1,7 +1,6 @@
 
 import {pool} from './pool';
 import prisma from '../../prisma';
-import {getSession } from "next-auth/react";
 export async function fetchColleges() {
   try {
 	const res = await prisma.colleges.findMany()

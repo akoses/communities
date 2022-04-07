@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useRef } from 'react';
 import styles from '../../styles/navigation.module.scss';
 import AuthModal from './modal/AuthModal';
 import {useRouter} from 'next/router';
@@ -15,7 +15,8 @@ interface NaivgationProps {
 
 const dropdownOptions = [{label:'Create New College',
 	value: 'create'
-},  {label:'Feed', value: 'feed'}, {label:'Colleges', value: 'colleges'}, {label:'Posts', value: 'posts'}, {label:'Logout', value:'logout'}]
+},  {label:'Feed', value: 'feed'},{label:'Find Colleges', value: 'find'}, {label:'Colleges', value: 'colleges'}, {label:'Posts', value: 'posts'}, {label:'Logout', value:'logout'},
+]
 
 const Naivgation: React.FC<NaivgationProps> = () => {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -36,6 +37,9 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 				break;
 			case 'feed':
 				Router.push('/feed');
+				break;
+			case 'find':
+				Router.push('/find-colleges');
 				break;
 			case 'colleges':
 				Router.push('/colleges');

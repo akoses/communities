@@ -136,7 +136,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 
 			</Head>
 			<Navigation />
-			<AuthModal type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
+			<AuthModal callBackUrl={`http://localhost:3000/${convertName(college?.name || '')}/create-post`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
 			<div>
 			<img className={styles.banner} src={college?.banner}/>
 			</div>

@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import type {NextPage} from 'next'
 import Navigation from '../src/common/Navigation'
 import {useSession, getSession} from 'next-auth/react'
 import Router from 'next/router'
@@ -76,7 +77,7 @@ type PostOption = 'all' | 'events' | 'resources' | 'opportunities'
 		</div>
 	}
 
-const Posts: React.FC<postsProps> = ({posts}) => {
+const Posts: NextPage<postsProps> = ({posts}) => {
 	const [options, setOptions] = React.useState<PostOption>('all');
 	const {events, opportunities, resources} = posts;
 	const [allPosts] = React.useState([...events, ...opportunities, ...resources]);

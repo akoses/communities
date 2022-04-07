@@ -20,7 +20,7 @@ const customStyles = {
 	padding: '0px',
 	border: 'none',
 	width: '95vw',
-	maxHeight: '80vh',
+	maxHeight: '90vh',
 	maxWidth: '900px',
   },
   overlay: {zIndex: 20000,
@@ -178,7 +178,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		<div className={styles.editModal}>
 		<img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/>
-		<h2 className={styles.question}>{type === 'edit'?'Edit College Information':"Create College"}</h2>
+		<h2 className={styles.question}>{type === 'edit'?'Edit College Information':"Create New College"}</h2>
 		<div className={styles.inputs}>
 			<label> <div>College Logo <span className="required">*</span></div> </label>
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
@@ -191,8 +191,8 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 			<input className={styles.input} maxLength={50} type="text" placeholder="Name" value={name} onChange={onInputChange}/>
 			<div className={styles.rules}>Only alphanumeric characters are allowed.</div>
 
-			<label>College Description <div className={styles.counter}>{descriptionCount}/500</div></label>
-			<textarea className={styles.input} maxLength={500} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
+			<label>College Description <div className={styles.counter}>{descriptionCount}/300</div></label>
+			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
 			<div className={styles.rules}>Feel free to additionally add any contact information for your college here.</div>
 			<div className={styles.buttons}><input className={styles.submit} type="submit" value="Submit" onClick={submitCollege}/>
 			<input className={styles.cancel} type="submit" value="Cancel" onClick={closeModal}/>

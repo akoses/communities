@@ -53,6 +53,11 @@
     }
     
   }
+
+  .findCollegeTitle {
+    margin-top: 120px;
+    margin-bottom: 20px;
+  }
  main {
    width: 80%;
   margin: 0 auto;
@@ -120,6 +125,37 @@
 
 }
 
+.build {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h2 {
+    font-size: 30px;
+    color: #333;
+    text-align: center;
+  }
+margin-top: -40px;
+  button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #3d62c7;
+    padding: 15px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 600px;
+    font-family: 'Inter';
+    cursor: pointer;
+    font-family: 'Inter';
+    border: none;
+    box-shadow: 0 5px 5px rgb(214, 214, 214);
+    &:hover {
+      background-color: #3658b3;
+    }
+  }
+}
+
 }
 
 
@@ -141,10 +177,31 @@
         font-size: 2rem;
       }
     }
+
+    .content {
+      .contentHead {
+        h2 {
+          font-size: 1.5rem;
+        }
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+    .build {
+    h2 {
+      font-size: 28px;
+    }
+    button {
+      font-size: 1rem;
+    }
+  }
   }
   .whatIs {
     font-size: 17px;
   }
+
+  
 }
 
 @media screen and (max-width:425px) {
@@ -152,5 +209,29 @@
     main {
       width: 90%;
     }
+
+    .content {
+      .contentHead {
+        h2 {
+          font-size: 1.3rem;
+        }
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+     .build {
+    h2 {
+      font-size: 24px;
+    }
+    button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+  }
+ 
+    .whatIs {
+    font-size: 15px;
   }
 }

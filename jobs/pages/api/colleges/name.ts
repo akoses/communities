@@ -10,13 +10,24 @@ let ILLEGAL_NAMES = [
 	'colleges',
 	'posts',
 	'about',
+	'contact',
+	'login',
+	'logout',
+	'profile',
+	'users',
+	'user',
+	'chat',
+	'chats',
+	'find college',
+	'edit post',
+	'post',
 ]
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 	if (req.method === 'GET') {
 		let collegeName = req.query.name as string;
 		
-		if (ILLEGAL_NAMES.includes(collegeName)) {
+		if (ILLEGAL_NAMES.includes(collegeName.toLowerCase())) {
 			return res.status(400).send('Illegal name');
 		}
 		try {

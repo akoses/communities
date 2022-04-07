@@ -29,9 +29,10 @@ const customStyles = {
 	isOpen: boolean
 	setOpen: (isOpen: boolean) => void;
 	type: string;
+	callBackUrl?: string;
   }
 
-  const AuthModal:React.FC<ModalProps>  = ({setOpen, isOpen, type}) => {
+  const AuthModal:React.FC<ModalProps>  = ({setOpen, isOpen, type, callBackUrl}) => {
 	
 	function closeModal() {
 		
@@ -50,15 +51,15 @@ const customStyles = {
 			<div onClick={closeModal} className={styles.exit}><BiX/></div>
 			<h2 className={styles.logsign}>{type}</h2>
 	<p className={styles.terms}>By continuing, you agree to our <a href="https://akose.ca/terms">terms of service</a> and <a href="https://akose.ca/privacy-policy">privacy policy</a>.</p>
-	<div onClick={() => signIn('facebook')} className={styles.LoginItem}>
+	<div onClick={() => signIn('facebook',{callbackUrl:	callBackUrl})} className={styles.LoginItem}>
 	<button className={`${styles.authButton} ${styles.facebook}`}>
 		<FaFacebook/> Continue with Facebook
 	</button>
 	</div>
-	<div onClick={() => {signIn('google')}} className={styles.LoginItem}>
+	<div onClick={() => {signIn('google', {callbackUrl:	callBackUrl})}} className={styles.LoginItem}>
 	<button className={`${styles.authButton} ${styles.google}`}><FcGoogle />Continue with Google</button>
   </div>
-  <div onClick={() => {signIn('linkedin')}} className={styles.LoginItem}>
+  <div onClick={() => {signIn('linkedin',{callbackUrl:	callBackUrl})}} className={styles.LoginItem}>
 	<button className={`${styles.authButton} ${styles.linkedin}`}><FaLinkedin />Continue with Linkedin</button>
   </div>
   </div>

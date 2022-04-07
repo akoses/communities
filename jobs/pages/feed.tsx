@@ -3,6 +3,7 @@ import Navigation from '../src/common/Navigation'
 import {useSession} from 'next-auth/react'
 import Router from 'next/router'
 import Head from 'next/head'
+import type {NextPage} from 'next'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from '../styles/personal.module.scss';
 import Spinner from '../src/common/Spinner';
@@ -20,7 +21,7 @@ interface feedProps {
 
 }
 
-const Feed: React.FC<feedProps> = ({}) => {
+const Feed: NextPage<feedProps> = ({}) => {
 	const {data: session} = useSession({
 		required: true,
 		onUnauthenticated: () => {
