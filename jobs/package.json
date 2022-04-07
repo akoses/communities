@@ -52,6 +52,7 @@
     "rsuite": "^5.7.0",
     "sass": "^1.49.9",
     "simplebar-react": "^2.3.6",
+    "superjson": "^1.8.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

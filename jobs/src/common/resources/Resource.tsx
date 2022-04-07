@@ -20,6 +20,9 @@ interface ResourceProps {
 	userId: string
 }
 
+
+
+
 const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custom_description, image}) => {
 		const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
 		const context = useContext(AppContext);

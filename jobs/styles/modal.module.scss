@@ -248,7 +248,7 @@
 		margin-bottom: 30px;
 		padding: 0px 20px;
 	 }
-	a, .close {
+	a.eLink, .close {
 		
 		outline: none;
 		border: none;
@@ -282,7 +282,7 @@
 		color: rgb(59, 59, 59);
 		
 		h1, h2, h3 {
-			
+			padding: 0px;
 			color: rgb(59, 59, 59);
 			margin-bottom: 0px;
 			margin-top: 10px;
