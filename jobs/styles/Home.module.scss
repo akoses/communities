@@ -11,6 +11,7 @@
     align-items: center ;
     justify-content: center;
     position: relative;
+    margin-bottom: 30px;
     .overlay {
     position: absolute;
       bottom: 0;
@@ -28,7 +29,7 @@
 
     }
     h1 {
-      margin-top: 80px;
+      margin-top: 30px;
       font-size: 40px;
       color: #fff;
     }
@@ -38,8 +39,8 @@
     margin: 0 auto;
     padding: 10px 0px;
     color: #333;
-    margin-top: 10px;
-    margin-bottom: 50px;
+    margin-top: -165px;
+    margin-bottom: 10px;
     input[type='text'] {
       width: 100%;
       padding: 12px;
@@ -113,14 +114,15 @@
     p {
         font-size: 16px;
         color: rgb(102, 102, 102);
+        margin-bottom: 8px;
       }
   }
 
-  background-color: hsla(210, 100%, 92%, 0.363);
+  background-color: hsla(0, 0%, 100%, 0.363);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 5px 5px rgb(218, 218, 218);
-  margin-bottom: 60px;
+  
+  margin-bottom: 10px;
 
 
 }
@@ -158,17 +160,24 @@ margin-top: -40px;
 
 }
 
+.linkContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  span {
+    margin-right: 6px;
+  }
+}
 
 .whatIs {
   text-align: center;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 35px;
   font-size: 20px;
   margin-bottom: -20px;
   padding-bottom: 5px;
   border-bottom: 5px solid #97b4da7a;
   max-width: 1000px;
-  
 }
 @media screen and (max-width:768px){
   .container {
@@ -205,6 +214,11 @@ margin-top: -40px;
 }
 
 @media screen and (max-width:425px) {
+
+  .linkContent {
+    font-size: 0.8rem;
+  }
+
 	.container {
     main {
       width: 90%;
@@ -216,7 +230,7 @@ margin-top: -40px;
           font-size: 1.3rem;
         }
         p {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
     }

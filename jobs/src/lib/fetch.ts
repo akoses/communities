@@ -107,11 +107,17 @@ export async function fetchCollege(name:string) {
 			name: {
 				contains: collegeName,
 				mode: 'insensitive'
-			}
+			},
+			
 		},
-
+	
 	})
-	return res
+	const collegeCount = await prisma.joined.count({
+		where: {
+			college:{name: {equals: collegeName, mode: 'insensitive'}}
+		}
+	})
+	return {...res, collegeCount}
   } catch (err) {
 	console.error(err)
   } 

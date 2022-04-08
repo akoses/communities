@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import Navigation from '../src/common/Navigation'
 import {useSession, getSession} from 'next-auth/react'
 import Router from 'next/router'
@@ -8,6 +9,7 @@ import {fetchUserColleges} from '../src/lib/fetch'
 import College from '../src/common/College'
 import {Colleges as TypeColleges} from '@prisma/client'
 import { NextPage } from 'next'
+import DeleteModal from '../src/common/modal/DeleteModal'
 
 interface collegesProps {
 	joinedColleges: TypeColleges[];
@@ -15,12 +17,24 @@ interface collegesProps {
 }
 
 const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) => {
+	const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
+	const [deleteCollege, setDeleteCollege] = React.useState<number>(-1);
 	const {data: session, status} = useSession({
 		required: true,
 		onUnauthenticated: () => {
 			Router.push('/', undefined, { shallow: true })
 		}
 	})
+
+	const deleteCollegeByID = (id:number) => {
+		axios.delete(`/api/colleges`, {params: {
+			id,
+			userId: session?.user?.id
+		}}).then(() => {
+			Router.reload()
+		})
+
+	}
 		return (<div>
 			<Head>
 				<title>{session?.user?.name} | Colleges</title>
@@ -32,11 +46,15 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 				<h2 className={styles.college}>Created Colleges</h2>
 				<div className={styles.colleges}>
 					{createdColleges.map((college: any) => {
-						return (<College key={college.id} name={college.name}
+						return (
+						<div key={college.id} className={styles.collegeCreate}>
+							<College name={college.name}
 							description={college.description}
 							logo={college.logo}
 							id={college.id}
-						/>)
+						/>
+						<img className={styles.deleteCollege} src="/delete.png" onClick={() => {setModalIsOpen(true); setDeleteCollege(college.id)} }/>
+						</div>)
 					})}
 				</div>
 			</div>}
@@ -58,7 +76,10 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 					<h3>Join or create a college to get started.</h3>
 				</div>
 			}
-			</div></>}
+			</div>
+			<div></div>
+			<DeleteModal setOpen={setModalIsOpen} type='college' func={() => deleteCollegeByID(deleteCollege)} isOpen={modalIsOpen}/>
+			</>}
 		</div>);
 }
 

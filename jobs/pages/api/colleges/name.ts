@@ -21,6 +21,11 @@ let ILLEGAL_NAMES = [
 	'find college',
 	'edit post',
 	'post',
+	'blog',
+	'blogs',
+	'company',
+	'organization',
+	'organizations',
 ]
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {

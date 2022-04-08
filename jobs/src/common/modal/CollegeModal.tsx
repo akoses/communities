@@ -114,7 +114,14 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	  if (!logoFile || !bannerFile || !validName) {
 		  return
 	  }
-	let keyName = new URL(logo).pathname
+	  let keyName: string;
+	  try {
+		keyName = new URL(logo).pathname
+	  }
+	  catch (error) {
+		  keyName = "";
+	  }
+	
 	if (keyName !== college?.logo && logoFile !== null && typeof logoFile !== "string") {
 		await axios.delete('/api/file', {
 			params: {
@@ -186,9 +193,9 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 			<label><div>College Banner <span className="required">*</span></div></label>
 			<input type='file' accept="image/jpeg, image/png" onChange={onBannerChange}/>
 			<div className={styles.chooseFile}>Choose Image</div>
-			<label><div>College Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/50</div></label>
+			<label><div>College Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/30</div></label>
 			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>This name is not available.</p>
-			<input className={styles.input} maxLength={50} type="text" placeholder="Name" value={name} onChange={onInputChange}/>
+			<input className={styles.input} maxLength={30} type="text" placeholder="Name" value={name} onChange={onInputChange}/>
 			<div className={styles.rules}>Only alphanumeric characters are allowed.</div>
 
 			<label>College Description <div className={styles.counter}>{descriptionCount}/300</div></label>

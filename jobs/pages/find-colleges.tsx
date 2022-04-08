@@ -53,10 +53,11 @@ const Home: NextPage = ({colleges}:any) => {
         <div className={`${styles.title} ${styles.findCollegeTitle}`}>
           <input onChange={filterColleges} type="text" placeholder="Search for a college" />
         </div>
-        {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 800}}>
+        {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false}>
         {reactColleges}
         </SimpleBar>}
       </main>
+     <br />
 
     </div>
   )
