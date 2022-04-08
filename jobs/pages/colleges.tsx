@@ -77,6 +77,7 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 				</div>
 			}
 			</div>
+			<div></div>
 			<DeleteModal setOpen={setModalIsOpen} type='college' func={() => deleteCollegeByID(deleteCollege)} isOpen={modalIsOpen}/>
 			</>}
 		</div>);

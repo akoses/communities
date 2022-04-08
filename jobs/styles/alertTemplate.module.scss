@@ -1,27 +1,27 @@
 .container {
-	background-color: rgba(248, 170, 170, 0.781);
-	padding: 15px;
+	background-color: rgb(255, 255, 255);
+	padding: 10px 20px;
 	font-family: 'Inter';
 	font-size: 0.9rem;
-	border-radius: 5px;
+	border-radius: 10px;
 	width: 100%;
-	color: #5c0f0f;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: row;
+	border: 1px solid #e8e8e8;
+	border-left: 3px solid #970000;
+	text-align: center;
 	width: 100%;
 	margin-top: 10px;
+	color: rgb(50, 50, 50);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-	.close {
-		
-		margin-left: 20px;
-		margin-top: 6px;
-		svg {
-			cursor: pointer;
-			width: 18px;
-		height: 18px;
-		fill: #5c0f0f;
-		}
+.success {
+	border-left: 3px solid #149700;
+}
+
+
+@media screen and (max-width: 425px) {
+	.container {
+		font-size: 0.8rem;
 	}
 }
+	

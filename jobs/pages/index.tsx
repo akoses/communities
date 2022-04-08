@@ -14,6 +14,8 @@ import Router from 'next/router'
 import {useSession} from 'next-auth/react'
 import CollegeModal from '../src/common/modal/CollegeModal';
 import AuthModal from '../src/common/modal/AuthModal';
+
+
 export async function getServerSideProps() {
   const colleges = await fetchColleges();
   return {
@@ -82,29 +84,35 @@ const Home: NextPage = ({colleges}:any) => {
         <div className={styles.title}>
           <input onChange={filterColleges} type="text" placeholder="Search for a college" />
         </div>
-       {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 600}}>
+       {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 400}}>
         {reactColleges}
         </SimpleBar>}
-      <div className={styles.whatIs}>
-        <h1>What Can You Do With Akose?</h1>
-      </div>
+        {reactColleges.length === 0 && <><br/><br /></>}
+      
           <div className={styles.contents}>
+            <Content title="Who We Are"
+            description="Akose is a collection of communitities known as Colleges. Each College provides different opportunities, resources and events related to the community."
+            />
+
             <Content title="Find Your Next Hub"
             description="Join an Akose College to find opportunities, events and resources, related to your interests. Never miss out on a new opportunity or event. "
-
+            link="/find-colleges"
+            linkDescription='Check out all the Colleges'
             />
             <Content title="Build a Community For Your People"
             description="By creating an Akose College, you can create a place where people with similar interests can come together to provide career related support."
+            linkDescription='Create a College'
+            link='/'
+            func={newCollege}
             />
-            <Content title="Provide for your Community"
-            description="When you provide for your college by posting, you make your college stronger and better place for all." 
+            <Content title="Post Opportunities For Your Organization"
+            description="Are you an organization looking to hire? Post an opportunity into Colleges with similar interests to help your organization find the right people." 
+            link="/organizations"
+            linkDescription='Post your opportunity'
             />
 
         </div>
-        <div className={styles.build}>
-          <h2>Want to build your own college?</h2>
-          <button onClick={newCollege}>Create a New College</button>
-        </div>
+
       </main>
       <AuthModal callBackUrl={'http://localhost:3000/create-college'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
       <CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>

@@ -8,13 +8,15 @@
   li {
 	  margin: auto;
 	  list-style: none;
-	  background-color: #f1f1f1;
-	  color: rgb(48, 47, 47);
+	  background-color: #f3f3f3;
+	  color: rgb(79, 79, 79);
 	  padding: 10px 38px;
 	  font-size: 0.9rem;
 	  text-align: center;
 	  cursor: pointer;
 	  border-radius: 30px;
+	  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	  border: 1px solid #dfdfdf;
   }
 
   .selected {
@@ -140,6 +142,12 @@
 
 	
 @media  screen and (max-width:425px){
+	.container {
+		.noEvents{
+			font-size: 1rem;
+		}
+	}
+
 	.eventOptions {
 		margin-left: 0px;
 		margin-right: 0px;

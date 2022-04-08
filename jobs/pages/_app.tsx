@@ -19,6 +19,7 @@ import {
 
 import AlertTemplate from '../src/common/AlertTemplate'
 
+
 function MyApp({ Component, pageProps:{session, ...pageProps}}: AppProps) {
   const [collegeData, setCollegeData] = useState<Map<string, any>>(new Map());
   const [edit, setEdit] = useState<any>({});

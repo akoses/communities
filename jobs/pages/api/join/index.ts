@@ -18,7 +18,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 					collegeId: req.body.collegeId,
 				}
 			});
-			res.status(200).send('ok');
+			return res.status(200).send('ok');
 		}
 		catch (err) {
 			return res.status(500).send(err);
@@ -32,7 +32,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 					collegeId: Number(req.query.collegeId),
 				}
 			});
-			res.status(200).send('ok');
+			return res.status(200).send('ok');
 		}
 		catch (err) {
 			return res.status(500).send(err);
@@ -46,7 +46,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 					collegeId: Number(req.query.collegeId),
 				}
 			});
-			res.status(200).json({count:joined});
+			return res.status(200).json({count:joined});
 		}
 		catch (err) {
 			return res.status(500).send(err);

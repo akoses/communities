@@ -16,9 +16,10 @@ import {convertName} from '../../src/common/utils'
 import Navigation from '../../src/common/Navigation';
 import { useSession, getSession } from "next-auth/react";
 import AuthModal from '../../src/common/modal/AuthModal';
-import {BsFillBellFill, BsFillBellSlashFill} from 'react-icons/bs';
-
+import {BsFillBellFill, BsFillBellSlashFill, BsPeopleFill} from 'react-icons/bs';
+import {FaShare} from 'react-icons/fa';
 import axios from 'axios';
+import {useAlert} from 'react-alert'
 
 interface collegeProps {
 	opportunities: any[];
@@ -44,6 +45,9 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	const [openLogin, setOpenLogin] = useState(false);
 	const [hasJoined, setHasJoined] = useState(hasJoinedCollege);
 	const [hasNotifications, setHasNotifications] = useState(emailNotification);
+	const [collegeCount, setCollegeCount] = useState('');
+	const alert = useAlert();
+
 	useEffect(() => {
 		
 		let path = Router.asPath.split('/')
@@ -61,6 +65,16 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				setSelected(CollegeSelect.Opportunities)
 		}
 
+		if (college?.collegeCount < 100) {
+			setCollegeCount(`1 - 99`)
+		}
+		else if (college?.collegeCount < 1000) {
+			setCollegeCount(`100 - 999`)
+		}
+		else if (college?.collegeCount < 10000) {
+			setCollegeCount(`1000+`)
+		}
+
 	}, [session])
 
 	const goToCreatePost = () => {
@@ -74,6 +88,18 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 			
 			setOpenLogin(true)
 	}
+	}
+
+	const copyToClipboard = async (link:string) => {
+		await navigator.clipboard.writeText(link);
+		alert.show('Link copied to clipboard.', {
+			type: 'success',
+			timeout: 2000,
+			containerStyle:{
+				backgroundColor: '#2196f3',
+			},
+			position:"bottom center"
+		})
 	}
 
 	const joinCollege =async () => {
@@ -133,7 +159,6 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<meta property="og:site_name" content={"Akose College"} />
 				<meta property="og:locale" content="en_US" />
 				<meta property="og:locale:alternate" content="en_US" />
-
 			</Head>
 			<Navigation />
 			<AuthModal callBackUrl={`http://localhost:3000/${convertName(college?.name || '')}/create-post`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
@@ -144,7 +169,10 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<img className={styles.collegeLogo} src={college?.logo}/>
 				<div className={styles.collegeHeader}>
 				<div className={styles.topHead}>
+				<div>
 				<h1 className={styles.name}>{college?.name}</h1>
+				<div className={styles.people}><BsPeopleFill /> {collegeCount}</div>
+				</div>
 				<div className={styles.midHead}>
 				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
 				<div onClick={goToCreatePost} className={styles.post} >Create Post</div>
@@ -158,6 +186,9 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<div className={styles.bottomHead}>
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
 				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This College':"Turn Off Email Notifications For This College"}><div onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
+				<Tooltip title="Copy College URL to clipboard." placement="top">
+				<div className={styles.url} onClick={() => copyToClipboard(`http://localhost:3000/${convertName(college?.name || '')}`)}><FaShare /></div>
+				</Tooltip>
 				</div>
 				</div>
 				<CollegeModal type={'edit'} college={college} isOpen={isOpen} setOpen={setIsOpen}/>
@@ -195,9 +226,10 @@ export async function getServerSideProps({ params, req}:any) {
 		return { 
 			notFound: true
 		};
+
 	  const joinedCollege = await fetchJoinedCollege(session?.user?.id || '', collegeInfo?.id || -1);
-	   const {opportunities, events, resources }= await fetchData(collegeInfo.id);
-	  
+	   const {opportunities, events, resources }= await fetchData(collegeInfo.id || -1);
+	      
 	  return {
 		props: {
 		  opportunities,
@@ -206,6 +238,7 @@ export async function getServerSideProps({ params, req}:any) {
 		  college:collegeInfo,
 		  hasJoinedCollege: joinedCollege.length > 0 && session,
 		  emailNotification: joinedCollege.length > 0 && joinedCollege[0].emailNotification
+		
 		},
 		// By returning the value of the `nextUpdate` key here,
 		// Next.js will optimize the page away if no data needs to be refreshed.

@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 export default nodemailer.createTransport({
         host:process.env.EMAIL_SERVICE,
-        port: 465,
+        port: Number(process.env.EMAIL_PORT) || 465,
         secure: true,
         requireTLS: true,
         

@@ -11,7 +11,7 @@ import AppContext from '../../../contexts/AppContext';
 import {useSession}	from 'next-auth/react';
 import {validateText} from './Resource';
 import {useAlert} from 'react-alert'
-import { BsArrowReturnLeft } from 'react-icons/bs'
+
 
 interface OpportunityProps {
 	id?:number; 

@@ -7,9 +7,9 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 	if (req.method === 'GET') {
 		try {
 			const colleges = await prisma.colleges.findMany()
-			res.status(200).json(colleges);
+			return res.status(200).json(colleges);
 		} catch (e) {
-			res.status(500).json({error: e});
+			return res.status(500).json({error: e});
 		}
 	}
 
@@ -25,9 +25,9 @@ else if (req.method === 'POST') {
 				}
 			});
 		} catch (e) {
-			res.status(500).json({error: e});
+			return res.status(500).json({error: e});
 		}
-		res.status(200).json({message: 'ok'});
+		return res.status(200).json({message: 'ok'});
 	}
   else if (req.method === 'PUT') {
 	
@@ -43,7 +43,7 @@ else if (req.method === 'POST') {
 				banner: req.body.banner
 			}
 		})
-		res.status(200).json({message: 'ok'});
+		return res.status(200).json({message: 'ok'});
 	}
 
 	catch (err) {
@@ -68,7 +68,7 @@ else if (req.method === 'POST') {
 				userId: req.query.userId as string
 			}
 		})
-		res.status(200).json({message: 'ok'});
+		return res.status(200).json({message: 'ok'});
 	}
 
 	catch (err) {
