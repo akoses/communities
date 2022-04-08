@@ -62,7 +62,7 @@ $option-border: 1px solid #e7e7e77a;
 	}
 
 	h1.name {
-		width: 70%;
+		width: fit-content;
 		font-size: 1.6rem;
 		margin-bottom: 0px;
 		margin-top: 10px;
@@ -151,8 +151,8 @@ $option-border: 1px solid #e7e7e77a;
 				margin-top: 20px;
 				width: fit-content;
 				display: flex;
-				justify-content: space-between;
 				align-items: center;
+				
 				
 			}
 		}
@@ -375,6 +375,22 @@ $option-border: 1px solid #e7e7e77a;
 			}
 		}
 
+
+@media screen and (max-width:768px) {
+	.collegePage {
+		.body {
+			h1.name {
+				font-size: 1.4rem
+			}
+
+			img {
+				margin-top:140px;
+				width: 120px;
+				height: 120px;
+			}
+		}
+	}
+}
 
 @media screen and (max-width:425px) {
 
