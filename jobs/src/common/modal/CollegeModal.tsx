@@ -185,22 +185,21 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		<div className={styles.editModal}>
 		<img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/>
-		<h2 className={styles.question}>{type === 'edit'?'Edit College Information':"Create New College"}</h2>
+		<h2 className={styles.question}>{type === 'edit'?'Edit Community Information':"Create New Community"}</h2>
 		<div className={styles.inputs}>
-			<label> <div>College Logo <span className="required">*</span></div> </label>
+			<label> <div>Community Logo<span className="required">*</span></div> </label>
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
 			<div className={styles.chooseFile}>Choose Image</div>
-			<label><div>College Banner <span className="required">*</span></div></label>
+			<label><div>Community Banner <span className="required">*</span></div></label>
 			<input type='file' accept="image/jpeg, image/png" onChange={onBannerChange}/>
 			<div className={styles.chooseFile}>Choose Image</div>
-			<label><div>College Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/30</div></label>
+			<label><div>Community Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/30</div></label>
 			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>This name is not available.</p>
 			<input className={styles.input} maxLength={30} type="text" placeholder="Name" value={name} onChange={onInputChange}/>
 			<div className={styles.rules}>Only alphanumeric characters are allowed.</div>
-
-			<label>College Description <div className={styles.counter}>{descriptionCount}/300</div></label>
+			<label>Community Description <div className={styles.counter}>{descriptionCount}/300</div></label>
 			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
-			<div className={styles.rules}>Feel free to additionally add any contact information for your college here.</div>
+			<div className={styles.rules}>Feel free to additionally add any contact information for your community here.</div>
 			<div className={styles.buttons}><input className={styles.submit} type="submit" value="Submit" onClick={submitCollege}/>
 			<input className={styles.cancel} type="submit" value="Cancel" onClick={closeModal}/>
 			</div>

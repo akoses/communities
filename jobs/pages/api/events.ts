@@ -4,6 +4,7 @@ import SendMails, {EventInformation} from "../../src/lib/email/send";
 import { fetchJoinedNotifications } from "../../src/lib/fetch";
 import  dateFormat from 'dateformat'
 import {getSession} from 'next-auth/react';
+import {convertName} from '../../src/common/utils';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 let session = await getSession({req});
@@ -52,7 +53,7 @@ let session = await getSession({req});
 				college: user.college.name || '',
 				eventTitle: req.body.name,
 				eventImage: req.body.org_logo,
-				eventLink: req.body.event_link,
+				eventLink: "https://akose.ca/" + convertName(user.college.name) + "/events/",
 				eventLocation: req.body.location,
 				eventDate: startDate + " - " + endDate,
 				eventOrganization: req.body.organization,

@@ -463,15 +463,19 @@ h2.opportunityHead {
 @media screen and (max-width:425px) {
 	.event {
 		min-width: 0px;
-
-		.details {
+		width: 100%;
+		.details {	
 			width: 100%;
 
 			h3 {
-				font-size: 0.9rem;
+				font-size: 0.85rem;
 				margin-top: 0px;
 				margin-bottom: 0px;
 			}
+		}
+
+		a.eLink, .close {
+			padding: 5px 10px;
 		}
 
 		h2 {

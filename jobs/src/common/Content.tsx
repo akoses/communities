@@ -8,15 +8,23 @@ interface ContentProps {
 	description: string;
 	link?: string
 	linkDescription?: string
-	func?: () => void
+	func?: () => void;
+	imgsrc?: string
+	reversed?: boolean
+	vidsrc?: string;
+	className?: string;
 }
 
-const Content: React.FC<ContentProps> = ({title, description, link, linkDescription, func}) => {
-		return (<div className={styles.content}>
+const Content: React.FC<ContentProps> = ({title, className, description, link, linkDescription, func, imgsrc, reversed, vidsrc}) => {
+		return (<div className={`${styles.content} ${className}`} style={{flexDirection:reversed?'row':'row-reverse'}}>
 			<div className={styles.contentHead}>
 		<h2>{title}</h2>
 		<p>{description}</p>
 		<div onClick={func?func:() => {}}>{link && <Link href={link}><a className={styles.linkContent}><span>{linkDescription}</span><AiOutlineArrowRight /></a></Link>}</div>
+		</div>
+		<div className={styles.contentImg}>
+		{imgsrc && <img src={imgsrc} alt={title}/> }
+		{vidsrc && <video src={vidsrc} autoPlay loop muted />}
 		</div>
 		</div>);
 }

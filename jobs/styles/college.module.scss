@@ -393,9 +393,21 @@ $option-border: 1px solid #e7e7e77a;
 }
 
 @media screen and (max-width:425px) {
-
+	.college {
+		.content {
+			h1 {
+				font-size: 0.85rem;
+			}
+			p {
+				
+				font-size: 0.75rem
+			}
+		}
+	}
 	.collegePage {
 
+		
+			
 		p.description {
 			margin-top: 15px;
 			font-size: 14px;
@@ -522,4 +534,17 @@ $option-border: 1px solid #e7e7e77a;
 				}
 			}
 		}
+}
+
+@media screen and (max-width:300px) {
+	.college {
+		.content {
+			h1 {
+				font-size: 0.85rem;
+			}
+			p {
+				display: none;
+			}
+		}
+	}
 }

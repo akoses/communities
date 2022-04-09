@@ -4,7 +4,7 @@ import { NextApiResponse, NextApiRequest } from "next";
 import SendMails, {OpportunityInformation} from "../../src/lib/email/send";
 import {fetchJoinedNotifications} from "../../src/lib/fetch";
 import {getSession} from 'next-auth/react';
-
+import {convertName} from "../../src/common/utils";
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   let session = await getSession({req});
   if (!session) {
@@ -41,11 +41,11 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				college: user.college.name || '',
 				opportunityTitle: req.body.name,
 				opportunityImage: req.body.org_logo,
-				opportunityLink: req.body.apply_link,
+				opportunityLink: 'https://akose.ca/' + convertName(user.college.name) + '/opportunities',
 				opportunityLocation: req.body.location,
 				opportunityOrganization: req.body.organization,
 				opportunityWorkStyle: req.body.workstyle,
-				unsubscribeLink:'http://localhost:3000' + '/unsubscribe/' + user.user.id + '/' + user.college.id
+				unsubscribeLink:'https://akose.ca' + '/unsubscribe/' + user.user.id + '/' + user.college.id
 			})	
 		})
 

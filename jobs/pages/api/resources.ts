@@ -2,6 +2,7 @@ import prisma from '../../prisma';
 import SendMails, { ResourceInformation } from '../../src/lib/email/send';
 import {fetchJoinedNotifications} from '../../src/lib/fetch';
 import {getSession} from 'next-auth/react';
+import {convertName} from '../../src/common/utils';
 
 export default async function handler(req:any, res:any) {
   let session = await getSession({req});
@@ -34,7 +35,7 @@ export default async function handler(req:any, res:any) {
 				college: user.college.name || '',
 				resourceTitle: req.body.custom_title,
 				resourceImage: req.body.image,
-				resourceLink: req.body.url,
+				resourceLink: 'https://akose.ca/' + convertName(user.college.name) + '/resources',
 				resourceHostname: req.body.hostname,
 				resourceDescription: req.body.custom_description,
 				unsubscribeLink:'http://localhost:3000' + '/unsubscribe/' + user.user.id + '/' + user.college.id

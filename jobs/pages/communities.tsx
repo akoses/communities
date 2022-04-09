@@ -37,13 +37,13 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 	}
 		return (<div>
 			<Head>
-				<title>{session?.user?.name} | Colleges</title>
+				<title>{session?.user?.name} | Communities</title>
 			</Head>
 			{status === 'authenticated' && <><Navigation/>
 			<div className={styles.container}>
 			
 			{createdColleges.length > 0 && <div className={styles.createdColleges}>
-				<h2 className={styles.college}>Created Colleges</h2>
+				<h2 className={styles.college}>Created Communities</h2>
 				<div className={styles.colleges}>
 					{createdColleges.map((college: any) => {
 						return (
@@ -59,7 +59,7 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 				</div>
 			</div>}
 			{joinedColleges.length > 0 && <div className={styles.joinedColleges}>
-				<h2 className={styles.college}>Joined Colleges</h2>
+				<h2 className={styles.college}>Joined Communities</h2>
 				<div className={styles.colleges}>
 					{joinedColleges.map((college: any) => {
 						return (<College key={college.id} name={college.college.name}
@@ -72,13 +72,13 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 				</div>}
 			{
 				(joinedColleges.length === 0 && createdColleges.length === 0) && <div className={styles.empty}>
-					<h2>You have not joined or created any colleges yet.</h2>
-					<h3>Join or create a college to get started.</h3>
+					<h2>You have not joined or created any communities yet.</h2>
+					<h3>Join or create a community to get started.</h3>
 				</div>
 			}
 			</div>
 			<div></div>
-			<DeleteModal setOpen={setModalIsOpen} type='college' func={() => deleteCollegeByID(deleteCollege)} isOpen={modalIsOpen}/>
+			<DeleteModal setOpen={setModalIsOpen} type='community' func={() => deleteCollegeByID(deleteCollege)} isOpen={modalIsOpen}/>
 			</>}
 		</div>);
 }

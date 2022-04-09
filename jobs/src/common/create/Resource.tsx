@@ -98,7 +98,7 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 
 			await axios.put('/api/resources', formData)
 		}
-			Router.push(`/${Router.query['college'] || context.editableData?.college_name}/resources`)
+			Router.push(`/${Router.query['community'] || context.editableData?.college_name}/resources`)
 		}
 
 		

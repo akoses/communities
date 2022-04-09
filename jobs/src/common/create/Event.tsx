@@ -88,7 +88,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 			await axios.put('/api/events', formData)	
 		}
 		console.log(context.editableData)
-		router.push(`/${router.query['college'] || context.editableData?.college_name}/events`)
+		router.push(`/${router.query['community'] || context.editableData?.college_name}/events`)
 	}
 
 	const onDateChange = (date:any) => {

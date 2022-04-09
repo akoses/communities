@@ -89,7 +89,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 		}
 		await axios.put(`/api/opportunities`, formData)
 	}
-		router.push(`/${router.query['college'] || context.editableData?.collegeName}/opportunities`)
+		router.push(`/${router.query['community'] || context.editableData?.collegeName}/opportunities`)
 	}
 	
 	const setImageUrl = (evt:any) => {
