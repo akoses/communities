@@ -8,7 +8,8 @@
   li {
 	  margin: auto;
 	  list-style: none;
-	  background-color: #f3f3f3;
+	  background-color: #ffffff;
+	  opacity: 0.7;
 	  color: rgb(79, 79, 79);
 	  padding: 10px 38px;
 	  font-size: 0.9rem;
@@ -22,6 +23,7 @@
   .selected {
 	  background-color: #609ae7;
 	  color: #fff;
+	  opacity: 1;
   }
   
 }
