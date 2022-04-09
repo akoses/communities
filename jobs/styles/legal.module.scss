@@ -1,0 +1,21 @@
+.legal {
+	width: 80%;
+	margin: 0 auto;
+	font-family: 'Poppins', sans-serif;
+	padding-bottom: 50px;
+
+	h1 {
+		text-align: center;
+	}
+}
+
+@media screen and (max-width: 425px){
+	.legal {
+		width: 90%;
+
+		h1 {
+			font-size: 24px;
+		}
+	}
+}
+	
