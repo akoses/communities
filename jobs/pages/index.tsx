@@ -4,7 +4,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import College from '../src/common/College'
-import { fetchColleges } from '../src/lib/fetch'
+import { fetchFeaturedColleges } from '../src/lib/fetch'
 import Navigation from '../src/common/Navigation'
 import {Colleges} from '@prisma/client'
 import SimpleBar from 'simplebar-react'
@@ -14,10 +14,11 @@ import Router from 'next/router'
 import {useSession} from 'next-auth/react'
 import CollegeModal from '../src/common/modal/CollegeModal';
 import AuthModal from '../src/common/modal/AuthModal';
-
+import Link from 'next/link';
+import {BiSearchAlt} from 'react-icons/bi';
 
 export async function getServerSideProps() {
-  const colleges = await fetchColleges();
+  const colleges = await fetchFeaturedColleges();
   return {
     props: {
       colleges: colleges || []
@@ -31,12 +32,6 @@ const Home: NextPage = ({colleges}:any) => {
   const {data: session, status} = useSession();
   const [isCollegeOpen, setIsCollegeOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const filterColleges = (e:any) => {
-  let colls = colleges.filter((college:any) => {
-    return college.name.toLowerCase().includes(e.target.value.toLowerCase())
-  })
-  setColleges(colls.map(mapColleges))
-  }
 
   const mapColleges = (college:Colleges) => {
    return <College 
@@ -74,45 +69,46 @@ const Home: NextPage = ({colleges}:any) => {
       <Navigation />
       <div className={styles.header}>
         <div className={styles.overlay}>
-            <h1>Find Your College. Find Your Home.</h1>
+            <h1>Join the right community for your career.</h1>
             </div>
           </div>
       <main>
-        <div>
-          
+      <div className={styles.featured}>
+          <h1>Featured Communities</h1>
         </div>
-        <div className={styles.title}>
-          <input onChange={filterColleges} type="text" placeholder="Search for a college" />
-        </div>
-       {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 400}}>
+
+       {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 420}}>
+        <Link href='/find-communities'><a className={styles.viewAll}><BiSearchAlt />  View All Communities</a></Link>
         {reactColleges}
         </SimpleBar>}
         {reactColleges.length === 0 && <><br/><br /></>}
-      
           <div className={styles.contents}>
-            <Content title="Who We Are"
-            description="Akose is a collection of communitities known as Colleges. Each College provides different opportunities, resources and events related to the community."
-            />
 
             <Content title="Find Your Next Hub"
-            description="Join an Akose College to find opportunities, events and resources, related to your interests. Never miss out on a new opportunity or event. "
-            link="/find-colleges"
-            linkDescription='Check out all the Colleges'
+            description="Join an Akose community to find opportunities, events and resources, related to your interests. Never miss out on a new opportunity, event or resource. "
+            link="/find-communities"
+            linkDescription='Find your communities'
+            imgsrc='/find-community.png'
+            className={styles.leftAlign}
+
             />
             <Content title="Build a Community For Your People"
-            description="By creating an Akose College, you can create a place where people with similar interests can come together to provide career related support."
-            linkDescription='Create a College'
+            description="By starting an Akose Community, you can create a place where people with similar interests can come together to provide career related support."
+            linkDescription='Create a Community'
             link='/'
+            imgsrc='/community.png'
+            reversed={true}
             func={newCollege}
             />
             <Content title="Post Opportunities For Your Organization"
-            description="Are you an organization looking to hire? Post an opportunity into Colleges with similar interests to help your organization find the right people." 
-            link="/organizations"
-            linkDescription='Post your opportunity'
+            description="Are you an organization looking to hire? Post an opportunity into communities with similar interests to help your organization find the right people." 
+            link="/find-communities"
+            linkDescription='See all communities'
+            vidsrc='/opportunity.mp4'
+            className={styles.video}
             />
 
         </div>
-
       </main>
       <AuthModal callBackUrl={'http://localhost:3000/create-college'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
       <CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>

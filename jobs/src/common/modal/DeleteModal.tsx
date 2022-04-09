@@ -67,15 +67,15 @@ const DeleteModal:React.FC<ModalProps> = ({setOpen, isOpen, type, func}) => {
       >
 		  <h2 className={styles.question}>Are you sure you want to delete this {type}?</h2>
 		  <p className={styles.gone}>Once you delete this {type}, it will be gone forever.</p>
-		  {type === 'college' && <div className={styles.permanently}>
+		  {type === 'community' && <div className={styles.permanently}>
 				<p>Please type <i>permanently delete</i> to delete this {type}.</p>
 				<input value={permanently} onChange={(e) => setPermanently(e.target.value)} type="text" placeholder="permanently delete" />
 				</div>}
 		  <div className={styles.options}>
 			<button onClick={closeModal}>Cancel</button>
 		  	<button className={styles.delete} style={{
-				  opacity:type === 'college' && permanently !== 'permanently delete'?0.6:1,
-				  pointerEvents:type === 'college' && permanently !== 'permanently delete'?'none':'auto'	
+				  opacity:type === 'community' && permanently !== 'permanently delete'?0.6:1,
+				  pointerEvents:type === 'community' && permanently !== 'permanently delete'?'none':'auto'	
 		}} onClick={deleteItem}>Delete</button>
 		  </div>
 		

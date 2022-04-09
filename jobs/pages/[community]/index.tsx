@@ -46,6 +46,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	const [hasJoined, setHasJoined] = useState(hasJoinedCollege);
 	const [hasNotifications, setHasNotifications] = useState(emailNotification);
 	const [collegeCount, setCollegeCount] = useState('');
+	const [tryJoin, setTryJoin] = useState(false);
 	const alert = useAlert();
 
 	useEffect(() => {
@@ -71,14 +72,14 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		else if (college?.collegeCount < 1000) {
 			setCollegeCount(`100 - 999`)
 		}
-		else if (college?.collegeCount < 10000) {
+		else if (college?.collegeCount >= 1000) {
 			setCollegeCount(`1000+`)
 		}
 
-	}, [session])
+	}, [session, college])
 
 	const goToCreatePost = () => {
-		
+		setTryJoin(false)
 		if (status === 'authenticated') {
 		Router.push({
 					pathname: `/${convertName(college.name)}/create-post`},
@@ -88,11 +89,12 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 			
 			setOpenLogin(true)
 	}
+	
 	}
 
 	const copyToClipboard = async (link:string) => {
 		await navigator.clipboard.writeText(link);
-		alert.show('Link copied to clipboard.', {
+		alert.show('Community link copied to clipboard.', {
 			type: 'success',
 			timeout: 2000,
 			containerStyle:{
@@ -103,7 +105,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	}
 
 	const joinCollege =async () => {
-		
+		setTryJoin(true)
 		if (status === 'authenticated') {
 			if (!hasJoined){
 				await axios.post('/api/join', {userId: session?.user?.id, collegeId: college.id})
@@ -161,7 +163,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<meta property="og:locale:alternate" content="en_US" />
 			</Head>
 			<Navigation />
-			<AuthModal callBackUrl={`http://localhost:3000/${convertName(college?.name || '')}/create-post`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
+			<AuthModal callBackUrl={!tryJoin?`http://localhost:3000/${convertName(college?.name || '')}/create-post`:`http://localhost:3000/${convertName(college?.name || '')}`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
 			<div>
 			<img className={styles.banner} src={college?.banner}/>
 			</div>
@@ -186,7 +188,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<div className={styles.bottomHead}>
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
 				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This College':"Turn Off Email Notifications For This College"}><div onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
-				<Tooltip title="Copy College URL to clipboard." placement="top">
+				<Tooltip title="Copy Community URL to clipboard." placement="top">
 				<div className={styles.url} onClick={() => copyToClipboard(`http://localhost:3000/${convertName(college?.name || '')}`)}><FaShare /></div>
 				</Tooltip>
 				</div>
@@ -218,7 +220,7 @@ export async function getServerSideProps({ params, req}:any) {
 	
 	  // Call an external API endpoint to get jobs
 
-	  const collegeInfo = await fetchCollege(params.college);
+	  const collegeInfo = await fetchCollege(params.community);
 	 
 	  let session = await getSession({req});
 

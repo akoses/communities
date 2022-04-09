@@ -51,7 +51,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			onClick={() => setSelected(selectedComponent.opportunity)} className={styles.createContent} >
 				<img src='/images/opportunity.png'  alt='opportunity'/>
 				<h2>Opportunity</h2>
-				<p>Use this to post any new opportunities. This could be research positions, job postings  or any other opportunities.</p>
+				<p>Use this to post any new opportunities. This could be research positions, job postings or any other opportunities.</p>
 			</div>
 
 			<div 
@@ -59,7 +59,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			className={styles.createContent}>
 				<img src='/images/event.jpg'  alt='event'/>
 				<h2>Event</h2>
-				<p>Use this post about any related events to this college.</p>
+				<p>Use this post about any related events to this community.</p>
 			</div>
 
 			<div className={styles.createContent}
@@ -67,7 +67,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			>
 				<img src='/images/resources.jpg'  alt='resources'/>
 				<h2>Resource</h2>
-				<p>Use this to post any resources you think may be useful.</p>
+				<p>Use this to post any resources you think may be useful for this community.</p>
 			</div>
 			</div>
 		</div>}

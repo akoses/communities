@@ -90,7 +90,7 @@ button {
 		width: 100%;
 	}
 	.dropdown {
-		width: 200px;
+		width:  200px !important;
 		font-family: 'Inter';
 		 cursor: pointer;
 		color: rgb(49, 49, 49);
@@ -115,7 +115,7 @@ button {
   		background-color: rgb(70, 100, 199);
   		color: white;
   		font-size: 13px;
- 
+		
 	}
 
 	
@@ -123,10 +123,15 @@ button {
 }
 
 @media screen and (max-width:425px) {
+
+	
 	.container {
 		button {
 			margin-right: 10px;
 			padding: 10px 15px;
+		}
+		.akoseLogo {
+			margin-left: 0px;
 		}
 		.buttons {
 			.dropdown {
@@ -145,4 +150,14 @@ button {
 		}
 		
 	}
+}
+@media screen and (max-width:300px) {
+	.container {
+		.buttons {
+			.dropdown {
+				width: 140px !important;
+			}
+		}
+		}
+		
 }

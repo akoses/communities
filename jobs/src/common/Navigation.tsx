@@ -13,9 +13,9 @@ interface NaivgationProps {
 	
 }
 
-const dropdownOptions = [{label:'Create New College',
+const dropdownOptions = [{label:'Create New Community',
 	value: 'create'
-},  {label:'Feed', value: 'feed'},{label:'Find Colleges', value: 'find'}, {label:'Colleges', value: 'colleges'}, {label:'Posts', value: 'posts'}, {label:'Logout', value:'logout'},
+},  {label:'Feed', value: 'feed'},{label:'Find Communities', value: 'find'}, {label:'My Communities', value: 'community'}, {label:'My Posts', value: 'posts'}, {label:'Logout', value:'logout'},
 ]
 
 const Naivgation: React.FC<NaivgationProps> = () => {
@@ -39,10 +39,10 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 				Router.push('/feed');
 				break;
 			case 'find':
-				Router.push('/find-colleges');
+				Router.push('/find-communities');
 				break;
-			case 'colleges':
-				Router.push('/colleges');
+			case 'community':
+				Router.push('/communities');
 				break;
 			case 'posts':
 				Router.push('/posts');

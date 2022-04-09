@@ -7,7 +7,20 @@ export async function fetchColleges() {
 	return res
   } catch (err) {
 	console.error(err)
-  } 
+  }
+  
+}
+
+export async function fetchFeaturedColleges() {
+	try {
+	  const res = await prisma.colleges.findMany({
+		  take:3
+	  })
+	  return res
+	} catch (err) {
+	  console.error(err)
+	} 
+
 }
 
 export async function fetchData(id: number) {
@@ -105,7 +118,7 @@ export async function fetchCollege(name:string) {
 	const res = await prisma.colleges.findFirst({
 		where: {
 			name: {
-				contains: collegeName,
+				equals: collegeName,
 				mode: 'insensitive'
 			},
 			
