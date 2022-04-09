@@ -130,6 +130,8 @@ export async function fetchCollege(name:string) {
 			college:{name: {equals: collegeName, mode: 'insensitive'}}
 		}
 	})
+	if (!res)
+		return null;
 	return {...res, collegeCount}
   } catch (err) {
 	console.error(err)

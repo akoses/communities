@@ -223,8 +223,9 @@ export async function getServerSideProps({ params, req}:any) {
 	  const collegeInfo = await fetchCollege(params.community);
 	 
 	  let session = await getSession({req});
-
+	
 	  if (!collegeInfo)
+
 		return { 
 			notFound: true
 		};
