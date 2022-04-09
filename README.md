@@ -1,2 +1,2 @@
-# Akose Colleges
-The Akose College Community. 
+# Akose Communities
+The Akose Community. 
