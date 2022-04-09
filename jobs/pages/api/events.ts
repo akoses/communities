@@ -57,7 +57,7 @@ let session = await getSession({req});
 				eventLocation: req.body.location,
 				eventDate: startDate + " - " + endDate,
 				eventOrganization: req.body.organization,
-				unsubscribeLink:`http://localhost:3000/api/unsubscribe/${user.college.id}/${user.user.id}`
+				unsubscribeLink:`https://akose.ca/api/unsubscribe/${user.college.id}/${user.user.id}`
 			})	
 		})
 		res.status(200).json({message: 'ok'});

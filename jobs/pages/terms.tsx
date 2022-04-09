@@ -14,7 +14,10 @@ const Terms = () => {
 	return (
 		<>
 		<NavBar />
+		<br />
+		<br />
 		<div className={styles.legal}>
+			
 		<h1>Akose Terms and Conditions of Use</h1>
 
 <h2>1. Terms</h2>

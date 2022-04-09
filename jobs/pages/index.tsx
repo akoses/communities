@@ -110,7 +110,7 @@ const Home: NextPage = ({colleges}:any) => {
 
         </div>
       </main>
-      <AuthModal callBackUrl={'http://localhost:3000/create-college'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
+      <AuthModal callBackUrl={'/create-college'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
       <CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
     <Footer />
     </div>

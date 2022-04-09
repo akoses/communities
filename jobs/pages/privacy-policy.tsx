@@ -10,6 +10,8 @@ const PrivacyPolicy = () => {
 	},[])
 	return (
 		<><NavBar />
+		<br />
+		<br />
 		<div className={styles.legal}>
 			
 			<h1>Privacy Policy</h1>

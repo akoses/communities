@@ -156,14 +156,14 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<meta property="og:title" content={college?.name} />
 				<meta property="og:description" content={college?.description} />
 				<meta property="og:image" content={college?.image} />
-				<meta property="og:url" content={`http://localhost:3000/${convertName(college?.name || '')}`} />
+				<meta property="og:url" content={`https://akose.ca/${convertName(college?.name || '')}`} />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content={"Akose College"} />
 				<meta property="og:locale" content="en_US" />
 				<meta property="og:locale:alternate" content="en_US" />
 			</Head>
 			<Navigation />
-			<AuthModal callBackUrl={!tryJoin?`http://localhost:3000/${convertName(college?.name || '')}/create-post`:`http://localhost:3000/${convertName(college?.name || '')}`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
+			<AuthModal callBackUrl={!tryJoin?`/${convertName(college?.name || '')}/create-post`:`/${convertName(college?.name || '')}`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
 			<div>
 			<img className={styles.banner} src={college?.banner}/>
 			</div>
@@ -189,7 +189,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
 				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This College':"Turn Off Email Notifications For This College"}><div onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
 				<Tooltip title="Copy Community URL to clipboard." placement="top">
-				<div className={styles.url} onClick={() => copyToClipboard(`http://localhost:3000/${convertName(college?.name || '')}`)}><FaShare /></div>
+				<div className={styles.url} onClick={() => copyToClipboard(`https://akose.ca/${convertName(college?.name || '')}`)}><FaShare /></div>
 				</Tooltip>
 				</div>
 				</div>
