@@ -36,7 +36,7 @@ do
 done
 NEWTAG="v$MAJ.$MIN.$BUG"
 echo "Adding Tag: $NEWTAG";
-#git tag -a $NEWTAG -m $NEWTAG
+git tag -a $NEWTAG -m $NEWTAG
 
 echo ::set-output name=git-tag::$NEWTAG
 
