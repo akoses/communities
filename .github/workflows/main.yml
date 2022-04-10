@@ -33,6 +33,7 @@ jobs:
        fail_on_empty: false
       
   build-and-push:
+        needs: create-envfile
         name: Build and Push NextJS Image to AWS ECR
         runs-on: ubuntu-latest
 
