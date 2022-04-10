@@ -1,6 +1,10 @@
 #!/bin/bash
 CURTAG=`git describe --abbrev=0 --tags`;
 CURTAG="${CURTAG/v/}"
+if [$CURTAG == ""]
+then 
+	CURTAG="0.1.0"
+fi
 
 IFS='.' read -a vers <<< "$CURTAG"
 
@@ -32,7 +36,7 @@ do
 done
 NEWTAG="v$MAJ.$MIN.$BUG"
 echo "Adding Tag: $NEWTAG";
-git tag -a $NEWTAG -m $NEWTAG
+#git tag -a $NEWTAG -m $NEWTAG
 
 echo ::set-output name=git-tag::$NEW_TAG
 
