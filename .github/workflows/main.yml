@@ -1,8 +1,11 @@
 name: Build and Push NextJS Image to AWS ECR
 on:
-  push:
+  workflow_run:
+      workflow: ["Create Envfile"]
       branches: 
               [main]
+      types:
+        - completed
 jobs:
     build-and-push:
         name: Build and Push NextJS Image to AWS ECR
