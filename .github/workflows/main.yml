@@ -9,7 +9,6 @@ jobs:
 
     
   build-and-push:
-        needs: create-envfile
         name: Build and Push NextJS Image to AWS ECR
         runs-on: ubuntu-latest
         steps:
@@ -17,7 +16,7 @@ jobs:
            env:
             PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
            run: echo $PROD_ENV_FILE | base64 --decode > .env
-           
+
          - name: Checkout
            uses: actions/checkout@v2
 
