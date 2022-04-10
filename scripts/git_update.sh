@@ -1,57 +1,38 @@
 #!/bin/bash
+CURTAG=`git describe --abbrev=0 --tags`;
+CURTAG="${CURTAG/v/}"
 
-VERSION=""
+IFS='.' read -a vers <<< "$CURTAG"
 
-while getopts v:flag
-do 
-	case "${flag}" in
-	 v) VERSION=${OPTARG};;
-	 esac
-done 
+MAJ=${vers[0]}
+MIN=${vers[1]}
+BUG=${vers[2]}
+echo "Current Tag: v$MAJ.$MIN.$BUG"
 
-git fetch --prune --unshallow 2>/dev/null
-CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
-
-if [[CURRENT_VERSION == '']]
-then
-	CURRENT_VERSION = "v0.1.0"
-fi
-echo "Current Version: $CURRENT_VERSION"
-
-CURRENT_VERSION_PARTS=(${CURRENT_VERSION//./ })
-
-VNUM1=${CURRENT_VERSION_PARTS[0]}
-VNUM2=${CURRENT_VERSION_PARTS[1]}
-VNUM3=${CURRENT_VERSION_PARTS[2]}
-
-if [[$VERSION == 'major']]
-then
-	VNUM1=v$((VNUM1+1))
-elif [[$VERSION == 'minor']]
-then
-	VNUM2=v$((VNUM2+1))
-elif [[$VERSION == 'patch']]
-then
-	VNUM2=v$((VNUM3+1))
-else
-	echo "No version type or incorrect type specified, try -v [major, minor, patch]"
-	exit 1
-fi
-
-NEW_TAG="$VNUM1.$VNUM2.$VNUM3"
-echo "($VERSION) updating $CURRENT_VERSION to $NEW_TAG"
-
-GIT_COMMIT=`git rev-parse HEAD`
-NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
-
-if [-z "$NEEDS_TAG"]; then
-	echo "Tagged with $NEW_TAG"
-	git tag $NEW_TAG
-	git push --tags
-	git push
-else
-	echo "Alread a tag on this commit"
-fi
+for cmd in "$@"
+do
+	case $cmd in
+		"--major")
+			# $((MAJ+1))
+			((MAJ+=1))
+			MIN=0
+			BUG=0
+			echo "Incrementing Major Version#"
+			;;
+		"--minor")
+			((MIN+=1))
+			BUG=0
+			echo "Incrementing Minor Version#"
+			;;
+		"--bug")
+			((BUG+=1))
+			echo "Incrementing Bug Version#"
+			;;
+	esac
+done
+NEWTAG="v$MAJ.$MIN.$BUG"
+echo "Adding Tag: $NEWTAG";
+git tag -a $NEWTAG -m $NEWTAG
 
 echo ::set-output name=git-tag::$NEW_TAG
 
