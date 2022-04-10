@@ -18,6 +18,8 @@ FROM test-target as build-target
 ENV NODE_ENV=production
 
 # Use build tools, installed as development packages, to produce a release build.
+RUN npx prisma generate
+RUN npx prisma migrate deploy
 
 RUN npm run build
 
