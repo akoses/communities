@@ -7,6 +7,22 @@ jobs:
     build-and-push:
         name: Build and Push NextJS Image to AWS ECR
         runs-on: ubuntu-latest
+
+        services:
+          postgres:
+            image: postgres:latest
+            env:
+              POSTGRES_DB: postgres        
+              POSTGRES_PASSWORD: postgres
+              POSTGRES_USER: postgres
+            ports:
+              - 5432:5432
+        # Set health checks to wait until postgres has started
+            options: >-
+             --health-cmd pg_isready
+             --health-interval 10s
+             --health-timeout 5s
+             --health-retries 5
         steps: 
          - name: Checkout
            uses: actions/checkout@v2
@@ -31,6 +47,7 @@ jobs:
              ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
              ECR_REPOSITORY: akose-communities
              IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+             DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
            run: |
             docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
             docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
