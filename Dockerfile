@@ -36,4 +36,6 @@ WORKDIR /usr/src/app
 COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 
+EXPOSE 3000
+
 CMD ["next", "start"]
