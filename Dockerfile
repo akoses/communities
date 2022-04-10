@@ -11,7 +11,7 @@ COPY package*.json ./
 ARG npm_install_command=ci
 RUN npm $npm_install_command
 
-ARG DATABASE_URL=${DATABASE_URL:-""}
+ARG DATABASE_URL=${DATABASE_URL}
 ENV DATABASE_URL=${DATABASE_URL}
 
 
