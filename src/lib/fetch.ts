@@ -1,5 +1,4 @@
 
-import {pool} from './pool';
 import prisma from '../../prisma';
 export async function fetchColleges() {
   try {
@@ -89,7 +88,6 @@ async function fetchResources(id:number) {
 }
 
 export async function fetchCollegesNameID() {
-	  const client = await pool.connect()
   try {
 	const res = await prisma.colleges.findMany(
 		{
