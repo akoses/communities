@@ -19,6 +19,11 @@ const nextConfig = {
         source: '/:college/resources',
         destination: '/:college',
       },
+      {
+        source: "/discord",
+        destination: 'https://discord.gg/kxKCZ8YAAe',
+        permanent: true,
+      }
     ]
   },
 }
