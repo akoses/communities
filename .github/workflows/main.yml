@@ -16,9 +16,8 @@ jobs:
            env:
             PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
            run: |
-            touch .env
-            echo $PROD_ENV_FILE > .env
-            cat .env
+            touch ./prisma/.env
+            echo $PROD_ENV_FILE > ./prisma/.env
 
          - name: Checkout
            uses: actions/checkout@v2
