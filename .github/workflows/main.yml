@@ -19,10 +19,12 @@ jobs:
 
            env:
             PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
            run: |
             touch ${{ github.workspace}}/prisma/.env
             echo $PROD_ENV_FILE > ${{github.workspace}}/prisma/.env
-            cat ${{ github.workspace}}/prisma/.env 
+            echo $DATABASE_URL >> ${{github.workspace}}/prisma/.env
+
          - name: Configure AWS credentials
            uses: aws-actions/configure-aws-credentials@v1
            with:
