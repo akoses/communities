@@ -13,7 +13,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
          
-
          - name: Checkout
            uses: actions/checkout@v2
          - name: Make envfile
@@ -21,10 +20,9 @@ jobs:
            env:
             PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
            run: |
-            touch ${{ github.workspace}}/.env
-            echo $PROD_ENV_FILE > ${{github.workspace}}/.env
-            ls -a ${{github.workspace}}
-
+            touch ${{ github.workspace}}/prisma/.env
+            echo $PROD_ENV_FILE > ${{github.workspace}}/prisma/.env
+            cat ${{ github.workspace}}/prisma/.env 
          - name: Configure AWS credentials
            uses: aws-actions/configure-aws-credentials@v1
            with:
