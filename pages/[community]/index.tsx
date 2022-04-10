@@ -151,14 +151,14 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	}
 		return (<div className={styles.collegePage}>
 			<Head>
-				<title>{college?.name} | College</title>
+				<title>{college?.name} | Community</title>
 				<meta name="description" content={college?.description} />
 				<meta property="og:title" content={college?.name} />
 				<meta property="og:description" content={college?.description} />
 				<meta property="og:image" content={college?.image} />
 				<meta property="og:url" content={`https://akose.ca/${convertName(college?.name || '')}`} />
 				<meta property="og:type" content="website" />
-				<meta property="og:site_name" content={"Akose College"} />
+				<meta property="og:site_name" content={"Akose Community"} />
 				<meta property="og:locale" content="en_US" />
 				<meta property="og:locale:alternate" content="en_US" />
 			</Head>

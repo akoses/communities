@@ -40,7 +40,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			
 			<div>
 				<Head>
-					<title>{college && college.name} | Create</title>
+					<title>{college && college.name + " |"}  Create</title>
 				</Head>
 		      {selected===selectedComponent.none && <div className={styles.container}>
 			<div id={styles.title}>What would you like to create?

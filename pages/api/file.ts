@@ -35,13 +35,13 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 				const func = async () => {
 				const command = new PutObjectCommand(
 				{
-					Bucket: process.env.BUCKET_NAME || '',
+					Bucket: process.env.S3_BUCKET_NAME || '',
 					Key: process.env.S3_KEY_PREFIX + fileName,
 					Body: fs.createReadStream(file.filepath),
 				}
 			)
 			await S3Client.send(command);
-			let link = getUrlFromBucket(process.env.BUCKET_NAME, process.env.S3_KEY_PREFIX + fileName);
+			let link = getUrlFromBucket(process.env.S3_BUCKET_NAME, process.env.S3_KEY_PREFIX + fileName);
 			res.status(200).json({
 				location: link
 			});
@@ -58,7 +58,7 @@ handler.delete((req:NextApiRequest, res:NextApiResponse) => {
 		const func = async () => {
 		const command = new DeleteObjectCommand(
 			{
-				Bucket: process.env.BUCKET_NAME || '',
+				Bucket: process.env.S3_BUCKET_NAME || '',
 				Key: req.query.keyName as string,
 			}
 		)
