@@ -34,14 +34,7 @@ jobs:
            id: login-ecr
            uses: aws-actions/amazon-ecr-login@v1
 
-         - name: 'Automated Version Bump'
-           id: version-bump
-           uses: 'phips28/gh-action-bump-version@master'
-           with:
-            tag-prefix: 'v'
-           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+        
          - name: Build Tag, and Push the Image to Amazon ECR
            id: build-image
            env:
@@ -67,10 +60,17 @@ jobs:
               container-name: AkoseCommunitiesContainer
               image: ${{ steps.build-image.outputs.image }}
 
-
          - name: Deploy Amazon ECS task definition
            uses: aws-actions/amazon-ecs-deploy-task-definition@v1
            with:
              task-definition: ${{ steps.task-def.outputs.task-definition }}
              cluster: AkoseCommunitiesCluster
              wait-for-service-stability: true
+            
+         - name: 'Automated Version Bump'
+           id: version-bump
+           uses: 'phips28/gh-action-bump-version@master'
+           with:
+            tag-prefix: 'v'
+           env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
