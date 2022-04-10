@@ -17,7 +17,7 @@ jobs:
             PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
            run: |
             touch .env
-            echo $PROD_ENV_FILE >> .env
+            echo $PROD_ENV_FILE > .env
             cat .env
 
          - name: Checkout
@@ -32,7 +32,7 @@ jobs:
          - name: Login to Amazon ECR
            id: login-ecr
            uses: aws-actions/amazon-ecr-login@v1
-           
+
          - name: 'Automated Version Bump'
            id: version-bump
            uses: 'phips28/gh-action-bump-version@master'
@@ -49,5 +49,5 @@ jobs:
              IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
              DATABASE_URL: ${{ secrets.DATABASE_URL }}
            run: |
-            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:v.1.0 .
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY:v0.1.0
