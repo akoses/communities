@@ -19,13 +19,18 @@ const nextConfig = {
         source: '/:college/resources',
         destination: '/:college',
       },
-      {
+     
+    ]
+  },
+  async redirects() {
+    return [
+       {
         source: "/discord",
         destination: 'https://discord.gg/kxKCZ8YAAe',
         permanent: true,
       }
     ]
-  },
+  }
 }
 
 module.exports = nextConfig
