@@ -55,9 +55,17 @@ const Home: NextPage = ({colleges}:any) => {
     setColleges(colleges.map(mapColleges))
     let path = Router.asPath.split('/')
     if (path[1] === 'create-community'){
-      newCollege()
+      if (status === 'authenticated'){
+      setIsCollegeOpen(true);
+      setIsOpen(false)
+      Router.push('/')
     }
-  },[colleges])
+    
+    else if (status === 'unauthenticated'){
+      setIsOpen(true);
+    }
+    }
+  },[colleges, status])
   return (
     <div className={styles.container}>
       <Head>
