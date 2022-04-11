@@ -32,7 +32,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 			}
 		})
 
-		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
+		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id, req.body.user_id)
 
 		let notifiedUsersObjects:OpportunityInformation[] = notifiedUsers.map(user => {
 			return ({

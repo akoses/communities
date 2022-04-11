@@ -26,7 +26,7 @@ export default async function handler(req:any, res:any) {
 				image: req.body.image,
 			}
 		});
-		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
+		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id, req.body.user_id)
 
 		let notifiedUsersObjects:ResourceInformation[] = notifiedUsers.map(user => {
 			return ({
