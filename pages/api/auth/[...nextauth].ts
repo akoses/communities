@@ -29,9 +29,6 @@ export default NextAuth({
     },
     warn(code) {
       console.warn(code)
-    },
-    debug(code, metadata) {
-      console.debug(code, metadata)
     }
   },
   adapter: PrismaAdapter(prisma),
