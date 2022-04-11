@@ -13,7 +13,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				}
 			})
 			await fs.readFile(path.join(__dirname, '../../../../../../src/lib/email/templates/unsubscribe.html'), 'utf8', (err, data) => {
-				if (err) res.status(500).send(err);
+				if (err) res.status(501).send(err);
 				res.status(200).send(data);
 			})
 		}

@@ -1,45 +1,37 @@
-FROM node:14-alpine as test-target
-ENV NODE_ENV=development
-ENV PATH $PATH:/usr/src/app/node_modules/.bin
+FROM node:14 AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-WORKDIR /usr/src/app
+# Rebuild the source code only when needed
 
-COPY package*.json ./
-
-# CI and release builds should use npm ci to fully respect the lockfile.
-# Local development may use npm install for opportunistic package updates.
-ARG npm_install_command=ci
-RUN npm $npm_install_command
-
-ARG DATABASE_URL=${DATABASE_URL}
-ENV DATABASE_URL=${DATABASE_URL}
-
-
+FROM node:14 AS builder
+WORKDIR /app
 COPY . .
 
-# Build
-FROM test-target as build-target
-ENV NODE_ENV=production
 
-# Use build tools, installed as development packages, to produce a release build.
+COPY --from=deps /app/node_modules ./node_modules
 RUN npx prisma generate
-RUN npx patch-package
-RUN npm run build
+RUN npx patch-package && yarn build && yarn install --production --ignore-scripts --prefer-offline
 
-# Reduce installed packages to production-only.
-RUN npm prune --production
 
-# Archive
-FROM node:14-alpine as archive-target
-ENV NODE_ENV=production
-ENV PATH $PATH:/usr/src/app/node_modules/.bin
+# Production image, copy all the files and run next
+FROM node:14 AS runner
+WORKDIR /app
 
-WORKDIR /usr/src/app
+ENV NODE_ENV production
 
-# Include only the release build and production packages.
-COPY --from=build-target /usr/src/app/node_modules node_modules
-COPY --from=build-target /usr/src/app/.next .next
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+USER nextjs
 
 EXPOSE 3000
 
-CMD ["next", "start"]
+CMD ["yarn", "start"]

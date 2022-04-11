@@ -1,0 +1,20 @@
+name: Check Docker Validity
+
+on:
+  push:
+    branches:
+            [dev-1]
+
+jobs:
+    check-docker:
+          name: Check Docker Validity
+          runs-on: ubuntu-latest
+          steps:
+           - name: Checkout
+             uses: actions/checkout@v2
+          
+           - name: Checkout Docker Build
+             env:
+                DATABASE_URL: ${{secrets.DATABASE_URL}}
+             run: |
+               docker build --build-arg DATABASE_URL=$DATABASE_URL .
