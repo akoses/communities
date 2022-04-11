@@ -55,8 +55,7 @@ const Home: NextPage = ({colleges}:any) => {
     setColleges(colleges.map(mapColleges))
     let path = Router.asPath.split('/')
     if (path[1] === 'create-community'){
-      setIsCollegeOpen(true);
-      Router.push('/')
+      newCollege()
     }
   },[colleges])
   return (
