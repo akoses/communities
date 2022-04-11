@@ -1,6 +1,7 @@
 import ejs from 'ejs';
 import transport from './transport';
 import path from 'path';
+import axios from 'axios';
 
 interface Information {
 	name: string;
@@ -38,8 +39,9 @@ export interface EventInformation extends Information {
 export type templateType = 'Opportunity' | 'Resource' | 'Event';
 
 async function SendMail(information: ResourceInformation | OpportunityInformation | EventInformation, type:templateType) {
-	
-		const html = await ejs.renderFile(path.join(__dirname, `../../../../src/lib/email/templates/${type}.html`), information);
+		let resHTML = await axios.get(`https://akosejobs.s3.ca-central-1.amazonaws.com/${type}.html`)
+		
+		const html = await ejs.renderFile(resHTML.data, information);
 		let options = {
 			from: 'Team Akose <info@akose.ca>',
 			replyTo: 'info@akose.ca',

@@ -6,7 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from '../../../prisma';
 
 
-
+  
 
 export default NextAuth({
   providers: [
@@ -24,6 +24,17 @@ export default NextAuth({
       clientSecret: process.env.LINKEDIN_SECRET || ''
     })
   ],
+  logger: {
+    error(code, metadata) {
+      console.error(code, metadata)
+    },
+    warn(code) {
+      console.warn(code)
+    },
+    debug(code, metadata) {
+      console.debug(code, metadata)
+    }
+  },
   adapter: PrismaAdapter(prisma),
   callbacks:{
 	  session: async ({ session}) => {
