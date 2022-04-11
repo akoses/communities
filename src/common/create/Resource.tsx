@@ -107,7 +107,7 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 		return (<div>
 			<div>
 			<div id={styles.title}>{resource? "Edit Resource" :"Create Resource"}
-				<div className={styles.cancel} onClick={() => {Router.push(`/${Router.query['community'] || context.editableData?.collegeName}`); context.setEdit({})}}> Cancel</div>
+				<div className={styles.cancel} onClick={() => {Router.push(`/${Router.query['community'] || context.editableData?.collegeName}/resources`); context.setEdit({})}}> Cancel</div>
 			</div>
 			</div>
 			<div className={styles.body}>
