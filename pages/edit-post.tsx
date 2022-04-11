@@ -5,6 +5,7 @@ import Resource from "../src/common/create/Resource";
 import AppContext from '../contexts/AppContext'
 import Head from 'next/head'
 import {useSession} from "next-auth/react"
+import Router from 'next/router';
 
 interface EditPostProps {
 
@@ -16,6 +17,13 @@ const EditPost:React.FC<EditPostProps> = () => {
 	useSession({
     required: true,
   })
+
+  useEffect(() => {
+	  
+	if (!context.editableData.type) {
+		Router.back()
+	}
+  },[])
 		return (
 			<div>
 				<Head>

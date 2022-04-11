@@ -35,6 +35,8 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 
 
 		useEffect(() => {
+		
+
     		const delayDebounceFn = setTimeout(async () => {
 				try {
 					let res = await axios.get('/api/link-preview', {

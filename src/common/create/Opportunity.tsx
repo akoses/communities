@@ -35,7 +35,6 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 	const alert = useAlert();
 	const {data: session} = useSession();
 
-	
 
 	const formSubmit = async (e:any) => {
 		e.preventDefault();
