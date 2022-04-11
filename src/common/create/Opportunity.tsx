@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react'
 import Job from '../opportunities/Opportunity'
 import styles from '../../../styles/create.module.scss'
 import jobStyles from '../../../styles/college.module.scss'
-import Router from 'next/router'
 import 'react-quill/dist/quill.snow.css'; // ES6
 import ReactQuill from '../quill/QuillSSR'; 
 import { useRouter } from 'next/router'
@@ -177,7 +176,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 					company={organization}
 					logo={logo}
 					location={location}
-					workstyle={workstyle.at(0)?.toUpperCase() + workstyle.slice(1)}
+					workstyle={workstyle.charAt(0)?.toUpperCase() + workstyle.slice(1)}
 					disciplines={disciplines}
 					apply_link={applyLink}
 					description={description}

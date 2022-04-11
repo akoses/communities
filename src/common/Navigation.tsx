@@ -67,9 +67,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 			{status === 'unauthenticated' && <button className={styles.login} onClick={() => {setIsOpen(true); setType('Login');}}>Login</button>}
 			{status === 'unauthenticated' && <button className={styles.signup} onClick={() => {setIsOpen(true); setType('Sign Up')}}>Sign Up</button>}
 			
-			
 			</div>
-			
 			{status === 'authenticated' &&<div className={styles.buttons}>
 				 <Dropdown 
 					ref={dropDownRef}
