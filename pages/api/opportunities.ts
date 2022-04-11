@@ -45,7 +45,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				opportunityLocation: req.body.location,
 				opportunityOrganization: req.body.organization,
 				opportunityWorkStyle: req.body.workstyle,
-				unsubscribeLink:'https://akose.ca/api' + '/unsubscribe/' + user.user.id + '/' + user.college.id
+				unsubscribeLink:`https://akose.ca/api/unsubscribe/${user.college.id}/${user.user.id}`
 			})	
 		})
 
