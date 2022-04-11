@@ -100,11 +100,15 @@
 	}
 
 	.empty {
-		margin-top: 20px;
+		margin-top: 30px;
 		font-size: 1.2rem;
-		color: #616975;
+		color: #5f6772;
 		font-family: Inter;
 		text-align: center;
+
+		a:hover {
+			text-decoration: underline;
+		}
 		
 	}
 }
@@ -122,6 +126,25 @@
 		}
 		
 	}
+	}
+
+	.empty {
+		h1 {
+			font-size: 1.3rem;
+		}
+		
+		p {
+			font-size: 0.9em;
+		}
+
+		h2 {
+			font-size: 1.2rem;
+		}
+		h3 {
+			font-size: 1rem;
+		}
+
+		
 	}
 
 	

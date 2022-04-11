@@ -6,8 +6,7 @@ on:
             [main]
 
 jobs:
-
-    
+ 
   build-and-push-and-deploy:
         name: Build and Push NextJS Image to AWS ECR and Deploy Task
         runs-on: ubuntu-latest

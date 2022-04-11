@@ -54,7 +54,7 @@ const Home: NextPage = ({colleges}:any) => {
   useEffect(() => {
     setColleges(colleges.map(mapColleges))
     let path = Router.asPath.split('/')
-    if (path[1] === 'create-college'){
+    if (path[1] === 'create-community'){
       setIsCollegeOpen(true);
       Router.push('/')
     }
@@ -119,7 +119,7 @@ const Home: NextPage = ({colleges}:any) => {
 
         </div>
       </main>
-      <AuthModal callBackUrl={'/create-college'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
+      <AuthModal callBackUrl={'/create-community'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
       <CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
     <Footer />
     </div>
