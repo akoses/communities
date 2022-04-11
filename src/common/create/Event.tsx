@@ -40,7 +40,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 	const formSubmit = async (e:any) => {
 		
 		e.preventDefault();
-		if (title === '' || organization === '' || location === '' || logoFile === undefined) {
+		if (title === '' || organization === '' || location === '' || (!logoFile)) {
 			alert.error('Please fill out all the required fields.',{timeout: 3000});
 			return;
 		}

@@ -38,10 +38,9 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 	
 
 	const formSubmit = async (e:any) => {
-
 		e.preventDefault();
 
-		if ((title === '') || (organization === '') || (location === '') || (applyLink === '') || (logoFile === undefined)) {
+		if ((title === '') || (organization === '') || (location === '') || (applyLink === '') || (!logoFile)) {
 			alert.error('Please fill out all the required fields.', {timeout: 3000});
 			return;
 		}
