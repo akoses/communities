@@ -21,9 +21,8 @@ interface NextApiRequestWithFiles extends NextApiRequest {
 	  files: any
 }
 
-function getUrlFromBucket(s3Bucket:any,fileName:string):string {
-	return `https://${s3Bucket}.s3.ca-central-1.amazonaws.com/${fileName}`;
-    
+function getUrlFromBucket(fileName:string):string {
+	return `https://d18px979babcec.cloudfront.net/${fileName}`;
 };
 
 handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
@@ -41,7 +40,7 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 				}
 			)
 			await S3Client.send(command);
-			let link = getUrlFromBucket(process.env.S3_BUCKET_NAME, process.env.S3_KEY_PREFIX + fileName);
+			let link = getUrlFromBucket(process.env.S3_KEY_PREFIX + fileName);
 			res.status(200).json({
 				location: link
 			});

@@ -63,7 +63,7 @@ async function SendMail(information: ResourceInformation | OpportunityInformatio
 }
 
 const sendMails = async (informationArr: (ResourceInformation | OpportunityInformation | EventInformation)[], type:templateType) => {
-	let resHTML = await axios.get(`https://akosejobs.s3.ca-central-1.amazonaws.com/${type}.html`)
+	let resHTML = await axios.get(`https://d18px979babcec.cloudfront.net/${type}.html`)
 	let filteredMail = [...new Map(informationArr.map(item =>
   		[item.email, item])).values()];
 
