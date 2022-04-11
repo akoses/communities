@@ -4,7 +4,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/create-college',
+        source: '/create-community',
         destination: '/',
       },
       {

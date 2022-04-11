@@ -10,6 +10,8 @@ import College from '../src/common/College'
 import {Colleges as TypeColleges} from '@prisma/client'
 import { NextPage } from 'next'
 import DeleteModal from '../src/common/modal/DeleteModal'
+import Link from 'next/link'
+import CollegeModal from '../src/common/modal/CollegeModal'
 
 interface collegesProps {
 	joinedColleges: TypeColleges[];
@@ -18,6 +20,7 @@ interface collegesProps {
 
 const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) => {
 	const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
+	const [collegeOpen, setCollegeOpen] = React.useState<boolean>(false);
 	const [deleteCollege, setDeleteCollege] = React.useState<number>(-1);
 	const {data: session, status} = useSession({
 		required: true,
@@ -73,12 +76,13 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 			{
 				(joinedColleges.length === 0 && createdColleges.length === 0) && <div className={styles.empty}>
 					<h2>You have not joined or created any communities yet.</h2>
-					<h3>Join or create a community to get started.</h3>
+					<p><Link href="/find-communities"><a>Join</a></Link> or <Link href="/communities"><a onClick={() => setCollegeOpen(true)}>create a community</a></Link> to get started.</p>
 				</div>
 			}
 			</div>
 			<div></div>
 			<DeleteModal setOpen={setModalIsOpen} type='community' func={() => deleteCollegeByID(deleteCollege)} isOpen={modalIsOpen}/>
+			<CollegeModal type='create' setOpen={setCollegeOpen} isOpen={collegeOpen} />
 			</>}
 		</div>);
 }

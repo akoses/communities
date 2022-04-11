@@ -187,7 +187,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<p className={styles.description}>{college?.description}</p>
 				<div className={styles.bottomHead}>
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
-				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This College':"Turn Off Email Notifications For This College"}><div onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
+				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This Community':"Turn Off Email Notifications For This Community"}><div onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
 				<Tooltip title="Copy Community URL to clipboard." placement="top">
 				<div className={styles.url} onClick={() => copyToClipboard(`https://akose.ca/${convertName(college?.name || '')}`)}><FaShare /></div>
 				</Tooltip>

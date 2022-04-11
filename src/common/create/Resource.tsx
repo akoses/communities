@@ -65,7 +65,7 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 					}
 					
 				} catch (error) {
-					console.log(error);
+					console.error(error);
 				}
     		}, 500)
 

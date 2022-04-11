@@ -1,12 +1,11 @@
 import ejs from 'ejs';
 import transport from './transport';
-import path from 'path';
 import axios from 'axios';
 
 interface Information {
-	name: string;
+	name?: string;
 	college: string;
-	email: string;
+	email?: string;
 	unsubscribeLink: string;
 }
 
@@ -38,10 +37,14 @@ export interface EventInformation extends Information {
 
 export type templateType = 'Opportunity' | 'Resource' | 'Event';
 
-async function SendMail(information: ResourceInformation | OpportunityInformation | EventInformation, type:templateType) {
-		let resHTML = await axios.get(`https://akosejobs.s3.ca-central-1.amazonaws.com/${type}.html`)
+async function SendMail(information: ResourceInformation | OpportunityInformation | EventInformation, type:templateType, htmlString:string) {
 		
-		const html = await ejs.renderFile(resHTML.data, information);
+
+		if (!information.email) {
+			return
+		}
+		
+		const html = await ejs.render(htmlString, information);
 		let options = {
 			from: 'Team Akose <info@akose.ca>',
 			replyTo: 'info@akose.ca',
@@ -52,7 +55,7 @@ async function SendMail(information: ResourceInformation | OpportunityInformatio
 
 		transport.sendMail(options, (err, info) => {
 			if (err) {
-				console.error(err);
+				//console.error(err);
 				return;
 			}
 			
@@ -60,11 +63,12 @@ async function SendMail(information: ResourceInformation | OpportunityInformatio
 }
 
 const sendMails = async (informationArr: (ResourceInformation | OpportunityInformation | EventInformation)[], type:templateType) => {
+	let resHTML = await axios.get(`https://akosejobs.s3.ca-central-1.amazonaws.com/${type}.html`)
 	let filteredMail = [...new Map(informationArr.map(item =>
   		[item.email, item])).values()];
 
 		filteredMail.forEach(async information => {
-			await SendMail(information, type)
+			await SendMail(information, type, resHTML.data)
 		})
 	
 }
