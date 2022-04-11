@@ -31,7 +31,7 @@ let session = await getSession({req});
 				userId: req.body.user_id,
 			}
 		});
-		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id)
+		let notifiedUsers = await fetchJoinedNotifications(req.body.college_id, req.body.user_id)
 
 		let sd = new Date(req.body.start_date)
 		let ed = new Date(req.body.end_date)

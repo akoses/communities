@@ -272,11 +272,14 @@ export async function fetchUserPosts(id:string) {
 	}
 }
 
-export async function fetchJoinedNotifications(collegeId:number) {
+export async function fetchJoinedNotifications(collegeId:number, userId:string) {
 	let users = await prisma.joined.findMany({
 			where: {
 				emailNotification: true,
-				collegeId: collegeId
+				collegeId: collegeId,
+				NOT:{
+					userId: userId
+				}
 			},
 			select:{
 				user:{
@@ -284,7 +287,6 @@ export async function fetchJoinedNotifications(collegeId:number) {
 						name: true,
 						email: true,
 						id: true
-
 					}
 				},
 				college:{
