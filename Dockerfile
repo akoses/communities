@@ -39,6 +39,7 @@ WORKDIR /usr/src/app
 # Include only the release build and production packages.
 COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
+COPY --from=build-target /usr/src/app/public public
 
 EXPOSE 3000
 

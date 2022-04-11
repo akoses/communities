@@ -54,7 +54,7 @@
     "@types/node": "17.0.22",
     "@types/nodemailer": "^6.4.4",
     "@types/pg": "^8.6.5",
-    "@types/react": "17.0.41",
+    "@types/react": "^17.0.41",
     "@types/react-alert": "^7.0.2",
     "@types/react-date-range": "^1.4.3",
     "@types/react-datetime-picker": "^3.4.1",
