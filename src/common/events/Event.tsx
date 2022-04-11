@@ -116,11 +116,11 @@ const Event: React.FC<EventProps> = ({
 	}
 
 	const sendEdit = () => {
-		let college_name = Router.asPath.split('/')[1]
+		let collegeName = Router.asPath.split('/')[1]
 		
 		context.setEdit({
 			type:"EVENT",
-			college_name,
+			collegeName,
 			id,
 			name,
 			organization,

@@ -43,10 +43,10 @@ const Resource: React.FC<ResourceProps> = ({id, userId, url, custom_title, custo
 		}, [session, collegeUserId, context.collegeData, collegeName])
 
 		const sendEdit = () => {
-			let college_name = Router.asPath.split('/')[1]
+			let collegeName = Router.asPath.split('/')[1]
 			context.setEdit({
 				type: "RESOURCE",
-				college_name,
+				collegeName,
 				id,
 				url,
 				custom_title,
