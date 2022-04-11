@@ -70,7 +70,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 			
 			</div>
 			
-			{status === 'unauthenticated' &&<div className={styles.buttons}>
+			{status === 'authenticated' &&<div className={styles.buttons}>
 				 <Dropdown 
 					ref={dropDownRef}
 					arrowClosed={<RiArrowDownSLine/>}
