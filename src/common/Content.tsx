@@ -24,7 +24,7 @@ const Content: React.FC<ContentProps> = ({title, className, description, link, l
 		</div>
 		<div className={styles.contentImg}>
 		{imgsrc && <img src={imgsrc} alt={title}/> }
-		{vidsrc && <video src={vidsrc} autoPlay loop muted />}
+		{vidsrc && <video src={vidsrc} autoPlay playsInline loop muted />}
 		</div>
 		</div>);
 }

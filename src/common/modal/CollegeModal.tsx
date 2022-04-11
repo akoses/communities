@@ -7,7 +7,7 @@ import axios from 'axios'
 import {useSession} from 'next-auth/react'
 import Router from 'next/router';
 import { convertName } from '../utils';
-import  { AxiosError } from 'axios';
+
 
 const customStyles = {
   content: {
@@ -73,12 +73,18 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	  if (college && college.name === e.target.value) {
 		  setName(val)
 		  setNameCount(val.length)
-		  setValidName(true)
-		  return
 	  }
-	if (isOnlyAlphaNumeric(e.target.value)){
+
+	
+		
+	setName(val);
+	setNameCount(val.length);
+  	}
+
+	  const checkName = async (e: any) => {
+		if (isOnlyAlphaNumeric(e.target.value)){
 		try {
-			await axios.get(`/api/colleges/name`, {params: {name: val}})
+			await axios.get(`/api/colleges/name`, {params: {name: e.target.value}})
 			setValidName(true)
 			e.target.classList.remove('errorInput')
 		} catch (error) {
@@ -86,10 +92,9 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 			e.target.classList.add('errorInput')
 			}
 		}
-		
-	setName(val);
-	setNameCount(val.length);
-  	} 
+	  }
+	  
+	
   
 
   const onBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,7 +200,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 			<div className={styles.chooseFile}>Choose Image</div>
 			<label><div>Community Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/30</div></label>
 			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>This name is not available.</p>
-			<input className={styles.input} maxLength={30} type="text" placeholder="Name" value={name} onChange={onInputChange}/>
+			<input className={styles.input} maxLength={30} type="text" placeholder="Name" value={name} onBlur={checkName} onChange={onInputChange}/>
 			<div className={styles.rules}>Only alphanumeric characters are allowed.</div>
 			<label>Community Description <div className={styles.counter}>{descriptionCount}/300</div></label>
 			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
