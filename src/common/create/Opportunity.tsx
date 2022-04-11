@@ -104,7 +104,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 		return (<div>
 			<div>
 			<div id={styles.title}>{opportunity? "Edit Opportunity" :"Create Opportunity"}
-				<div className={styles.cancel} onClick={() => {router.push(`/${router.query['college'] || context.editableData?.collegeName}`); context.setEdit({})}}> Cancel</div>
+				<div className={styles.cancel} onClick={() => {router.push(`/${router.query['community'] || context.editableData?.collegeName}`); context.setEdit({})}}> Cancel</div>
 			</div>
 			</div>
 			<div className={styles.body}>
