@@ -38,7 +38,7 @@ export default async function handler(req:any, res:any) {
 				resourceLink: 'https://akose.ca/' + convertName(user.college.name) + '/resources',
 				resourceHostname: req.body.hostname,
 				resourceDescription: req.body.custom_description,
-				unsubscribeLink:'https://akose.ca' + '/unsubscribe/' + user.user.id + '/' + user.college.id
+				unsubscribeLink:'https://akose.ca/api' + '/unsubscribe/' + user.user.id + '/' + user.college.id
 			})	
 		})
 			 res.status(200).send('ok');
