@@ -1,7 +1,6 @@
 import {NextApiResponse, NextApiRequest} from 'next';
 import prisma from '../../../../prisma';
-import fs from 'fs';
-import path from 'path';
+import axios from 'axios';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 	if (req.method === 'GET') {
@@ -12,10 +11,8 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 					collegeId: Number(req.query.collegeId),
 				}
 			})
-			await fs.readFile(path.join(__dirname, '../../../../../../src/lib/email/templates/unsubscribe.html'), 'utf8', (err, data) => {
-				if (err) res.status(500).send(err);
-				res.status(200).send(data);
-			})
+			let resHTML = await axios.get('https://akosejobs.s3.ca-central-1.amazonaws.com/unsubscribe.html')
+			res.send(resHTML.data)
 		}
 		catch (err) {
 			return res.status(500).send(err);

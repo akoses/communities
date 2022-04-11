@@ -168,7 +168,7 @@ const Posts: NextPage<postsProps> = ({posts}) => {
 				{
 					shownPosts.length === 0 && <div className={styles.empty}>
 						<h1>No posts yet</h1>
-						<p>Go post in your favorite colleges!</p>
+						<p>Go post in your favorite communities!</p>
 					</div>
 				}
 			</div></>}
