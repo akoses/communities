@@ -66,7 +66,7 @@ const Home: NextPage = ({colleges}:any) => {
       <Navigation />
       <main>
         <div className={`${styles.title} ${styles.findCollegeTitle}`}>
-          <input onChange={filterColleges} type="text" placeholder="Search for an Akose commmunity" />
+          <input onChange={filterColleges} type="text" placeholder="Search for an Akose community" />
         </div>
         <p className={styles.dont}>Don&apos;t see a community that fits your needs? <span className={styles.createSearch} onClick={newCollege}>Create a new community.</span></p>
         {reactColleges.length > 0 && <SimpleBar className={styles.scrollFind} forceVisible="y" autoHide={false}>
