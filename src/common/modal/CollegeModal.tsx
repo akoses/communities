@@ -7,7 +7,7 @@ import axios from 'axios'
 import {useSession} from 'next-auth/react'
 import Router from 'next/router';
 import { convertName } from '../utils';
-
+import {useAlert} from 'react-alert';
 
 const customStyles = {
   content: {
@@ -52,6 +52,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	const [logoFile, setLogoFile] = React.useState<any>(college?.logo || null)
 	const [validName, setValidName] = React.useState(true);
 	const {data:session} = useSession();
+	const alert = useAlert();
 	useEffect(() => {
 		setIsOpen(isOpen)
 		setOpen(isOpen)
@@ -99,6 +100,10 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 
   const onBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
+	if (file.size > 1000000) {
+		alert.error('File size is too large.', {timeout: 3000})
+		return
+	}
 	setBannerFile(file);
 	let url = URL.createObjectURL(e.target.files![0]);
 	setBanner(url);
@@ -107,6 +112,10 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 
   const onLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
+	if (file.size > 1000000) {
+		alert.error('File size is too large.', {timeout: 3000})
+		return
+	}
 	setLogoFile(file);
 	let url = URL.createObjectURL(e.target.files![0]);
 	setLogo(url);
@@ -145,6 +154,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	if (keyName !== college?.banner && bannerFile !== null && typeof bannerFile !== "string") {
 		let form = new FormData();
 		form.append('file', bannerFile);
+	
 		let res = await axios.post('/api/file', form, {
 			headers: {"Content-Type": "multipart/form-data"}
 		})
@@ -193,11 +203,16 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		<h2 className={styles.question}>{type === 'edit'?'Edit Community Information':"Create New Community"}</h2>
 		<div className={styles.inputs}>
 			<label> <div>Community Logo<span className="required">*</span></div> </label>
+			
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
+			
 			<div className={styles.chooseFile}>Choose Image</div>
+			<div className={styles.rules}>Max size is 1MB.</div>
 			<label><div>Community Banner <span className="required">*</span></div></label>
+			
 			<input type='file' accept="image/jpeg, image/png" onChange={onBannerChange}/>
 			<div className={styles.chooseFile}>Choose Image</div>
+			<div className={styles.rules}>Max size is 1MB.</div>
 			<label><div>Community Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/30</div></label>
 			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>This name is not available.</p>
 			<input className={styles.input} maxLength={30} type="text" placeholder="Name" value={name} onBlur={checkName} onChange={onInputChange}/>

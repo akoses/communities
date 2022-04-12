@@ -32,6 +32,7 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 				let file = req.files.file;
 				const fileName = uuidv4();
 				const func = async () => {
+					try {
 				const command = new PutObjectCommand(
 				{
 					Bucket: process.env.S3_BUCKET_NAME || '',
@@ -39,11 +40,17 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 					Body: fs.createReadStream(file.filepath),
 				}
 			)
-			await S3Client.send(command);
+			let result = await S3Client.send(command);
+			console.log(result);
 			let link = getUrlFromBucket(process.env.S3_KEY_PREFIX + fileName);
 			res.status(200).json({
 				location: link
 			});
+		} catch (err){
+			console.log(err);
+			res.status(500).send(err);
+		}
+
 		}
 		func()
 		});
