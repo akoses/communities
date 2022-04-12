@@ -73,7 +73,7 @@ const Home: NextPage = ({colleges}:any) => {
 				<meta name="description" content="Akose is where you can build online communities for your career." />
 				<meta property="og:title" content="Akose" />
 				<meta property="og:description" content="Akose is where you can build online communities for your career." />
-				<meta property="og:image" content="https://d18px979babcec.cloudfront.net/logo.png" />
+				<meta property="og:image" content="https://d18px979babcec.cloudfront.net/static/logo.png" />
 				<meta property="og:url" content="https://akose.ca" />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content="Akose Communitities" />
