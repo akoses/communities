@@ -224,7 +224,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
         contentLabel={`College Modal`}
       >
 		<div className={styles.editModal}>
-		<div className={styles.exit} onClick={closeModal}>
+		<div className={styles.collegeExit} onClick={closeModal}>
 			<BiX />
 		</div>
 		<img className={styles.banner}  src={banner} alt="banner"/>
