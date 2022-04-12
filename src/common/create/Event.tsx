@@ -108,7 +108,10 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 
 	const setImageUrl = (evt:any) => {
 		let file = evt.target.files[0]
-		
+		if (file.size > 1000000) {
+			alert.error('File size is too large.', {timeout: 3000})
+			return
+		}
   	if (file) {
 		let url = URL.createObjectURL(file)
 		setLogoFile(file)
@@ -147,7 +150,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 				</label>
 				<label>
 					<h3>Event Image <span className="required">*</span></h3>
-					<p>Enter the event image here.</p>
+					<p>Enter the event image here. Max size is 1MB</p>
 					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png" />
 					<div className={styles.file}>Choose File</div>
 				</label>
