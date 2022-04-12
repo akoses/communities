@@ -136,7 +136,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
   const submitCollege = async () => {	
 	  let locLogo;
 	  let locBanner;
-	  if (!logoFile || !bannerFile || !validName) {
+	  if (!logoFile || !bannerFile || !validName || name.length === 0) {
 		  if (!logoFile && !college) {
 			  setNoBlank('A community logo is required.')
 		  }
