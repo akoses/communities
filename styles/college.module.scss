@@ -105,31 +105,61 @@ $option-border: 1px solid #e7e7e77a;
 			display: flex;
 			align-items: center;
 			.url {
-				margin-left: 0px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-right: 10px;
+				
+				padding: 5px 5px;
+				background-color:#3765d1;
+				color: white;
+				border-radius: 15px;
+				cursor: pointer;
+				svg {
+					fill: #fff;
+					height: 16px;
+					width: 16px;
+					margin-left: 10px;
+					margin-right: 10px;
+				}
+
+				span {
+					margin-left: 10px;
+					font-size: 0.8rem;
+				}
+
+				&:hover {
+					background-color:#3159d1;
+				}
+				
 			}
-			svg {
+
+			.bellIcon {
+				svg {
 				margin-top: 5px;
 				margin-right: 10px;
-				width: 25px;
-				height: 30px;
+				width: 23px;
+				height: 23px;
 				cursor: pointer;
 				fill: #081e46;
 			}
+			}
+			
 		}
 		.subscribe {
 			background-color: #265ca3;
 			
 			text-align: center;
-			padding: 8px 30px;
+			padding: 5px 30px;
 			border-radius: 15px;
 			color: #ffffff;
 			cursor: pointer;
-			font-size: 0.9rem;
+			font-size: 0.8rem;
 			margin-right: 10px;
-			box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+			
 			&:hover {
 				background-color: #1755a5;
-				box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+				
 			}
 		}
 		
