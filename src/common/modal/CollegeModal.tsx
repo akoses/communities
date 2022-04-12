@@ -224,12 +224,17 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
         contentLabel={`College Modal`}
       >
 		<div className={styles.editModal}>
-		<div className={styles.collegeExit} onClick={closeModal}>
+			<div className={styles.collegeModalHeader}>
+			<h2 className={styles.question}>{type === 'edit'?'Edit Community Information':"Create New Community"}</h2>
+			<div className={styles.collegeExit} onClick={closeModal}>
 			<BiX />
-		</div>
+			</div>
+			</div>
+		
+		
 		<img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/>
-		<h2 className={styles.question}>{type === 'edit'?'Edit Community Information':"Create New Community"}</h2>
+		
 		<div className={styles.inputs}>
 			<label> <div>Community Logo <span className="required">*</span></div> </label>
 			
