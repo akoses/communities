@@ -12,7 +12,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 				}
 			})
 			let resHTML = await axios.get('https://akosejobs.s3.ca-central-1.amazonaws.com/unsubscribe.html')
-			res.send(resHTML.data)
+			return res.send(resHTML.data)
 		}
 		catch (err) {
 			return res.status(500).send(err);

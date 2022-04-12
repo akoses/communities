@@ -28,7 +28,8 @@ function getUrlFromBucket(fileName:string):string {
 handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 		getSession({req}).then(session => {
 			if (!session)
-				res.status(401).send('Unauthorized');
+				return res.status(401).send('Unauthorized');
+				
 				let file = req.files.file;
 				const fileName = uuidv4();
 				const func = async () => {
@@ -40,15 +41,15 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 					Body: fs.createReadStream(file.filepath),
 				}
 			)
-			let result = await S3Client.send(command);
-			console.log(result);
+			await S3Client.send(command);
+			
 			let link = getUrlFromBucket(process.env.S3_KEY_PREFIX + fileName);
-			res.status(200).json({
+			return res.status(200).json({
 				location: link
 			});
 		} catch (err){
 			console.log(err);
-			res.status(500).send(err);
+			return res.status(500).send(err);
 		}
 
 		}

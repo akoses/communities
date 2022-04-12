@@ -76,8 +76,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		  setNameCount(val.length)
 	  }
 
-	
-		
+
 	setName(val);
 	setNameCount(val.length);
   	}
@@ -96,7 +95,6 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	  }
 	  
 	
-  
 
   const onBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
@@ -107,7 +105,6 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	setBannerFile(file);
 	let url = URL.createObjectURL(e.target.files![0]);
 	setBanner(url);
-	
   }
 
   const onLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,7 +146,12 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		})
 		locLogo = res.data;
 	}
-	keyName = new URL(banner).pathname
+	try {
+		keyName = new URL(banner).pathname
+	}catch {
+		keyName = "";
+	}
+	
 
 	if (keyName !== college?.banner && bannerFile !== null && typeof bannerFile !== "string") {
 		let form = new FormData();
@@ -202,7 +204,7 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		<img className={styles.logo}  src={logo} alt="logo"/>
 		<h2 className={styles.question}>{type === 'edit'?'Edit Community Information':"Create New Community"}</h2>
 		<div className={styles.inputs}>
-			<label> <div>Community Logo<span className="required">*</span></div> </label>
+			<label> <div>Community Logo <span className="required">*</span></div> </label>
 			
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
 			
