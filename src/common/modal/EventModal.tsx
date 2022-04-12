@@ -4,8 +4,7 @@ import Modal from 'react-modal';
 import React, {useEffect} from 'react'
 import styles from "../../../styles/modal.module.scss"
 
-import { Events } from '@prisma/client'
-
+import { BiX } from 'react-icons/bi';
 
 const customStyles = {
   content: {
@@ -69,9 +68,9 @@ const EventModal:React.FC<ModalProps> = ({setOpen, isOpen, event}) => {
       >
 		  <div className={styles.event}>
 			  <div className={styles.header}>
+			  <div onClick={closeModal} className={styles.opportunityExit}><BiX/></div>
 		  <h2 className={styles.question}>{event.name}</h2>
 		  <img className={styles.logo} src={event.orgLogo == ''? '/default.png':event.orgLogo}  alt={event.name}
-				
 			/>
 			</div>
 			<div className={styles.details}>
