@@ -1,4 +1,10 @@
-
+h2.question {
+	color: rgb(77, 75, 75);
+	font-size: 1.2rem;
+	padding: 0;
+	margin: 0;
+	width: fit-content ;
+}
 
 .collegeModalHeader {
 	display:flex;
@@ -7,16 +13,11 @@
 	align-items: center;
 	height: fit-content;
 	padding: 15px;
-	h2.question {
-		color: rgb(77, 75, 75);
-		font-size: 1.2rem;
-		padding: 0;
-		margin: 0;
-		width: fit-content ;
-	}
+	
 }
 
 .gone {
+	margin-top: 10px;
 	color: #585858;
 	font-size: 0.9rem;
 }
@@ -485,14 +486,10 @@ h2.opportunityHead {
 }
 
 @media screen and (max-width:425px) {
-
-	.collegeModalHeader {
-		h2.question {
-			font-size: 1rem;
-			
-			
-		}
+	h2.question {
+		font-size: 1rem;
 	}
+	
 
 	.collegeExit {
 		height: 25px;
