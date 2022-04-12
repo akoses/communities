@@ -70,9 +70,9 @@ const Home: NextPage = ({colleges}:any) => {
     <div className={styles.container}>
       <Head>
         <title>Akose</title>
-				<meta name="description" content="Akose is where you can build online communities for for your career." />
+				<meta name="description" content="Akose is where you can build online communities for your career." />
 				<meta property="og:title" content="Akose" />
-				<meta property="og:description" content="Akose is where you can build online communities for for your career." />
+				<meta property="og:description" content="Akose is where you can build online communities for your career." />
 				<meta property="og:image" content="/logo.png" />
 				<meta property="og:url" content="https://akose.ca" />
 				<meta property="og:type" content="website" />
