@@ -8,7 +8,7 @@ import {useSession} from 'next-auth/react'
 import Router from 'next/router';
 import { convertName } from '../utils';
 import {useAlert} from 'react-alert';
-
+import { validateText } from '../create/Resource';
 const customStyles = {
   content: {
     top: '50%',
@@ -71,20 +71,27 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 
   const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 	  let val = e.target.value
-	  if (college && college.name === e.target.value) {
-		  setName(val)
-		  setNameCount(val.length)
+	  if (isOnlyAlphaNumeric(e.target.value)){
+		validateText(e, setName)
+	  	setNameCount(val.length)
 	  }
-
-
-	setName(val);
-	setNameCount(val.length);
+	  
+	  
   	}
 
 	  const checkName = async (e: any) => {
 		if (isOnlyAlphaNumeric(e.target.value)){
+			if (college && college.name === e.target.value) {
+				setValidName(true)
+				return
+			}
 		try {
-			await axios.get(`/api/colleges/name`, {params: {name: e.target.value}})
+			if (e.target.value.length === 0) {
+				setValidName(false)
+				e.target.classList.add('errorInput')
+				return	
+			}
+			await axios.get(`/api/colleges/name`, {params: {name: e.target.value.trim()}})
 			setValidName(true)
 			e.target.classList.remove('errorInput')
 		} catch (error) {
