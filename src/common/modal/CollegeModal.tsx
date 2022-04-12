@@ -146,7 +146,12 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 		})
 		locLogo = res.data;
 	}
-	keyName = new URL(banner).pathname
+	try {
+		keyName = new URL(banner).pathname
+	}catch {
+		keyName = "";
+	}
+	
 
 	if (keyName !== college?.banner && bannerFile !== null && typeof bannerFile !== "string") {
 		let form = new FormData();
