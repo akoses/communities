@@ -12,9 +12,9 @@ const Footer = () => {
 			<div className={styles.social}>
 				<h3>Social Media</h3>
 				<div>
-				<Link href="https://instagram.com/akose.ig"><a><img alt="instagram logo" id={styles.ig} src="instagram.png"/></a></Link>
-				<Link href="https://www.linkedin.com/company/akose"><a><img alt="linkedin logo" src="linkedin.png"/></a></Link>
-				<Link href="https://www.tiktok.com/@akose.ca"><a><img alt="linkedin logo" src="tiktok.png"/></a></Link>
+				<Link href="https://instagram.com/akose.ig"><a><img alt="instagram logo" id={styles.ig} src="https://d18px979babcec.cloudfront.net/static/instagram.png"/></a></Link>
+				<Link href="https://www.linkedin.com/company/akose"><a><img alt="linkedin logo" src="https://d18px979babcec.cloudfront.net/static/linkedin.png"/></a></Link>
+				<Link href="https://www.tiktok.com/@akose.ca"><a><img alt="linkedin logo" src="https://d18px979babcec.cloudfront.net/static/tiktok.png"/></a></Link>
 				</div>
 			</div>
 			<div className={styles.email}>

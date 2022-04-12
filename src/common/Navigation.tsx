@@ -61,7 +61,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	const router = useRouter()
 		return (<div className={styles.container}>
 			<div className={styles.college} onClick={() => router.push('/')}>
-				<img className={styles.akoseLogo} src="/logo.png" alt="Akose Logo"/>
+				<img className={styles.akoseLogo} src="https://d18px979babcec.cloudfront.net/static/logo.png" alt="Akose Logo"/>
 			</div>
 			<div>
 			{status === 'unauthenticated' && <button className={styles.login} onClick={() => {setIsOpen(true); setType('Login');}}>Login</button>}

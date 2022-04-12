@@ -73,7 +73,7 @@ const Home: NextPage = ({colleges}:any) => {
 				<meta name="description" content="Akose is where you can build online communities for your career." />
 				<meta property="og:title" content="Akose" />
 				<meta property="og:description" content="Akose is where you can build online communities for your career." />
-				<meta property="og:image" content="/logo.png" />
+				<meta property="og:image" content="https://d18px979babcec.cloudfront.net/static/logo.png" />
 				<meta property="og:url" content="https://akose.ca" />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content="Akose Communitities" />
@@ -104,7 +104,7 @@ const Home: NextPage = ({colleges}:any) => {
             description="Join an Akose community to find opportunities, events and resources, related to your interests. Never miss out on a new opportunity, event or resource. "
             link="/find-communities"
             linkDescription='Find your communities'
-            imgsrc='/find-community.png'
+            imgsrc='https://d18px979babcec.cloudfront.net/static/find-community.png'
             className={styles.leftAlign}
 
             />
@@ -112,7 +112,7 @@ const Home: NextPage = ({colleges}:any) => {
             description="By starting an Akose Community, you can create a place where people with similar interests can come together to provide career related support."
             linkDescription='Create a Community'
             link='/'
-            imgsrc='/community.png'
+            imgsrc='https://d18px979babcec.cloudfront.net/static/community.png'
             reversed={true}
             func={newCollege}
             />
