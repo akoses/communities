@@ -150,7 +150,7 @@ const CreateEvent: React.FC<EventProps> = ({id, event, UTCOffset}) => {
 				</label>
 				<label>
 					<h3>Event Image <span className="required">*</span></h3>
-					<p>Enter the event image here. Max size is 1MB</p>
+					<p>Enter the event image here. Max size is 1MB.</p>
 					<input type='file' onChange={setImageUrl} accept="image/jpeg, image/png" />
 					<div className={styles.file}>Choose File</div>
 				</label>
