@@ -9,6 +9,8 @@ import Router from 'next/router';
 import { convertName } from '../utils';
 import {useAlert} from 'react-alert';
 import { validateText } from '../create/Resource';
+import { BiX } from 'react-icons/bi';
+
 const customStyles = {
   content: {
     top: '50%',
@@ -51,6 +53,9 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	const [bannerFile, setBannerFile] = React.useState<any>(college?.logo || null)
 	const [logoFile, setLogoFile] = React.useState<any>(college?.logo || null)
 	const [validName, setValidName] = React.useState(true);
+	const [noBlank, setNoBlank] = React.useState<string>('');
+	const [noBlankBanner, setNoBlankBanner] = React.useState<string>('');
+
 	const {data:session} = useSession();
 	const alert = useAlert();
 	useEffect(() => {
@@ -74,9 +79,9 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	  if (isOnlyAlphaNumeric(e.target.value)){
 		validateText(e, setName)
 	  	setNameCount(val.length)
+		  setValidName(true)
 	  }
-	  
-	  
+	
   	}
 
 	  const checkName = async (e: any) => {
@@ -105,22 +110,24 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 
   const onBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
-	if (file.size > 1000000) {
+	if (file.size > 2000000) {
 		alert.error('File size is too large.', {timeout: 3000})
 		return
 	}
 	setBannerFile(file);
+	setNoBlankBanner('')
 	let url = URL.createObjectURL(e.target.files![0]);
 	setBanner(url);
   }
 
   const onLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 	let file = e.target.files![0]
-	if (file.size > 1000000) {
+	if (file.size > 2000000) {
 		alert.error('File size is too large.', {timeout: 3000})
 		return
 	}
 	setLogoFile(file);
+	setNoBlank('')
 	let url = URL.createObjectURL(e.target.files![0]);
 	setLogo(url);
 	
@@ -130,6 +137,16 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 	  let locLogo;
 	  let locBanner;
 	  if (!logoFile || !bannerFile || !validName) {
+		  if (!logoFile && !college) {
+			  setNoBlank('A community logo is required.')
+		  }
+		  if (!bannerFile && !college) {
+			  setNoBlankBanner('A community banner is required.')
+		  }
+
+		  if (name.length === 0) {
+			  setValidName(false)
+		  }
 		  return
 	  }
 	  let keyName: string;
@@ -207,6 +224,9 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
         contentLabel={`College Modal`}
       >
 		<div className={styles.editModal}>
+		<div className={styles.exit} onClick={closeModal}>
+			<BiX />
+		</div>
 		<img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/>
 		<h2 className={styles.question}>{type === 'edit'?'Edit Community Information':"Create New Community"}</h2>
@@ -216,15 +236,18 @@ const CollegeModal:React.FC<ModalProps> = ({setOpen, isOpen, college, type}) => 
 			<input accept="image/jpeg, image/png" type='file' onChange={onLogoChange} />
 			
 			<div className={styles.chooseFile}>Choose Image</div>
-			<div className={styles.rules}>Max size is 1MB.</div>
+			<p className={styles.invalid}>{noBlank}</p>
+			<div className={styles.rules}>Max file size is 2 MB.</div>
 			<label><div>Community Banner <span className="required">*</span></div></label>
 			
 			<input type='file' accept="image/jpeg, image/png" onChange={onBannerChange}/>
+			
 			<div className={styles.chooseFile}>Choose Image</div>
-			<div className={styles.rules}>Max size is 1MB.</div>
+			<p className={styles.invalid}>{noBlankBanner}</p>
+			<div className={styles.rules}>Max file size is 2 MB.</div>
 			<label><div>Community Name <span className="required">*</span></div> <div className={styles.counter}>{nameCount}/30</div></label>
-			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>This name is not available.</p>
 			<input className={styles.input} maxLength={30} type="text" placeholder="Name" value={name} onBlur={checkName} onChange={onInputChange}/>
+			<p className={styles.invalid} style={{display:!validName?"block":'none'}}>{name.length === 0? 'Name cannot be blank.':'This name is not available.'}</p>
 			<div className={styles.rules}>Only alphanumeric characters are allowed.</div>
 			<label>Community Description <div className={styles.counter}>{descriptionCount}/300</div></label>
 			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>

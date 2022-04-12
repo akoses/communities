@@ -130,7 +130,7 @@
    display: flex;
    align-items: center;
    margin-bottom: 10px;
-   font-size: 0.9rem;
+   font-size: 1rem;
    svg {
      margin-right: 5px;
    }
@@ -141,6 +141,7 @@
  
    h1 {
     color: #1d3a53;
+    font-size: 30px;
    
    }
  }
@@ -198,9 +199,7 @@
   
   align-items: center;
   width: 100%;
-  .contentImg {
-    text-align: left;
-  }
+ 
 
   video {
     width:  90%;
@@ -370,6 +369,10 @@ margin-top: -40px;
 
 @media screen and (max-width:425px) {
 
+  .viewAll {
+    font-size: 13px !important;
+  }
+
   .linkContent {
     font-size: 0.8rem;
   }
@@ -412,6 +415,7 @@ margin-top: -40px;
     }
   }
   }
+ 
  
     .whatIs {
     font-size: 15px;

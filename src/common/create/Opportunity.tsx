@@ -55,11 +55,13 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 			});
 			s3Link = res.data;
 		}
-			
+		var parser = new DOMParser();
+		var htmlDoc = parser.parseFromString(description, 'text/html');
+
 		if (id) {
 		const formData = {
 			name: title,
-			description: description,
+			description:htmlDoc.body.textContent === ''?"":description,
 			organization: organization,
 			location: location,
 			workstyle: workstyle,
@@ -73,9 +75,11 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 		await axios.post('/api/opportunities', formData)
 	} 
 	else if (opportunity){
+		
+
 		const formData = {
 			name: title,
-			description: description,
+			description: htmlDoc.body.textContent === ''?"":description,
 			organization: organization,
 			location: location,
 			workstyle: workstyle,
