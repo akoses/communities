@@ -49,7 +49,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			<div className={styles.create}>
 			<div 
 			onClick={() => setSelected(selectedComponent.opportunity)} className={styles.createContent} >
-				<img src='/images/opportunity.png'  alt='opportunity'/>
+				<img src='https://d18px979babcec.cloudfront.net/static/opportunity.png'  alt='opportunity'/>
 				<h2>Opportunity</h2>
 				<p>Use this to post any new opportunities. This could be research positions, job postings or any other opportunities.</p>
 			</div>
@@ -57,7 +57,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			<div 
 			onClick={() => setSelected(selectedComponent.event)}
 			className={styles.createContent}>
-				<img src='/images/event.jpg'  alt='event'/>
+				<img src='https://d18px979babcec.cloudfront.net/static/event.jpg'  alt='event'/>
 				<h2>Event</h2>
 				<p>Use this post about any related events to this community.</p>
 			</div>
@@ -65,7 +65,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 			<div className={styles.createContent}
 			onClick={() => setSelected(selectedComponent.resource)}
 			>
-				<img src='/images/resources.jpg'  alt='resources'/>
+				<img src='https://d18px979babcec.cloudfront.net/static/resources.jpg'  alt='resources'/>
 				<h2>Resource</h2>
 				<p>Use this to post any resources you think may be useful for this community.</p>
 			</div>
