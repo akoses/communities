@@ -11,7 +11,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 					collegeId: Number(req.query.collegeId),
 				}
 			})
-			let resHTML = await axios.get('https://akosejobs.s3.ca-central-1.amazonaws.com/unsubscribe.html')
+			let resHTML = await axios.get('https://d18px979babcec.cloudfront.net/unsubscribe.html')
 			return res.send(resHTML.data)
 		}
 		catch (err) {

@@ -13,7 +13,10 @@ export async function fetchColleges() {
 export async function fetchFeaturedColleges() {
 	try {
 	  const res = await prisma.colleges.findMany({
-		  take:3
+		  take:3,
+		  orderBy:{
+			  createdAt: 'desc'
+		  }
 	  })
 	  return res
 	} catch (err) {

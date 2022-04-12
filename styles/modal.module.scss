@@ -10,12 +10,21 @@
 	font-size: 0.9rem;
 }
 
+.exit {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 2.5rem;
+	cursor: pointer;
+	color: rgb(64, 64, 64);
+
+}
+
 .invalid {
 	color: #cf1010;
 	font-size: 0.8rem;
 	margin: 0px 1px;
 	padding: 0px;
-	
 }
 
 .permanently {

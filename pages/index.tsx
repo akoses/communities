@@ -105,16 +105,17 @@ const Home: NextPage = ({colleges}:any) => {
             link="/find-communities"
             linkDescription='Find your communities'
             imgsrc='https://d18px979babcec.cloudfront.net/static/find-community.png'
-            className={styles.leftAlign}
-
+            
+            reversed
             />
             <Content title="Build a Community For Your People"
             description="By starting an Akose Community, you can create a place where people with similar interests can come together to provide career related support."
             linkDescription='Create a Community'
             link='/'
             imgsrc='https://d18px979babcec.cloudfront.net/static/community.png'
-            reversed={true}
+            reversed={false}
             func={newCollege}
+            className={styles.leftAlign}
             />
             <Content title="Post Opportunities For Your Organization"
             description="Are you an organization looking to hire? Post an opportunity into communities with similar interests to help your organization find the right people." 
@@ -122,6 +123,7 @@ const Home: NextPage = ({colleges}:any) => {
             linkDescription='See all communities'
             vidsrc='/opportunity.mp4'
             className={styles.video}
+            reversed
             />
 
         </div>
