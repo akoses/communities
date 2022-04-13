@@ -48,7 +48,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	const [collegeCount, setCollegeCount] = useState('');
 	const [tryJoin, setTryJoin] = useState(false);
 	const alert = useAlert();
-
+	
 	useEffect(() => {
 		
 		let path = Router.asPath.split('/')
@@ -75,7 +75,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		else if (college?.collegeCount >= 1000) {
 			setCollegeCount(`1000+`)
 		}
-
+		
 	}, [session, college])
 
 	const goToCreatePost = () => {
@@ -236,6 +236,7 @@ export async function getServerSideProps({ params, req}:any) {
 	      
 	  return {
 		props: {
+			key:collegeInfo.id,
 		  opportunities,
 		  events,
 		  resources,

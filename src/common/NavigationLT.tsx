@@ -41,6 +41,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	const searchRef = React.useRef<any>(null);
 	const [openDropDown, setDropDown] = React.useState(false);
 	const [gtFour, setGtFour] = React.useState(false);
+	const [touchable, setTouchable] = React.useState(true);
 	const router = useRouter()
 	
 	useEffect(() => {
@@ -49,7 +50,10 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 				if (openDropDown) {
 					setDropDown(false);
 				}
+				
+				//console.log('touchstart')
 			})
+			
 			if (document.body.clientWidth > 425) {
 				setGtFour(true)
 			}else {
@@ -72,7 +76,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 		let colls = colleges.filter((college:any) => {
 		  return college.name.toLowerCase().includes(e.target.value.toLowerCase())
 		})
-		setColleges(colls.map(mapColleges))
+		setColleges(colls.map(mapColleges).slice(0, 4))
 		}
 
 	
@@ -90,12 +94,12 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	}
 
 	const clicked = (e:React.TouchEvent<HTMLDivElement>, name:string) => {
-		e.stopPropagation();
 		e.preventDefault();
+		e.stopPropagation();
 		router.push('/' + convertName(name));
 		setDisplay(false);
 		setSearch('');
-		document.body.focus()
+		document.body.focus();
 	}
 
 	const changeDashboard = (event:any, e:Option) => {
@@ -166,12 +170,17 @@ const renderLabels = () => {
 	}
 	else {
 		return loggedOutDropdownOptions.map((option:any) => {
-			return <div key={option.value} onTouchEnd={(e) => changeDashboard(e, option)} className={styles.dropdownItem}>{option.label}</div>
+			return <div key={option.value}   onTouchEnd={(e) => changeDashboard(e, option)} className={styles.dropdownItem}>{option.label}</div>
 		})
 	}
 }
 
-
+const touchBar = (e:any) => {
+	if (e.touches.length === 1) {
+		setTouchable(true);
+		console.log('Hello')
+	}
+}
 
 const focusSearch = (e:any) => {
 	
@@ -226,9 +235,9 @@ const openDropDownFn = (e:any) => {
 			
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
 				<input onTouchStart={touchInput}  ref={searchRef} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
-				  <SimpleBar  className={styles.searchResults} style={{maxHeight: 380, display:display?'block':'none'}}>
+				  <div onTouchStart={() => setTouchable(false)} onTouchMove={touchBar} className={styles.searchResults} style={{ display:display?'block':'none'}}>
 					  {reactColleges}
-				  </SimpleBar>
+				  </div>
 				  </div>
 		</div>);
 	
