@@ -94,7 +94,7 @@ const Home: NextPage = ({colleges}:any) => {
         </div>
 
        {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 420}}>
-        <Link href='/find-communities'><a className={styles.viewAll}><BiSearchAlt />  View All Communities</a></Link>
+        <Link href='/all-communities'><a className={styles.viewAll}><BiSearchAlt />  View All Communities</a></Link>
         {reactColleges}
         </SimpleBar>}
         {reactColleges.length === 0 && <><br/><br /></>}
@@ -102,7 +102,7 @@ const Home: NextPage = ({colleges}:any) => {
 
             <Content title="Find Your Next Hub"
             description="Join an Akose community to find opportunities, events and resources, related to your interests. Never miss out on a new opportunity, event or resource. "
-            link="/find-communities"
+            link="/all-communities"
             linkDescription='Find your communities'
             imgsrc='https://d18px979babcec.cloudfront.net/static/find-community.png'
             
@@ -119,7 +119,7 @@ const Home: NextPage = ({colleges}:any) => {
             />
             <Content title="Post Opportunities For Your Organization"
             description="Are you an organization looking to hire? Post an opportunity into communities with similar interests to help your organization find the right people." 
-            link="/find-communities"
+            link="/all-communities"
             linkDescription='See all communities'
             vidsrc='/opportunity.mp4'
             className={styles.video}

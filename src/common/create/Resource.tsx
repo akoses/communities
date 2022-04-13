@@ -115,7 +115,7 @@ const Resource: React.FC<ResourceProps> = ({id, resource}) => {
 				<div>
 				<label>
 					<h3>Resource URL <span className="required">*</span></h3>
-					<p>Paste the link of any resource you would like to share with the college.</p>
+					<p>Paste the link of any resource you would like to share with the community.</p>
 					<input  type="text" value={url} onChange={(e) => {validateText(e, setUrl)}} />
 				</label>
 				<label>

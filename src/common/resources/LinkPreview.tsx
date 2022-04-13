@@ -18,12 +18,19 @@ function validURL(str: string) {
 	return !!pattern.test(str);
   }
 
-
+  
 const LinkPreview: React.FC<LinkPreviewProps> = ({url, title, description, image}) => {
 		let descriptionLength = description?.length || 60;
+
+    const linkClick = (e: any) => {
+      if (url === '' || !url) {
+        e.preventDefault();
+        return;
+      }
+    }
 		return (
 		
-		<Link href={url || ''}><a  target="_blank"><div className={styles.Container}>
+		<Link href={url || ''}><a  target="_blank" onClick={linkClick}><div className={styles.Container}>
 			{image && <div
           data-testid='image-container'
           style={{

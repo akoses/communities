@@ -103,6 +103,10 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 	}
 
 	const linkClick = (e:any) => {
+		if (applyLink === '') {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 		if (description !== '') {
 			e.preventDefault();
 			e.stopPropagation();
@@ -111,8 +115,6 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 			}
 			setOpportunityModalIsOpen(!opportunityModalIsOpen);
 		}
-		
-		
 	}
 
 
