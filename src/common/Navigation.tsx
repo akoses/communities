@@ -3,7 +3,6 @@ import NavigationLT from './NavigationLT'
 import NavigationGT from './NavigationGT'
 
 interface NavigationProps {
-
 }
 
 const Navigation: React.FC<NavigationProps> = ({
