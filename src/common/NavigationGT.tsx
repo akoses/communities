@@ -72,7 +72,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 		let colls = colleges.filter((college:any) => {
 		  return college.name.toLowerCase().includes(e.target.value.toLowerCase())
 		})
-		setColleges(colls.map(mapColleges))
+		setColleges(colls.map(mapColleges).slice(0, 5))
 		}
 
 	
@@ -186,9 +186,9 @@ const openDropDownFn = (e:any) => {
 			</div>
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
           <input onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
-        	<SimpleBar  className={styles.searchResults} style={{maxHeight: 380, display:display?'block':'none'}}>
+        	<div  className={styles.searchResults} style={{display:display?'block':'none'}}>
 				{reactColleges}
-			</SimpleBar>
+			</div>
 			</div>
 			
 			<div className={styles.buttons}>
