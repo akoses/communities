@@ -151,7 +151,6 @@ const Posts: NextPage<postsProps> = ({posts}) => {
 			</Head>
 			{status === 'authenticated' && <><Navigation/>
 			<div className={styles.container}>
-			
 				<div className={styles.options}>
 					<button onClick={() => changeOptions('all')}
 					 className={options === 'all'?styles.selected:''}>All</button>

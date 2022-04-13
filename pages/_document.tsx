@@ -29,7 +29,7 @@ class MyDocument extends Document {
 <meta httpEquiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="language" content="English"/>
 <meta name="revisit-after" content="7 days"/>
-<meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"/> 
+
   	</Head>
         <body>
           <Main />

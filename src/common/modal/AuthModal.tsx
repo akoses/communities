@@ -15,8 +15,8 @@ const customStyles = {
 	  bottom: 'auto',
 	  marginRight: '-50%',
 	  transform: 'translate(-50%, -50%)',
-	  maxWidth: '90vw',
-	  padding: '10px',
+	  maxWidth: '100vw',
+	  padding: '0px',
 	},
 	overlay: {zIndex: 1000,
 	  opacity: 1,
@@ -48,8 +48,10 @@ const customStyles = {
 		className={styles.authModal}
 		>
 		<div className={styles.authModalContent}>
+			<div className={styles.authModalHead}>
 			<div onClick={closeModal} className={styles.exit}><BiX/></div>
 			<h2 className={styles.logsign}>{type}</h2>
+			</div>
 	<p className={styles.terms}>By continuing, you agree to our <a href="https://akose.ca/terms">terms of service</a> and <a href="https://akose.ca/privacy-policy">privacy policy</a>.</p>
 	<div onClick={() => signIn('facebook',{callbackUrl:	callBackUrl})} className={styles.LoginItem}>
 	<button className={`${styles.authButton} ${styles.facebook}`}>

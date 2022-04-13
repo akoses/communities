@@ -129,7 +129,7 @@
  .viewAll {
    display: flex;
    align-items: center;
-   margin-bottom: 10px;
+   margin: 10px;
    font-size: 1rem;
    svg {
      margin-right: 5px;
@@ -371,6 +371,8 @@ margin-top: -40px;
 
   .viewAll {
     font-size: 13px !important;
+
+   ;
   }
 
   .linkContent {

@@ -24,12 +24,19 @@ align-items: center;
 	border: none;
 }
 
+.noAuthButtons {
+	width: fit-content;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	min-width: max-content;
+}
 
 button {
-	margin-right: 20px;
+	margin-right: 10px;
 	font-family: 'Inter';
 	font-size: 0.8rem;
-	padding: 10px 25px;
+	padding: 8px 20px;
 	border: none;
 	border-radius: 20px;
 	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -143,55 +150,122 @@ button {
 	justify-content: center;
 	flex-wrap: nowrap;
 	align-items: center;
+	position: relative;
 	svg {
-		width: 18px;
-		height: 18px;
+		width: 23px;
+		height: 23px;
+	
+		
 	}
 
 	.homeDropdown {
-		display: flex;
-		justify-content: space-evenly;
-		flex-direction: row;
-		margin-right: 10px;
-		width: 100%;
-	}
-	.dropdown {
-		width:  200px !important;
-		font-family: 'Inter';
-		 cursor: pointer;
-		color: rgb(49, 49, 49);
-		box-shadow: 0px 5px 5px rgb(16, 40, 71);
+		//width: 100%;
 		
-		
-	}
-
-	.menu {
-		  border-bottom-right-radius: 10px;
-  			border-bottom-left-radius: 10px;
-			height: fit-content;
-			max-height: none;
-	}
-
-	.control {
-		border: none;
-  		padding: 10px 15px;
+		box-shadow: 0px 0px 2px rgb(255, 255, 255);
+  		padding: 7px 15px;
   		display: flex;
   		align-items: center;
   		justify-content: space-between;
-  		background-color: rgb(70, 100, 199);
+  		background-color: transparent;
+		margin-right: 7px;
   		color: white;
-  		font-size: 13px;
-		
+		  border-radius: 10px;
+		  cursor: pointer;
+		opacity: 0.9;
+		  &:hover {
+		  opacity: 1;
+		  background-color: #1c368e;
+		  }
+		 
 	}
+	.dropdownMenu {
+		width:  200px;
+		background-color: #fff;
+		border-radius: 5px;
+		font-family: 'Inter';
+		 cursor: pointer;
+		color: rgb(65, 65, 65);
+		position: absolute;
+		top: 40px;
+		z-index: 1000;
+		right: 0;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		.dropdownItem {
+			padding: 10px 10px;
+			font-size: .85rem;
+			&:hover {
+				background-color: #f5f7ff;
+				
+			}
+		}
+	}
+
 
 	
 }
+}
+
+@media screen and (max-width: 768px) {
+	.noAuthButtons {
+		display: none;
+	}
+	.login {
+		display: none;
+
+	}
+	.signup {
+		display: none;
+	}
 }
 
 @media screen and (max-width:425px) {
 
 	
+
+	
+
+	.containerHeader {
+		display: flex;
+		width: 100%;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		
+	}
+	
 	.container {
+		position: sticky;
+		top: 0;
+		position: -webkit-sticky;
+		flex-direction: column;
+		.findCollegeTitle {
+		
+		
+			width: 100% ;
+			
+			max-width: none;
+			margin: 0 auto ;
+			
+			
+			input[type='search'] {
+				width: 100%;
+				margin: 0px;
+				font-size: 0.8rem;
+				padding: 14px 16px ;
+				height: 20px;
+				box-shadow: none ;
+				border-radius: 15px;
+				&::placeholder {
+					font-size: 0.8rem;
+				}
+			}
+		}
+
+		.searchResults {
+			top: 35px;
+			border-radius: 10px;
+		}
+
 		button {
 			margin-right: 10px;
 			padding: 10px 15px;
@@ -199,24 +273,19 @@ button {
 		.akoseLogo {
 			margin-left: 0px;
 		}
-		.buttons {
-			.dropdown {
-			width: 160px;
-		}
-		.control {
-			font-size: 12px;
-			padding: 10px;
-		}
 
-		
-		}
 		.college {
 			font-size: 12px;
 			padding: 14px;
 		}
 		
 	}
+
+
+	
 }
+
+
 @media screen and (max-width:300px) {
 	.container {
 		.buttons {
