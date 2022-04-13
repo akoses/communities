@@ -95,6 +95,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 		router.push('/' + convertName(name));
 		setDisplay(false);
 		setSearch('');
+		document.body.focus()
 	}
 
 	const changeDashboard = (event:any, e:Option) => {
@@ -173,12 +174,20 @@ const renderLabels = () => {
 
 
 const focusSearch = (e:any) => {
+	
 	if (e.target.value === '') {
 		setDisplay(false)
 	}
 	else {
 		setDisplay(true)
 	}
+	
+	
+}
+
+const touchInput = (e:any) => {
+	
+	e.target.focus({preventScroll: true});
 }
 
 const blurSearch = () => {
@@ -216,7 +225,7 @@ const openDropDownFn = (e:any) => {
 			<AuthModal type={type} setOpen={setIsOpen} isOpen={isOpen} />
 			
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
-				<input onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
+				<input onTouchStart={touchInput}  ref={searchRef} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
 				  <SimpleBar  className={styles.searchResults} style={{maxHeight: 380, display:display?'block':'none'}}>
 					  {reactColleges}
 				  </SimpleBar>

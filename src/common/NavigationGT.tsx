@@ -88,12 +88,17 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	const openCreate = () => {
 		setIsCollegeOpen(true);
 	}
+	
 	const clicked = (e:React.MouseEvent<HTMLDivElement>, name:string) => {
+		
 		e.stopPropagation();
 		e.preventDefault();
+		
 		router.push('/' + convertName(name));
 		setDisplay(false)
-		setSearch('')
+		setSearch('');
+		window.focus();
+		
 	}
 
 	const changeDashboard = (event:any, e:Option) => {
@@ -154,6 +159,7 @@ const focusSearch = (e:any) => {
 	else {
 		setDisplay(true)
 	}
+	
 }
 
 const blurSearch = () => {
