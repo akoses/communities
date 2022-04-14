@@ -105,13 +105,12 @@ const Home: NextPage = ({colleges}:any) => {
             link="/all-communities"
             linkDescription='Find your communities'
             imgsrc='https://d18px979babcec.cloudfront.net/static/find-community.png'
-            
             reversed
             />
             <Content title="Build a Community For Your People"
             description="By starting an Akose Community, you can create a place where people with similar interests can come together to provide career related support."
             linkDescription='Create a Community'
-            link='/'
+            
             imgsrc='https://d18px979babcec.cloudfront.net/static/community.png'
             reversed={false}
             func={newCollege}
