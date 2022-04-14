@@ -21,6 +21,7 @@ const Content: React.FC<ContentProps> = ({title, className, description, link, l
 		<h2>{title}</h2>
 		<p>{description}</p>
 		<div onClick={func?func:() => {}}>{link && <Link href={link}><a className={styles.linkContent}><span>{linkDescription}</span><AiOutlineArrowRight /></a></Link>}</div>
+		{!link &&<div className={styles.linkContent} onClick={func?func:() => {}}><span>{linkDescription}</span><AiOutlineArrowRight /></div>}
 		</div>
 		<div className={styles.contentImg}>
 		{imgsrc && <img src={imgsrc} alt={title}/> }
