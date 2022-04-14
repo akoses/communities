@@ -10,6 +10,7 @@ import {useSession} from 'next-auth/react'
 import SimpleBar from 'simplebar-react'
 import CollegeModal from '../src/common/modal/CollegeModal';
 import AuthModal from '../src/common/modal/AuthModal';
+import Router from 'next/router'
 
 export async function getServerSideProps() {
   const colleges = await fetchColleges();
@@ -41,7 +42,7 @@ const Home: NextPage = ({colleges}:any) => {
 
   const newCollege =() => {
     if (status === 'authenticated'){
-      setIsCollegeOpen(true);
+      Router.push('/create-community');
     }
     else {
       setIsOpen(true);

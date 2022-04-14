@@ -12,7 +12,6 @@ import AppContext from '../../contexts/AppContext';
 import 'react-dropdown/style.css';
 import { convertName } from './utils';
 import Link from 'next/link';
-import SimpleBar from 'simplebar-react'
 import {Colleges} from '@prisma/client'
 
 
@@ -41,7 +40,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	const searchRef = React.useRef<any>(null);
 	const [openDropDown, setDropDown] = React.useState(false);
 	const [gtFour, setGtFour] = React.useState(false);
-	const [touchable, setTouchable] = React.useState(true);
+	
 	const router = useRouter()
 	
 	useEffect(() => {
@@ -107,7 +106,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 		event.stopPropagation();
 		switch (e.value) {
 			case 'create':
-				openCreate();
+				Router.push('/create-community');
 				setTimeout(() => {
 					setDropDown(false);
 				} , 200);
@@ -175,12 +174,6 @@ const renderLabels = () => {
 	}
 }
 
-const touchBar = (e:any) => {
-	if (e.touches.length === 1) {
-		setTouchable(true);
-		console.log('Hello')
-	}
-}
 
 const focusSearch = (e:any) => {
 	
@@ -235,7 +228,7 @@ const openDropDownFn = (e:any) => {
 			
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
 				<input onTouchStart={touchInput}  ref={searchRef} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
-				  <div onTouchStart={() => setTouchable(false)} onTouchMove={touchBar} className={styles.searchResults} style={{ display:display?'block':'none'}}>
+				  <div className={styles.searchResults} style={{ display:display?'block':'none'}}>
 					  {reactColleges}
 				  </div>
 				  </div>
