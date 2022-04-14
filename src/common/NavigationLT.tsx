@@ -223,7 +223,7 @@ const openDropDownFn = (e:any) => {
 			</div>
 			</div>
 			</div>
-			<CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
+			
 			<AuthModal type={type} setOpen={setIsOpen} isOpen={isOpen} />
 			
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
