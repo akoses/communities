@@ -13,6 +13,9 @@ import { validateText } from '../src/common/create/Resource';
 import Navigation from '../src/common/Navigation';
 import CommunityPreview from '../src/common/CommunityPreview';
 import Head from 'next/head';
+import AuthModal from '../src/common/modal/AuthModal';
+import { useBeforeunload } from 'react-beforeunload';
+import { RiRestaurantLine } from 'react-icons/ri'
 
 interface ModalProps{
 	isOpen: boolean
@@ -20,31 +23,56 @@ interface ModalProps{
 	setOpen: (isOpen: boolean) => void;
 }
 
+function setCookie(name:string,value:string,days:number) {
+	if (typeof window !== "undefined") {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}}
+function getCookie(name:string) {
+	if (typeof window !== "undefined") {
+		// your code with access to window or document object here 
+	
+    var nameEQ = name + "=";
+    var ca = document?.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+}
+function eraseCookie(name:string) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 
 const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 	const [banner, setBanner] = React.useState('/default_banner.jpg');
-	const [name, setName] = React.useState('');
-	const [description, setDescription] = React.useState('');
+	const [name, setName] = React.useState<string>('');
+	const [description, setDescription] = React.useState<string>('');
 	const [logo, setLogo] = React.useState('/default.png')
-	const [nameCount, setNameCount] = React.useState(0);
-	const [descriptionCount, setDescriptionCount] = React.useState(0);
-	const [bannerFile, setBannerFile] = React.useState<any>(null)
-	const [logoFile, setLogoFile] = React.useState<any>(null)
+	const [nameCount, setNameCount] = React.useState<number>(0);
+	const [descriptionCount, setDescriptionCount] = React.useState<number>(0);
+	const [bannerFile, setBannerFile] = React.useState<any>(null);
+	const [logoFile, setLogoFile] = React.useState<any>(null);
 	const [validName, setValidName] = React.useState(true);
 	const [noBlank, setNoBlank] = React.useState<string>('');
 	const [noBlankBanner, setNoBlankBanner] = React.useState<string>('');
 	const [checkingName, setCheckingName] = React.useState(false);
+	const [isOpen, setOpen] = React.useState(false);
 
 	const {data:session} = useSession({
-		required: true,	
-		onUnauthenticated: () => {
-			Router.push('/')
-		}	
+		required: true
 	});
 	const alert = useAlert();
 	const [size, setSize] = useState<number>(0)
 	useEffect(() => {
-		setSize(window.innerWidth)
+		setSize(window.innerWidth);
 		window.addEventListener('resize', () => {
 			setSize(window.innerWidth)
 		})
@@ -95,10 +123,11 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 	let file = e.target.files![0]
 	if (file.size > 2000000) {
 		alert.error('File size is too large.', {timeout: 3000})
-		return
+		return;
 	}
+
 	setBannerFile(file);
-	setNoBlankBanner('')
+	setNoBlankBanner('');
 	let url = URL.createObjectURL(e.target.files![0]);
 	setBanner(url);
   }
@@ -107,8 +136,9 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 	let file = e.target.files![0]
 	if (file.size > 2000000) {
 		alert.error('File size is too large.', {timeout: 3000})
-		return
+		return;
 	}
+	
 	setLogoFile(file);
 	setNoBlank('')
 	let url = URL.createObjectURL(e.target.files![0]);
@@ -116,25 +146,29 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 	
   }
 
-  const submitCollege = async () => {	
+  const submitCollege = async () => {
+	if (!(logoFile) || !(bannerFile) || !validName || name.length === 0) {
+		if (!logoFile && !college) {
+			setNoBlank('A community logo is required.')
+		}
+
+		if (!bannerFile && !college) {
+			setNoBlankBanner('A community banner is required.')
+		}
+
+		if (name.length === 0) {
+			setValidName(false)
+		}
+		return
+	}	
+
+
 	  let locLogo;
 	  let locBanner;
 	  if (checkingName) {
 		return;
 	}
-	  if (!logoFile || !bannerFile || !validName || name.length === 0) {
-		  if (!logoFile && !college) {
-			  setNoBlank('A community logo is required.')
-		  }
-		  if (!bannerFile && !college) {
-			  setNoBlankBanner('A community banner is required.')
-		  }
-
-		  if (name.length === 0) {
-			  setValidName(false)
-		  }
-		  return
-	  }
+	 
 	  let keyName: string;
 	  try {
 		keyName = new URL(logo).pathname
@@ -161,7 +195,6 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 	}catch {
 		keyName = "";
 	}
-	
 
 	if (keyName !== college?.banner && bannerFile !== null && typeof bannerFile !== "string") {
 		let form = new FormData();
@@ -172,18 +205,21 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 		locBanner = res.data;
 	}
 
-
 		await axios.post(`/api/colleges`, {
 		name: name.replace(/\s\s+/g, ' ').trim(),
 		description,
-		logo: locLogo?.location || '',
-		banner: locBanner?.location || '',
+		logo: locLogo?.location || getCookie('college-logo') || '',
+		banner: locBanner?.location || getCookie('college-banner') || '',
 		//@ts-ignore
 		userId: session?.user?.id || ''
 		})
 		Router.push('/' + convertName(name.replace(/\s\s+/g, ' ').trim()));
 
 	window.location.href = window.location.origin + `/${name.replace(/\s+/g, '-').replace(/,/g, '').toLowerCase()}`
+  }
+
+  const goBack = () => {
+	Router.back();
   }
 
   return (
@@ -199,7 +235,6 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 	<div className={style.communityContainer}>
 		<div className={styles.editModal}>
 			
-		
 		{size < 768 && <><img className={styles.banner}  src={banner} alt="banner"/>
 		<img className={styles.logo}  src={logo} alt="logo"/></>}
 		
@@ -222,7 +257,7 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 			<textarea className={styles.input} maxLength={300} placeholder="Description" value={description} onChange={(e) => {setDescription(e.target.value); setDescriptionCount(e.target.value.length)}}/>
 			<div className={styles.rules}>Feel free to additionally add any contact information for your community here.</div>
 			<div className={styles.buttons}><input className={styles.submit} type="submit" value="Submit" onClick={submitCollege}/>
-			<input className={styles.cancel} type="submit" value="Cancel" onClick={() => Router.back()}/>
+			<input className={styles.cancel} type="submit" value="Cancel" onClick={goBack}/>
 			</div>
 		</div>
 		</div>
@@ -236,10 +271,10 @@ const CreateCommunity:React.FC<ModalProps> = ({college}) => {
 				banner
 			}
 		}/>
+		<AuthModal type={'Login'} setOpen={setOpen} isOpen={isOpen} />
 		</div>
 		</div>
 		</div>
-
    
   );
 }
