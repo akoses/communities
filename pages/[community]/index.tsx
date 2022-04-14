@@ -104,7 +104,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		})
 	}
 
-	const joinCollege =async () => {
+	const joinCollege = async () => {
 		setTryJoin(true)
 		if (status === 'authenticated') {
 			if (!hasJoined){
@@ -180,7 +180,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<div onClick={goToCreatePost} className={styles.post} >Create Post</div>
 				</Tooltip>
 				{college?.userId === session?.user?.id &&<img className={styles.edit} 
-					onClick={() => setIsOpen(true)}
+					onClick={() => Router.push(`${convertName(college.name)}/edit-community`)}
 				src="/edit.png" />}
 				</div>
 				</div>	

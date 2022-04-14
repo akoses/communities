@@ -1,0 +1,72 @@
+$body-colour: #314183;
+
+.body {
+	background-color: white;
+	width: 100%;
+	height: 100%;
+	
+}
+
+.fullSpace {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	
+	width: 100%;
+	height: 100%;
+	
+	
+}
+
+.header {
+	padding: 15px 35px;
+	background-color: rgb(85, 116, 194);
+	h1 {
+		margin: 0;
+		padding: 0;
+		color: #ffffff;
+		font-size: 22px;
+	}
+	
+}
+
+.communityContainer {
+	
+	margin: 0 auto;
+	width: 50%;
+	
+	
+	
+	
+	padding-bottom: 30px;
+	background-color: rgb(255, 255, 255);
+	
+}
+
+.random {
+	width: 50%;
+	height: 100%;
+	background-color: white;
+	border-left: 1px solid #d9d9d9;
+
+}
+
+
+@media screen and (max-width: 768px) {
+	.communityContainer {
+		width: 100%;
+	}
+	.random {
+		display: none;
+	}
+}
+	
+@media screen and (max-width: 425px) {
+	.header {
+		padding: 10px 15px;
+		
+		h1 {
+			font-size: 18px;
+		}
+	}
+}

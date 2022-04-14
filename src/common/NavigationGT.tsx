@@ -107,7 +107,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 
 		switch (e.value) {
 			case 'create':
-				openCreate();
+				Router.push('/create-community');
 				break;
 			case 'feed':
 				Router.push('/feed');
