@@ -71,6 +71,17 @@ model Colleges {
 	userId String
 	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 	joined Joined[]
+	
+	instagram String @default("")
+	linkedin String @default("")
+	twitter String @default("")
+	youtube String @default("")
+	reddit String @default("")
+	facebook String @default("")
+	slack String @default("")
+	personal String @default("")
+	discord String @default("")
+	tiktok String @default("")
 }
 
 model Events {

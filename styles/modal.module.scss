@@ -95,7 +95,7 @@ h2.question {
 
 	.banner {
 		width: 100%;
-		min-width: 400px;
+		min-width: none;
 		height: 120px;
 		object-fit: cover;
 	}
@@ -127,6 +127,7 @@ h2.question {
 		opacity: 0;
 		cursor: pointer;
 		height: 20px;
+		width: 100%;
 		
 	}
 	.buttons {
@@ -136,7 +137,7 @@ h2.question {
 		width: 100%;
 	}
 	.submit, .cancel {
-		width: 45%;
+		width: 100%;
 		margin-top: 20px;
 		padding: 10px 20px;
 		border: none;
@@ -185,6 +186,11 @@ h2.question {
 		justify-content: space-evenly;
 		margin-top: 10px;
 		margin-bottom: 20px;
+		h2 {
+			margin-top: 20px;
+			color: rgb(55, 55, 55);
+			margin-bottom: 0px;
+		}
 
 		label {
 			font-size: 0.9rem;

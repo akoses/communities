@@ -13,14 +13,13 @@ $option-border: 1px solid #e7e7e77a;
 	cursor: pointer;
 	height: 100px;
 	background-color: #ffffff;
+	
 	img {
 		width: 70px;
 		height: 70px;
 		object-fit: cover;
 		border-radius: 30%;
-		
 	}
-	
 
 	.content {
 		margin-left: 20px;
@@ -38,7 +37,6 @@ $option-border: 1px solid #e7e7e77a;
 			font-family: Inter, sans-serif;
 		}
 	}
-
 	&:hover {
 		background-color: #f7fafd;
 	}
@@ -47,7 +45,7 @@ $option-border: 1px solid #e7e7e77a;
 
 .collegePage {
 	position: relative;
-
+	background-color: #fff;
 	h2.nojobs {
 		text-align: center;
 		color: rgb(48, 48, 48);
@@ -233,6 +231,34 @@ $option-border: 1px solid #e7e7e77a;
 	}
 }
 
+
+.socials {
+	margin-top: 10px;
+	background-color: rgb(255, 255, 255);
+	width: fit-content;
+	padding: 4px 10px;
+	padding-left: 0px;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	
+	box-sizing: 0 0 10px rgba(0, 0, 0, 1);
+	a{ 
+		
+		color:rgb(12, 21, 62);
+		height: 26px;
+		border-radius: 6px;
+		
+		margin: 1px 5.5px;
+	}
+	svg {
+		width: 24px;
+		height: 24px;
+		
+		cursor: pointer;
+		fill:rgb(12, 21, 62);
+	}
+}
 .disciplines {
 	max-width: 1000px;
 	width: 80%;

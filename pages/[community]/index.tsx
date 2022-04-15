@@ -6,7 +6,7 @@ import Head from 'next/head'
 import styles from '../../styles/college.module.scss'
 import Tooltip from '@mui/material/Tooltip';
 import Router from 'next/router';
-
+import Link from 'next/link';
 import {fetchJoinedCollege, fetchData,  fetchCollege} from '../../src/lib/fetch'
 import OpportunityContainer from '../../src/common/opportunities/OpportunityContainer'
 import ResourceContainer from '../../src/common/resources/ResourceContainer';
@@ -17,9 +17,23 @@ import Navigation from '../../src/common/Navigation';
 import { useSession, getSession } from "next-auth/react";
 import AuthModal from '../../src/common/modal/AuthModal';
 import {BsFillBellFill, BsFillBellSlashFill, BsPeopleFill} from 'react-icons/bs';
-import {FaShare} from 'react-icons/fa';
+import {FaShare, 
+	FaTiktok as TikTok, 
+	FaInstagram as Instagram,
+	FaTiktok as Tiktok,
+	FaYoutube as Youtube,
+	FaLinkedin as Linkedin,
+	FaReddit as Reddit,
+	FaDiscord as Discord,
+	FaTwitter as Twitter,
+	FaSlack as Slack,
+	FaFacebook as Facebook,
+
+} from 'react-icons/fa';
 import axios from 'axios';
 import {useAlert} from 'react-alert'
+
+import {CgWebsite as Personal} from 'react-icons/cg';
 
 interface collegeProps {
 	opportunities: any[];
@@ -36,7 +50,9 @@ enum CollegeSelect {
 	Resources = 'resources'
 }
 
-
+const validURL = (name:string):boolean => {
+	return /^(ftp|http|https):\/\/[^ "]+$/.test(name)
+}
 
 const College: React.FC<collegeProps> = ({opportunities, events, resources, college, hasJoinedCollege, emailNotification}) => {
 	const [selected, setSelected] = useState(CollegeSelect.Opportunities);
@@ -192,6 +208,18 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
 				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This Community':"Turn Off Email Notifications For This Community"}><div className={styles.bellIcon} onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
 				
+				</div>
+				<div className={styles.socials}>
+					{ validURL(college?.instagram) && <Link  href={college.instagram || ''}><a target="_blank" rel="noreferrer"><Instagram /></a></Link>}
+					{ validURL(college?.facebook)  && <Link href={college.facebook || ''} ><a target="_blank" rel="noreferrer"><Facebook /></a></Link>}
+					{ validURL(college?.reddit)  && <Link href={college.reddit || ''} ><a target="_blank" rel="noreferrer"><Reddit /></a></Link>}
+					{ validURL(college?.discord) && <Link href={college.discord || ''} ><a target="_blank" rel="noreferrer"><Discord /></a></Link>}
+					{ validURL(college?.linkedin) && <Link href={college.linkedin || ''} ><a target="_blank" rel="noreferrer"> <Linkedin /></a></Link>}
+					{ validURL(college?.slack) && <Link href={college.slack || ''} ><a target="_blank" rel="noreferrer"><Slack /></a></Link>}
+					{ validURL(college?.youtube) && <Link href={college.youtube || ''} ><a target="_blank" rel="noreferrer"><Youtube/></a></Link>}
+					{ validURL(college?.personal) && <Link href={college.personal || ''} ><a target="_blank" rel="noreferrer"><Personal /></a></Link>}
+					{ validURL(college?.twitter)  && <Link href={college.twitter || ''} ><a target="_blank" rel="noreferrer"><Twitter /></a></Link>}
+					{ validURL(college?.tiktok) && <Link href={college.tiktok || ''} ><a target="_blank" rel="noreferrer"><Tiktok /></a></Link>}
 				</div>
 				</div>
 				<CollegeModal type={'edit'} college={college} isOpen={isOpen} setOpen={setIsOpen}/>
