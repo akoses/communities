@@ -16,7 +16,7 @@ const validURL = (name:string):boolean => {
 
 import {BsFillBellFill, BsFillBellSlashFill, BsPeopleFill} from 'react-icons/bs';
 import {FaShare, 
-	FaTiktok as TikTok, 
+	
 	FaInstagram as Instagram,
 	FaTiktok as Tiktok,
 	FaYoutube as Youtube,
