@@ -10,6 +10,29 @@ export async function fetchColleges() {
   
 }
 
+export async function fetchCollegesFromQuery(query: string) {
+	
+	try {
+		const res = await prisma.colleges.findMany({
+			where: {
+				name: {
+					search: query.replace(/[\s\n\t]/g, '_')
+				},
+				description: {
+					search: query.replace(/[\s\n\t]/g, '_')
+				}
+			}
+		})
+		
+		return res
+		
+	}
+	catch (err) {
+		
+		return []
+	}
+}
+
 export async function fetchFeaturedColleges() {
 	try {
 	  const res = await prisma.colleges.findMany({

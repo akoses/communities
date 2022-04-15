@@ -49,7 +49,7 @@ const CommunityPreview: React.FC<collegeProps> = ({college}) => {
 	const [collegeCount, setCollegeCount] = useState('1 - 99');
 
 	useEffect(() => {
-		console.log(college.socials)
+		
 		let path = Router.asPath.split('/')
 		switch (path[path.length-1]) {
 			case 'opportunities':

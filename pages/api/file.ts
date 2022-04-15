@@ -50,7 +50,7 @@ handler.post((req:NextApiRequestWithFiles, res:NextApiResponse) => {
 				location: link
 			});
 		} catch (err){
-			console.log(err);
+			
 			return res.status(500).send(err);
 		}
 

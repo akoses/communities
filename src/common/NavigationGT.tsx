@@ -178,6 +178,16 @@ const openDropDownFn = (e:any) => {
 	
 }
 
+const searchKey = (e:any) => {
+	if (e.key === 'Enter') {
+		if (searchCollege !== '') {
+			Router.push(`/search?query=${searchCollege}`)
+		setDisplay(false)
+		}
+		
+	}
+}
+
 	
 		return (<div className={styles.container}>
 			
@@ -185,7 +195,7 @@ const openDropDownFn = (e:any) => {
 				<img className={styles.akoseLogo} src="https://d18px979babcec.cloudfront.net/static/logo.png" alt="Akose Logo"/>
 			</div>
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
-          <input onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
+          <input onKeyDown={searchKey} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
         	<div  className={styles.searchResults} style={{display:display?'block':'none'}}>
 				{reactColleges}
 			</div>

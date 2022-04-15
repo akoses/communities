@@ -50,7 +50,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 					setDropDown(false);
 				}
 				
-				//console.log('touchstart')
+			
 			})
 			
 			if (document.body.clientWidth > 425) {
@@ -208,6 +208,17 @@ const openDropDownFn = (e:any) => {
 	
 }
 
+const searchKey = (e:any) => {
+	if (e.key === 'Enter') {
+		if (searchCollege !== '') {
+			Router.push(`/search?query=${searchCollege}`)
+			setDisplay(false)
+		}
+		
+	}
+}
+
+
 	
 		return (<div className={styles.container}>
 			<div className={styles.containerHeader}>
@@ -227,7 +238,7 @@ const openDropDownFn = (e:any) => {
 			<AuthModal type={type} setOpen={setIsOpen} isOpen={isOpen} />
 			
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
-				<input onTouchStart={touchInput}  ref={searchRef} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
+				<input onKeyDown={searchKey} onTouchStart={touchInput}  ref={searchRef} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
 				  <div className={styles.searchResults} style={{ display:display?'block':'none'}}>
 					  {reactColleges}
 				  </div>
