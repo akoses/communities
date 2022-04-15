@@ -56,6 +56,20 @@
     
   }
 
+  .searchTitle {
+   
+    max-width: 1000px;
+    margin: 35px auto;
+    margin-bottom: 15px;
+    
+    span {
+      font-style: italic;
+      color: #0f5abd;
+
+    }
+    color: rgb(55, 55, 55);
+  }
+
   .findCollegeTitle {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -82,15 +96,19 @@
 }
 
 .dont {
-  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   color: #333;
+}
 
-  .createSearch {
-    color: #2770c9;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
+
+.createSearch {
+  
+  color: #2770c9;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 }
 
@@ -298,6 +316,13 @@ margin-top: -40px;
   }
 }
 
+.noResults {
+  text-align: center;
+  margin-top:20px;
+  color:rgb(55, 55, 55);
+  font-size: 20px;
+}
+
 @media screen and (max-width:768px){
   .container {
     .header {
@@ -369,12 +394,24 @@ margin-top: -40px;
 }
 
 
+
 @media screen and (max-width:425px) {
 
   .viewAll {
     font-size: 13px !important;
 
    ;
+  }
+
+  .noResults {
+    font-size: 14px;
+  }
+
+  .searchTitle {
+    font-size: 15.5px;
+  }
+  .dont {
+    font-size: 12px ;
   }
 
   .linkContent {
