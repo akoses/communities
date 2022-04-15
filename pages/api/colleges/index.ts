@@ -22,6 +22,18 @@ else if (req.method === 'POST') {
 					logo: req.body.logo,
 					banner: req.body.banner,
 					userId: req.body.userId,
+
+					//socials
+					instagram: req.body.socials.instagram,
+					twitter: req.body.socials.twitter,
+					discord: req.body.socials.discord,
+					linkedin: req.body.socials.linkedin,
+					facebook: req.body.socials.facebook,
+					slack: req.body.socials.slack,
+					youtube: req.body.socials.youtube,
+					personal: req.body.socials.personal,
+					reddit: req.body.socials.reddit,
+					tiktok: req.body.socials.tiktok,
 				}
 			});
 		} catch (e) {
@@ -40,7 +52,18 @@ else if (req.method === 'POST') {
 				name: req.body.name,
 				description: req.body.description,
 				logo: req.body.logo,
-				banner: req.body.banner
+				banner: req.body.banner,
+				// socials
+				instagram: req.body.socials.instagram,
+				twitter: req.body.socials.twitter,
+				discord: req.body.socials.discord,
+				linkedin: req.body.socials.linkedin,
+				facebook: req.body.socials.facebook,
+				slack: req.body.socials.slack,
+				youtube: req.body.socials.youtube,
+				personal: req.body.socials.personal,
+				reddit: req.body.socials.reddit,
+				tiktok: req.body.socials.tiktok,
 			}
 		})
 		return res.status(200).json({message: 'ok'});
