@@ -18,7 +18,6 @@ import { useSession, getSession } from "next-auth/react";
 import AuthModal from '../../src/common/modal/AuthModal';
 import {BsFillBellFill, BsFillBellSlashFill, BsPeopleFill} from 'react-icons/bs';
 import {FaShare, 
-	FaTiktok as TikTok, 
 	FaInstagram as Instagram,
 	FaTiktok as Tiktok,
 	FaYoutube as Youtube,
@@ -32,8 +31,9 @@ import {FaShare,
 } from 'react-icons/fa';
 import axios from 'axios';
 import {useAlert} from 'react-alert'
-
 import {CgWebsite as Personal} from 'react-icons/cg';
+
+import {CommunityProvider} from "../../contexts/CommunityContext";
 
 interface collegeProps {
 	opportunities: any[];
@@ -63,6 +63,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 	const [hasNotifications, setHasNotifications] = useState(emailNotification);
 	const [collegeCount, setCollegeCount] = useState('');
 	const [tryJoin, setTryJoin] = useState(false);
+	const [editor, setEditor] = useState(false);
 	const alert = useAlert();
 	
 	useEffect(() => {
@@ -161,6 +162,12 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		}
 	}
 
+	const setEditorMode = () => {
+		if (session?.user?.id === college?.userId) {
+			setEditor(!editor)
+		}
+	}
+
 	const selectComponent = (collegeSelect: CollegeSelect) => {
 		setSelected(collegeSelect);
 		Router.push(`${convertName(college.name)}/${collegeSelect}`, undefined, {shallow: true});
@@ -207,7 +214,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				</Tooltip>
 				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
 				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This Community':"Turn Off Email Notifications For This Community"}><div className={styles.bellIcon} onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
-				
+				{college?.userId === session?.user?.id && <Tooltip title={"Edit Your Community's Posts"}><div className={styles.editorMode} onClick={setEditorMode}><span className={`${editor?styles.editOn:styles.editOff}`}></span>Editor {editor?"On":"Off"}</div></Tooltip>}
 				</div>
 				<div className={styles.socials}>
 					{ validURL(college?.instagram) && <Link  href={college.instagram || ''}><a target="_blank" rel="noreferrer"><Instagram /></a></Link>}
@@ -237,11 +244,13 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
 				</ul>
 			</div>
+			<CommunityProvider value={{editor}}>
 			<div className={styles.objectContent}>
 			{selected === CollegeSelect.Opportunities && <OpportunityContainer jobs={opportunities}/>}
 			{selected === CollegeSelect.Events && <EventContainer events={events}/>}
 			{selected === CollegeSelect.Resources && <ResourceContainer resources={resources}/>}
 			</div>
+			</CommunityProvider>
 		</div>);
 }
 

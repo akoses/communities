@@ -133,6 +133,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 						customDescription: true,
 						image: true,
 						collegeId: true,
+						
 						college: {
 							select: {
 								name: true

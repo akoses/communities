@@ -29,6 +29,10 @@
 		border: 1px solid #e7e7e7;
 		padding: 5px 20px;	
 		background-color: #f7f7f7;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: space-between;
 		border-bottom: none;
 		margin-bottom: -10px;
 		padding-bottom: 15px;
@@ -38,6 +42,16 @@
 			color: #616975;
 			font-family: Inter;
 			font-size: 0.9rem;
+		}
+		
+	}
+	.dots {
+		cursor: pointer;
+		height: 18px;
+		svg {
+			fill: #6e6e6e;
+			width: 18px !important;
+			height: 18px !important;
 		}
 		
 	}

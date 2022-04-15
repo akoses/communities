@@ -12,6 +12,7 @@ import Opportunity from '../src/common/opportunities/Opportunity'
 import Link from 'next/link'
 import Head from 'next/head'
 import { convertName } from '../src/common/utils'
+import {BsThreeDots} from 'react-icons/bs'
 export type TypeEvent = Events & {type: string, college: {name: string}}
 export type TypeResource = Resources & {type: string,  college: {name: string}}
 export type TypeOpportunity = Opportunities & {type: string,  college: {name: string}}
@@ -26,10 +27,12 @@ interface postsProps {
 
 type PostOption = 'all' | 'events' | 'resources' | 'opportunities'
 
-	export const renderEvent= (event: TypeEvent) => {
+	export const renderEvent= (event: TypeEvent,  session?:any) => {
 
 		return <div>
-			<div className={styles.collegeName}><Link href={convertName(event.college.name)}><a >{event.college.name}</a></Link></div>
+			<div className={styles.collegeName}><Link href={convertName(event.college.name)}><a >{event.college.name}</a></Link> 
+			{session?.user?.id === event.userId && <div className={styles.dots}><BsThreeDots /></div>}
+			</div>
 			<Event key={event.id}
 			id={event.id}
 			name={event.name}
@@ -46,9 +49,12 @@ type PostOption = 'all' | 'events' | 'resources' | 'opportunities'
 			</div>
 	}
 
-	export const renderResource = (resource: TypeResource) => {
+	export const renderResource = (resource: TypeResource,  session?:any) => {
+		console.log(session?.user?.id, resource.userId)
 		return <div>
-			<div className={styles.collegeName}><Link href={convertName(resource.college.name)}><a className={styles.collegeName}>{resource.college.name}</a></Link></div>
+			<div className={styles.collegeName}><Link href={convertName(resource.college.name)}><a className={styles.collegeName}>{resource.college.name}</a></Link>
+			{session?.user?.id === resource.userId && <div className={styles.dots}><BsThreeDots /></div>}
+			</div>
 			<Resource key={resource.id}
 			id={resource.id}
 			custom_title={resource.customTitle}
@@ -59,9 +65,12 @@ type PostOption = 'all' | 'events' | 'resources' | 'opportunities'
 			/></div>
 	}
 
-	export const renderOpportunity = (opportunity: TypeOpportunity) => {
+	export const renderOpportunity = (opportunity: TypeOpportunity, session?:any) => {
 		return <div>
-		<div className={styles.collegeName}><Link href={convertName(opportunity.college.name)}><a className={styles.collegeName}>{opportunity.college.name}</a></Link></div>
+		<div className={styles.collegeName}><Link href={convertName(opportunity.college.name)}><a className={styles.collegeName}>{opportunity.college.name}</a></Link>
+		{session?.user?.id === opportunity.userId && <div className={styles.dots}><BsThreeDots /></div>}
+		</div>
+		
 		<Opportunity key={opportunity.id}
 			id={opportunity.id}	
 			name={opportunity.name}
@@ -128,17 +137,17 @@ const Posts: NextPage<postsProps> = ({posts}) => {
 		
 		const reactPosts = datePosts.map(post => {
 			if (post.type === 'event') {
-				return renderEvent(post as TypeEvent)
+				return renderEvent(post as TypeEvent, session)
 			} else if (post.type === 'opportunity') {
-				return renderOpportunity(post as TypeOpportunity)
+				return renderOpportunity(post as TypeOpportunity, session)
 			} else if (post.type === 'resource') {
-				return renderResource(post as TypeResource)
+				return renderResource(post as TypeResource, session)
 			}
 			else 
 				return <></>
 		})
 		setShownPosts(reactPosts)
-	},[posts, allPosts, options, opportunities, events, resources])
+	},[posts, allPosts, options, opportunities, events, resources, session])
 
 
 

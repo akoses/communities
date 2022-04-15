@@ -8,6 +8,7 @@ import axios from 'axios'
 import DeleteModal from '../modal/DeleteModal'
 import {AiOutlineEdit} from 'react-icons/ai';
 import AppContext from '../../../contexts/AppContext';
+import CommunityContext from '../../../contexts/CommunityContext';
 import Router, {useRouter} from 'next/router'
 import OpportunityModal from '../modal/OpportunityModal'
 import { useSession } from 'next-auth/react'
@@ -41,6 +42,7 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 	const router = useRouter()
 	const [collegeName] = React.useState<string>(router.asPath.split('/')[1] || '');
 	const context = useContext(AppContext);
+	const communityContext = useContext(CommunityContext);
 	const [collegeUserId, setCollegeUserId] = React.useState<string>('');
 	const {data: session} = useSession();
 	useEffect(() => {
@@ -128,12 +130,13 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 			<h2>{company}</h2>
 			<h3>{location} {location !== '' && workstyle !== ''?"|":''} {workstyle.charAt(0)?.toUpperCase() + workstyle.slice(1)}</h3>
 			</div>
-			{userId === session?.user?.id && <AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>}
-			{(collegeUserId === session?.user?.id || userId === session?.user?.id) && <img onClick={openModal} style={{display: id=== -1? 'none':'block'}} src={'/delete.png'} alt='delete' className={`${styles.delete} delete`}/>}
+			
 		</div>
+		{communityContext.editor && <button onClick={openModal} className={'editorDelete'}>Delete Opportunity</button>}
 		<DeleteModal setOpen={setModalIsOpen} type='opportunity' func={deleteOpportunity} isOpen={modalIsOpen}/>
 		
 		</a>
+
 		</Link>
 		<OpportunityModal opportunity={{
 			name,
@@ -145,6 +148,7 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 			description
 		}
 		} setOpen={setOpportunityModalIsOpen} isOpen={opportunityModalIsOpen}/>
+		
 		</div>
 		
 		);

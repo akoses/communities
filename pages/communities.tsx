@@ -56,7 +56,7 @@ const Colleges: NextPage<collegesProps> = ({joinedColleges, createdColleges}) =>
 							logo={college.logo}
 							id={college.id}
 						/>
-						<img className={styles.deleteCollege} src="/delete.png" onClick={() => {setModalIsOpen(true); setDeleteCollege(college.id)} }/>
+						
 						</div>)
 					})}
 				</div>

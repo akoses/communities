@@ -259,6 +259,40 @@ $option-border: 1px solid #e7e7e77a;
 		fill:rgb(12, 21, 62);
 	}
 }
+
+.editorMode {
+	padding: 5px 10px;
+	background-color:white;
+	border: 1px solid rgb(217, 217, 217);
+	border-radius: 20px;
+	cursor: pointer;
+	color: #2f2f2f;
+	font-size: 0.8rem;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content:space-between;
+	span {
+		width:15px;
+		display: inline-block;
+		height: 15px;
+		background-color:blue;
+		border-radius:100%;
+		margin-right: 10px;
+		&::before {
+			content: "\200D";
+			display:inline;
+		 }  
+	}
+	.editOn {
+		background-color:rgba(15, 135, 15, 0.992);
+	}
+	.editOff {
+		background-color:rgb(202, 13, 13);
+	}
+	
+}
+
 .disciplines {
 	max-width: 1000px;
 	width: 80%;
@@ -361,7 +395,7 @@ $option-border: 1px solid #e7e7e77a;
 			position: relative;
 			display: flex;
 			align-items: center;
-			margin-bottom: 20px;
+			margin-top: 20px;
 			border: 1px solid #e6e9ec;
 			background-color: #ffffff;
 			padding: 15px;

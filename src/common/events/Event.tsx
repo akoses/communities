@@ -7,6 +7,7 @@ import DeleteModal from '../../common/modal/DeleteModal'
 import EventModal from '../../common/modal/EventModal'
 import {AiOutlineEdit} from 'react-icons/ai';
 import AppContext from '../../../contexts/AppContext';
+import CommunityContext from '../../../contexts/CommunityContext';
 import Router from 'next/router'
 import {useSession} from 'next-auth/react'
 
@@ -55,6 +56,7 @@ const Event: React.FC<EventProps> = ({
 	const [formatStartDate, setFormatStartDate] = useState<string>('');
 	const [formatEndDate, setFormatEndDate] = useState<string>('');
 	const context = useContext(AppContext);
+	const communityContext = useContext(CommunityContext);
 	const [collegeName] = React.useState<string>(Router.asPath.split('/')[1] || '');
 	const [collegeUserId, setCollegeUserId] = React.useState<string>('');
 	const {data: session} = useSession();
@@ -134,17 +136,19 @@ const Event: React.FC<EventProps> = ({
 		Router.push('/edit-post')
 	}
 		return (<div className={styles.event} onClick={openEventModal} key={id}>
+			{communityContext.editor && <button onClick={openModal} className={'editorDelete'}>Delete Event</button>}
+			
 			<div className={styles.eventContent}>
 			<h1>{name}</h1>
 			<h2>{formatStartDate}{formatEndDate}</h2>
 		
 			  <h3>{location}</h3>
 			<h3>{organization}</h3>
-			{userId === session?.user?.id && <AiOutlineEdit style={{display: id=== -1? 'none':'block'}} className={styles.editIcon} onClick={sendEdit}/>}
 			</div>
 			<img className={styles.logo} src={image}  alt={name}
 				
 			/>
+						
 			<EventModal event={{
 				id,
 				name,
@@ -159,11 +163,6 @@ const Event: React.FC<EventProps> = ({
 				isOpen={eventModalIsOpen}
 				setOpen={setEventModalIsOpen}
 			/>
-			{(collegeUserId === session?.user?.id || userId === session?.user?.id) && <img
-				onClick={openModal}
-			 src={'/delete.png'} alt='delete'
-			className={`${styles.delete} delete`}
-			style={{display: id=== -1? 'none':'block'}}/>}
 			<DeleteModal setOpen={setModalIsOpen} type='event' func={deleteEvent} isOpen={modalIsOpen}/>
 		</div>);
 }

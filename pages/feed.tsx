@@ -33,6 +33,7 @@ const Feed: NextPage<feedProps> = ({}) => {
 	const [eventCursor, setEventCursor] = React.useState<number>(0);
 	const [resourceCursor, setResourceCursor] = React.useState<number>(0);
 	const [opportunityCursor, setOpportunityCursor] = React.useState<number>(0);
+
 	useEffect(() => {
 		let fn = async () => {
 		let res = await axios.get('/api/posts/feed')
@@ -42,11 +43,11 @@ const Feed: NextPage<feedProps> = ({}) => {
 		setHasMore(res.data.posts.length > 0)
 		const reactPosts:JSX.Element[] = res.data.posts.map((post:any) => {
 			if (post.type === 'event') {
-				return renderEvent(post as TypeEvent)
+				return renderEvent(post as TypeEvent, session)
 			} else if (post.type === 'opportunity') {
-				return renderOpportunity(post as TypeOpportunity)
+				return renderOpportunity(post as TypeOpportunity, session)
 			} else if (post.type === 'resource') {
-				return renderResource(post as TypeResource)
+				return renderResource(post as TypeResource, session)
 			}
 			else 
 				return <></>
@@ -55,7 +56,7 @@ const Feed: NextPage<feedProps> = ({}) => {
 		}
 		fn()
 		
-	}, [])
+	}, [session])
 	const fetchData = async () => {
 		let res = await axios.get('/api/posts/feed', {
 				params: {
@@ -75,11 +76,11 @@ const Feed: NextPage<feedProps> = ({}) => {
 
 		const reactPosts:JSX.Element[] = res.data.posts.map((post:any) => {
 			if (post.type === 'event') {
-				return renderEvent(post as TypeEvent)
+				return renderEvent(post as TypeEvent, session)
 			} else if (post.type === 'opportunity') {
-				return renderOpportunity(post as TypeOpportunity)
+				return renderOpportunity(post as TypeOpportunity, session)
 			} else if (post.type === 'resource') {
-				return renderResource(post as TypeResource)
+				return renderResource(post as TypeResource, session)
 			}
 			else 
 				return <></>
