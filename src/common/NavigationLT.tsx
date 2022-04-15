@@ -44,18 +44,20 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	const router = useRouter()
 	
 	useEffect(() => {
+		Router.events.on('routeChangeComplete', () => {
+			setDropDown(false)
+		})
+
 		if (document) {
-			document.addEventListener('touchstart', () => {
+			document.addEventListener('touchend', () => {
 				if (openDropDown) {
 					setDropDown(false);
 				}
-				
-			
 			})
 			
 			if (document.body.clientWidth > 425) {
 				setGtFour(true)
-			}else {
+			} else {
 				setGtFour(false)
 			}
 		}
@@ -88,9 +90,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 		</Link>
 		
 	}
-	const openCreate = () => {
-		setIsCollegeOpen(true);
-	}
+	
 
 	const clicked = (e:React.TouchEvent<HTMLDivElement>, name:string) => {
 		e.preventDefault();
@@ -100,64 +100,55 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 		setSearch('');
 		document.body.focus();
 	}
+	
 
 	const changeDashboard = (event:any, e:Option) => {
 		event.preventDefault();
 		event.stopPropagation();
+
 		switch (e.value) {
 			case 'create':
+				if (Router.pathname === '/create-community') {
+					setDropDown(false)
+				}
 				Router.push('/create-community');
-				setTimeout(() => {
-					setDropDown(false);
-				} , 200);
-				return;
+				break;
 			case 'feed':
 				Router.push('/feed');
-				setTimeout(() => {
-					setDropDown(false);
-				} , 100);
-				return;
+				if (Router.pathname === '/feed') {
+					setDropDown(false)
+				}
+				break;
 			case 'find':
 				Router.push('/all-communities');
-				setTimeout(() => {
-					setDropDown(false);
-				} , 200);
-				return;
+				if (Router.pathname === '/all-communities') {
+					setDropDown(false)
+				}
+				break;
 			case 'community':
 				Router.push('/communities');
-				setTimeout(() => {
-					setDropDown(false);
-				} , 200);
-				return;
+				if (Router.pathname === '/communities') {
+					setDropDown(false)
+				}
+				break;
 			case 'posts':
 				Router.push('/posts');
-				setTimeout(() => {
-					setDropDown(false);
-				} , 200);
+				if (Router.pathname === '/posts') {
+					setDropDown(false)
+				}
 				break;
 			case 'login':
-				
+				setIsOpen(true);
 				setType('Login');
-				setIsOpen(true);
-				setTimeout(() => {
-					setDropDown(false);
-				} , 150);
-				return;
-
+				break;
 			case 'signup':
-				
-				setType('Sign Up');
 				setIsOpen(true);
-				setTimeout(() => {
-					setDropDown(false);
-				} , 150);
-				return;
-			
+				setType('Sign Up');
+				break;
 			case 'logout':
 				signOut();
-				return;
+				break;
 		}
-		
 	}
 
 
@@ -228,14 +219,14 @@ const searchKey = (e:any) => {
 			</div>
 			</div>
 			<div className={styles.buttons}>
-			<div onTouchStart={openDropDownFn}  className={styles.homeDropdown}><CgProfile /> {openDropDown?<RiArrowUpSLine/>:<RiArrowDownSLine/>}</div>
+			<div onTouchEnd={openDropDownFn}  className={styles.homeDropdown}><CgProfile /> {openDropDown?<RiArrowUpSLine/>:<RiArrowDownSLine/>}</div>
 			<div className={styles.dropdownMenu} style={{display:openDropDown?'block':'none'}}>
 				{renderLabels()}
 			</div>
 			</div>
 			</div>
 			
-			<AuthModal type={type} setOpen={setIsOpen} isOpen={isOpen} />
+			<AuthModal setDropDown={setDropDown} type={type} setOpen={setIsOpen} isOpen={isOpen} />
 			
 			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
 				<input onKeyDown={searchKey} onTouchStart={touchInput}  ref={searchRef} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />

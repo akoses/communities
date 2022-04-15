@@ -44,6 +44,9 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 	const router = useRouter()
 	
 	useEffect(() => {
+		Router.events.on('routeChangeComplete', () => {
+			setDropDown(false)
+		})
 		if (document) {
 			document.addEventListener('mousedown', () => {
 				if (openDropDown) {
@@ -107,19 +110,34 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 
 		switch (e.value) {
 			case 'create':
+				if (Router.pathname === '/create-community') {
+					setDropDown(false)
+				}
 				Router.push('/create-community');
 				break;
 			case 'feed':
 				Router.push('/feed');
+				if (Router.pathname === '/feed') {
+					setDropDown(false)
+				}
 				break;
 			case 'find':
 				Router.push('/all-communities');
+				if (Router.pathname === '/all-communities') {
+					setDropDown(false)
+				}
 				break;
 			case 'community':
 				Router.push('/communities');
+				if (Router.pathname === '/communities') {
+					setDropDown(false)
+				}
 				break;
 			case 'posts':
 				Router.push('/posts');
+				if (Router.pathname === '/posts') {
+					setDropDown(false)
+				}
 				break;
 			case 'login':
 				setIsOpen(true);
@@ -133,7 +151,7 @@ const Naivgation: React.FC<NaivgationProps> = () => {
 				signOut();
 				break;
 		}
-		setDropDown(false);
+		
 	}
 
 
@@ -212,7 +230,7 @@ const searchKey = (e:any) => {
 			</div>
 			</div>
 			<CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
-			<AuthModal type={type} setOpen={setIsOpen} isOpen={isOpen} />
+			<AuthModal setDropDown={setDropDown} type={type} setOpen={setIsOpen} isOpen={isOpen} />
 			
 
 			

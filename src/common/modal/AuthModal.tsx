@@ -30,14 +30,17 @@ const customStyles = {
 	setOpen: (isOpen: boolean) => void;
 	type: string;
 	callBackUrl?: string;
+	setDropDown?: (dropDown: boolean) => void;
   }
 
-  const AuthModal:React.FC<ModalProps>  = ({setOpen, isOpen, type, callBackUrl}) => {
+  const AuthModal:React.FC<ModalProps>  = ({setOpen, isOpen, type, callBackUrl,setDropDown}) => {
 	
 	function closeModal() {
 		
 		setOpen(false);
 	  }
+
+	  
 
 
 	return (<Modal
@@ -46,6 +49,8 @@ const customStyles = {
 		contentLabel="Login/Signup"
 		onRequestClose={closeModal}
 		className={styles.authModal}
+		onAfterOpen={() => {setDropDown && setTimeout(() => setDropDown(false), 100)}}
+		
 		>
 		<div className={styles.authModalContent}>
 			<div className={styles.authModalHead}>
