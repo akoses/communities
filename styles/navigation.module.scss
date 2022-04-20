@@ -103,7 +103,6 @@ button {
 		box-shadow: 0 3px 3px rgb(7, 10, 66);
 		justify-self:end;
 		outline: none;
-		
 	}
 }
 
@@ -197,6 +196,7 @@ button {
 				background-color: #f5f7ff;
 				
 			}
+			border-radius: 5px;
 		}
 	}
 
@@ -248,7 +248,6 @@ button {
 			
 			max-width: none;
 			margin: 0 auto ;
-			
 			
 			input[type='search'] {
 				width: 100%;

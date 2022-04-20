@@ -33,6 +33,19 @@ export async function fetchCollegesFromQuery(query: string) {
 	}
 }
 
+export async function fetchJob(jobid: number) {
+	  try {
+	const res = await prisma.opportunities.findUnique({
+		where: {
+			id: jobid
+		}
+	})
+	return res
+  } catch (err) {
+	console.error(err)
+  }
+}
+
 export async function fetchFeaturedColleges() {
 	try {
 	  const res = await prisma.colleges.findMany({

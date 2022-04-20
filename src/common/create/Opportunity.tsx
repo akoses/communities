@@ -10,7 +10,10 @@ import AppContext from '../../../contexts/AppContext';
 import {useSession}	from 'next-auth/react';
 import {validateText} from './Resource';
 import {useAlert} from 'react-alert'
+import CreatableSelect from 'react-select/creatable';
+import Autocomplete from "react-google-autocomplete";
 
+import Head from 'next/head';
 
 interface OpportunityProps {
 	id?:number; 
@@ -34,6 +37,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 	const context = useContext(AppContext);
 	const alert = useAlert();
 	const {data: session} = useSession();
+	const placesRef = React.useRef<any>(null);
 
 
 	const formSubmit = async (e:any) => {
@@ -103,8 +107,9 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
  	 }
 	}
 		return (<div>
+
 			<div>
-			<div id={styles.title}>{opportunity? "Edit Opportunity" :"Create Opportunity"}
+			<div id={styles.title}>{opportunity? "Edit Job" :"Post Job"}
 				<div className={styles.cancel} onClick={() => {router.push(`/${router.query['community'] || context.editableData?.collegeName}/opportunities`); context.setEdit({})}}> Cancel</div>
 			</div>
 			</div>
@@ -129,7 +134,15 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 					</select>
 				<label>
 					<h3>Location <span className="required">*</span></h3>
-					<input type='text'	value={location} onChange={(e) => validateText(e, setLocation)} />
+					<Autocomplete
+          className={styles.autocomplete}
+          ref={placesRef}
+          apiKey={'AIzaSyDhcxD4hSfT_DKgPpVDxXEFBR_LknOEl6Y'}
+          onPlaceSelected={(selected:any, a:any, c:any) => {
+            setLocation(selected.formatted_address)
+          }}
+          
+        />
 				</label>
 				<label>
 					<h3>Link to Apply <span className="required">*</span></h3>
@@ -138,8 +151,9 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 				</label>
 				<label>
 					<h3>Disciplines</h3>
-					<p>Name any disciplines related to this opportunity. Use a comma to separate them.</p>
-					<input type='text'	value={disciplines} onChange={(e) => setDisciplines(e.target.value)} />
+					<CreatableSelect 
+					isMulti
+					/>
 				</label>
 				
 				<label>
@@ -156,7 +170,7 @@ const Opportunity: React.FC<OpportunityProps> = ({id, opportunity}) => {
 					<p>Enter the description for this opportunity if applicable.</p>
 				</label>
 					<br />
-					{
+					{									//@ts-ignore
 						typeof document !== undefined && <ReactQuill value={description} onChange={(e) => setDescription(e)} />
 					}
 

@@ -12,19 +12,16 @@ import AppContext from '../../contexts/AppContext';
 import 'react-dropdown/style.css';
 import { convertName } from './utils';
 import Link from 'next/link';
-import SimpleBar from 'simplebar-react'
+
 import {Colleges} from '@prisma/client'
-import { style } from '@mui/system';
 
 interface NaivgationProps {
 	
 }
 
-const loggedInDropdownOptions = [{label:'Create New Community',
-	value: 'create'
-},  {label:'Feed', value: 'feed'},{label:'View All Communities', value: 'find'}, {label:'My Communities', value: 'community'}, {label:'My Posts', value: 'posts'}, {label:'Logout', value:'logout'},
+const loggedInDropdownOptions = [ {label:'Logout', value:'logout'}, {label:"Job Postings", value:'posts'},
 ]
-const loggedOutDropdownOptions = [{label:'View All Communities', value: 'find'},  {label:'Login', value: 'login'}, {label:'Sign Up', value: 'signup'}]
+const loggedOutDropdownOptions = [{label:'Login', value: 'login'}, {label:'Sign Up', value: 'signup'}]
 
 const Naivgation: React.FC<NaivgationProps> = () => {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -212,13 +209,7 @@ const searchKey = (e:any) => {
 			<div className={styles.college} onClick={() => router.push('/')}>
 				<img className={styles.akoseLogo} src="https://d18px979babcec.cloudfront.net/static/logo.png" alt="Akose Logo"/>
 			</div>
-			<div ref={searchRef} className={`${styles.findCollegeTitle}`}>
-          <input onKeyDown={searchKey} onFocus={focusSearch} onBlur={blurSearch} value={searchCollege} onChange={filterColleges} type="search" placeholder="Search for an Akose Community" />
-        	<div  className={styles.searchResults} style={{display:display?'block':'none'}}>
-				{reactColleges}
-			</div>
-			</div>
-			
+
 			<div className={styles.buttons}>
 			<div className={styles.noAuthButtons}>
 			{status === 'unauthenticated' && <button className={styles.login} onClick={() => {setIsOpen(true); setType('Login');}}>Login</button>}
@@ -229,12 +220,7 @@ const searchKey = (e:any) => {
 				{renderLabels()}
 			</div>
 			</div>
-			<CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
 			<AuthModal setDropDown={setDropDown} type={type} setOpen={setIsOpen} isOpen={isOpen} />
-			
-
-			
-		
 		</div>);
 	
 }

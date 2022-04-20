@@ -9,8 +9,6 @@ import Router from 'next/router';
 import Link from 'next/link';
 import {fetchJoinedCollege, fetchData,  fetchCollege} from '../../src/lib/fetch'
 import OpportunityContainer from '../../src/common/opportunities/OpportunityContainer'
-import ResourceContainer from '../../src/common/resources/ResourceContainer';
-import EventContainer from '../../src/common/events/EventContainer';
 import CollegeModal from '../../src/common/modal/CollegeModal';
 import {convertName} from '../../src/common/utils'
 import Navigation from '../../src/common/Navigation';
@@ -54,7 +52,7 @@ const validURL = (name:string):boolean => {
 	return /^(ftp|http|https):\/\/[^ "]+$/.test(name)
 }
 
-const College: React.FC<collegeProps> = ({opportunities, events, resources, college, hasJoinedCollege, emailNotification}) => {
+const College: React.FC<collegeProps> = ({opportunities, college, hasJoinedCollege, emailNotification}) => {
 	const [selected, setSelected] = useState(CollegeSelect.Opportunities);
 	const [isOpen, setIsOpen] = useState(false);
 	const {data: session, status} = useSession();
@@ -83,15 +81,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				setSelected(CollegeSelect.Opportunities)
 		}
 
-		if (college?.collegeCount < 100) {
-			setCollegeCount(`1 - 99`)
-		}
-		else if (college?.collegeCount < 1000) {
-			setCollegeCount(`100 - 999`)
-		}
-		else if (college?.collegeCount >= 1000) {
-			setCollegeCount(`1000+`)
-		}
+
 		
 	}, [session, college])
 
@@ -99,7 +89,7 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		setTryJoin(false)
 		if (status === 'authenticated') {
 		Router.push({
-					pathname: `/${convertName(college.name)}/create-post`},
+					pathname: `/${convertName(college.name)}/post-job`},
 					undefined, {shallow: true}
 		)
 		} else {
@@ -168,10 +158,6 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 		}
 	}
 
-	const selectComponent = (collegeSelect: CollegeSelect) => {
-		setSelected(collegeSelect);
-		Router.push(`${convertName(college.name)}/${collegeSelect}`, undefined, {shallow: true});
-	}
 		return (<div className={styles.collegePage}>
 			<Head>
 				<title>{college?.name} | Community</title>
@@ -181,12 +167,12 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<meta property="og:image" content={college?.image} />
 				<meta property="og:url" content={`https://akose.ca/${convertName(college?.name || '')}`} />
 				<meta property="og:type" content="website" />
-				<meta property="og:site_name" content={"Akose Community"} />
+				<meta property="og:site_name" content={"Akose Job Board"} />
 				<meta property="og:locale" content="en_US" />
 				<meta property="og:locale:alternate" content="en_US" />
 			</Head>
 			<Navigation />
-			<AuthModal callBackUrl={!tryJoin?`/${convertName(college?.name || '')}/create-post`:`/${convertName(college?.name || '')}`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
+			<AuthModal callBackUrl={!tryJoin?`/${convertName(college?.name || '')}/post-job`:`/${convertName(college?.name || '')}`} type={'Login'} setOpen={setOpenLogin} isOpen={openLogin} />
 			<div>
 			<img className={styles.banner} src={college?.banner}/>
 			</div>
@@ -196,11 +182,11 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				<div className={styles.topHead}>
 				<div>
 				<h1 className={styles.name}>{college?.name}</h1>
-				<div className={styles.people}><BsPeopleFill /> {collegeCount}</div>
+			
 				</div>
 				<div className={styles.midHead}>
-				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
-				<div onClick={goToCreatePost} className={styles.post} >Create Post</div>
+				<Tooltip title="Post a Job." placement="top">
+				<div onClick={goToCreatePost} className={styles.post} >Post Job</div>
 				</Tooltip>
 				{college?.userId === session?.user?.id &&<img className={styles.edit} 
 					onClick={() => Router.push(`${convertName(college.name)}/edit-community`)}
@@ -209,11 +195,11 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				</div>	
 				<p className={styles.description}>{college?.description}</p>
 				<div className={styles.bottomHead}>
-				<Tooltip title="Copy Community URL to clipboard." placement="top">
+				<Tooltip title="Copy Job Board URL to clipboard." placement="top">
 				<div className={styles.url} onClick={() => copyToClipboard(`https://akose.ca/${convertName(college?.name || '')}`)}><span>Share</span><FaShare /></div>
 				</Tooltip>
-				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>}
-				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This Community':"Turn Off Email Notifications For This Community"}><div className={styles.bellIcon} onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
+				{college?.userId !== session?.user?.id &&<div onClick={joinCollege} className={styles.subscribe}>{hasJoined?'Subscribed':'Subscribe'}</div>}
+				{(college?.userId !== session?.user?.id && hasJoined) && <Tooltip title={!hasNotifications?'Get Email Notifications For This Board':"Turn Off Email Notifications For This Board"}><div className={styles.bellIcon} onClick={handleNotifications}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}</div></Tooltip>}
 				{college?.userId === session?.user?.id && <Tooltip title={"Edit Your Community's Posts"}><div className={styles.editorMode} onClick={setEditorMode}><span className={`${editor?styles.editOn:styles.editOff}`}></span>Editor {editor?"On":"Off"}</div></Tooltip>}
 				</div>
 				<div className={styles.socials}>
@@ -231,24 +217,9 @@ const College: React.FC<collegeProps> = ({opportunities, events, resources, coll
 				</div>
 				<CollegeModal type={'edit'} college={college} isOpen={isOpen} setOpen={setIsOpen}/>
 			</div>
-			<div className={styles.options}>
-				<ul>
-					<li
-						onClick={() => {selectComponent(CollegeSelect.Opportunities);}}
-					className={selected === CollegeSelect.Opportunities?styles.selected:""}>Opportunities</li>
-					<li 
-						onClick={() => selectComponent(CollegeSelect.Events)}
-					className={selected === CollegeSelect.Events?styles.selected:""}>Events</li>
-					<li 
-						onClick={() => selectComponent(CollegeSelect.Resources)}
-					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
-				</ul>
-			</div>
 			<CommunityProvider value={{editor}}>
 			<div className={styles.objectContent}>
-			{selected === CollegeSelect.Opportunities && <OpportunityContainer jobs={opportunities}/>}
-			{selected === CollegeSelect.Events && <EventContainer events={events}/>}
-			{selected === CollegeSelect.Resources && <ResourceContainer resources={resources}/>}
+			<OpportunityContainer jobs={opportunities}/>
 			</div>
 			</CommunityProvider>
 		</div>);

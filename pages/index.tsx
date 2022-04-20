@@ -3,19 +3,19 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
+import style from "../styles/college.module.scss"
 import College from '../src/common/College'
 import { fetchFeaturedColleges } from '../src/lib/fetch'
 import Navigation from '../src/common/Navigation'
 import {Colleges} from '@prisma/client'
-import SimpleBar from 'simplebar-react'
-import Content from '../src/common/Content'
+
 import Footer from '../src/common/Footer'
 import Router from 'next/router'
 import {useSession} from 'next-auth/react'
-import CollegeModal from '../src/common/modal/CollegeModal';
-import AuthModal from '../src/common/modal/AuthModal';
 import Link from 'next/link';
-import {BiSearchAlt} from 'react-icons/bi';
+import Content from '../src/common/Content'
+import SimpleBar from 'simplebar-react';
+import { BiSearchAlt } from 'react-icons/bi'
 
 export async function getServerSideProps() {
   const colleges = await fetchFeaturedColleges();
@@ -88,15 +88,16 @@ const Home: NextPage = ({colleges}:any) => {
             <h1>Join the right community for your career.</h1>
             </div>
           </div>
-      <main>
+          
+          <main>
       <div className={styles.featured}>
           <h1>Featured Communities</h1>
         </div>
 
-       {reactColleges.length > 0 && <SimpleBar className={styles.scroll} forceVisible="y" autoHide={false} style={{maxHeight: 420}}>
+       {reactColleges.length > 0 && <div className={styles.scroll} style={{maxHeight: 420}}>
         <Link href='/all-communities'><a className={styles.viewAll}><BiSearchAlt />  View All Communities</a></Link>
         {reactColleges}
-        </SimpleBar>}
+        </div>}
         {reactColleges.length === 0 && <><br/><br /></>}
           <div className={styles.contents}>
 
@@ -127,8 +128,8 @@ const Home: NextPage = ({colleges}:any) => {
 
         </div>
       </main>
-      <AuthModal callBackUrl={'/create-community'} type={'Login'} setOpen={setIsOpen} isOpen={isOpen} />
-      <CollegeModal isOpen={isCollegeOpen} setOpen={setIsCollegeOpen} type={'create'}/>
+   
+     
     <Footer />
     </div>
   )
