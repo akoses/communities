@@ -64,6 +64,8 @@ $option-border: 1px solid #e7e7e77a;
 		font-size: 1.6rem;
 		margin-bottom: 0px;
 		margin-top: 10px;
+		font-weight: bold;
+		color: #242424;
 	}
 
 
@@ -168,7 +170,7 @@ $option-border: 1px solid #e7e7e77a;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-
+			margin-top: 15px;
 			.people {
 				display: flex;
 				align-items: center;
@@ -177,7 +179,7 @@ $option-border: 1px solid #e7e7e77a;
 				font-weight: bold;
 			}
 			.midHead {
-				margin-top: 20px;
+				
 				width: fit-content;
 				display: flex;
 				align-items: center;
@@ -189,10 +191,11 @@ $option-border: 1px solid #e7e7e77a;
 			
 			
 			
-			width: 150px;
+			width: 120px;
 			margin-right: 20px;
 			text-align: center;
 			padding: 8px;
+			padding-top: 10px;
 			background-color: #3780e0;
 			color: #fff;
 			border-radius: 5px;
@@ -233,6 +236,7 @@ $option-border: 1px solid #e7e7e77a;
 		border: 1px solid rgb(85, 116, 210);
 		border-radius: 5px;
 		padding: 8px 10px;
+		padding-top: 10px;
 		width: 100px;
 		cursor: pointer;
 		color: #4068c7;
@@ -306,6 +310,35 @@ $option-border: 1px solid #e7e7e77a;
 	}
 	
 }
+
+.drop {
+	position: relative;
+}
+
+svg.clear {
+	position: absolute;
+	top: 10px;
+	right: 50px;
+	width: 19px;
+	height: 19px;
+	fill: #707070;
+	cursor: pointer;
+	&:hover {
+		
+		background-color: #f6f6f6;
+		border-radius: 100%;
+		padding: 3px;
+		width: 24px;
+		height: 24px;
+		top: 8px;
+		right: 48px;
+	}
+}
+
+.dropdown {
+	margin-top: 10px;
+}
+
 
 .disciplines {
 	max-width: 1000px;
@@ -578,7 +611,7 @@ $option-border: 1px solid #e7e7e77a;
 			.topHead {
 				display: flex;
 				flex-direction: column;
-				align-items: flex-start;
+				
 				.midHead {
 					width: 100%;
 					display: flex;
