@@ -100,8 +100,15 @@ const College: React.FC<collegeProps> = ({opportunities, college, hasJoinedColle
 	}
 
 	const copyToClipboard = async (link:string) => {
-		await navigator.clipboard.writeText(link);
-		alert.show('Community link copied to clipboard.', {
+		if (navigator.share) {
+			await navigator.share({
+				title: college.name,
+				text: link,
+				url: link
+			})
+		} else {
+			await navigator.clipboard.writeText(link);
+		alert.show('Job board copied to clipboard.', {
 			type: 'success',
 			timeout: 2000,
 			containerStyle:{
@@ -109,6 +116,8 @@ const College: React.FC<collegeProps> = ({opportunities, college, hasJoinedColle
 			},
 			position:"bottom center"
 		})
+		}
+		
 	}
 
 	const joinCollege = async () => {
