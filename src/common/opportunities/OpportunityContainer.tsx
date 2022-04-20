@@ -57,23 +57,21 @@ const OpportunityContainer: React.FC<OpportunityContainerProps> = ({jobs}) => {
 		findDisciplines(jobs);
 	},[displayedJobs, jobs])
 
-	const filterRequest = (id:number) => {
-			let filteredJobs = jobs.filter((job) => {
-				return job.id === id
-			});
-			setDisplayedJobs(filteredJobs);
-			findDisciplines(filteredJobs);
-	}
-	
+
 
 	const [disciplines, setDisciplines] = useState<(JSX.Element| undefined)[]>([]);
 		return (
 			<div>
+				
 			<div>
 				<div className={styles.disciplines}>
 					{disciplines}
 				</div>
-				
+				<div className={styles.searchJobs}>
+					<input type="text" placeholder="Search For Jobs" onChange={(e) => {setFilter(""); setDisplayedJobs(jobs.filter((job) => {
+						return job.name.includes(e.target.value)
+					}))}}/>
+				</div>
 			</div>
 			<div className={styles.jobsContainer}> 
 				{displayedJobs.length > 0?displayedJobs.map((job) => {
@@ -89,7 +87,7 @@ const OpportunityContainer: React.FC<OpportunityContainerProps> = ({jobs}) => {
 					    apply_link={job.applyLink}
 						userId={job.userId}
 				    />
-				}):<h2 className={styles.nojobs}>There are no opportunities available yet.</h2>}
+				}):<h2 className={styles.nojobs}>There are no opportunities available.</h2>}
 			</div>
 			</div>
 		);

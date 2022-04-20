@@ -93,20 +93,20 @@ const CommunityPreview: React.FC<collegeProps> = ({college}) => {
 				<div className={styles.topHead}>
 				<div>
 				<h1 className={styles.name}>{college?.name}</h1>
-				<div className={styles.people}><BsPeopleFill /> {collegeCount}</div>
+				
 				</div>
 				<div className={styles.midHead}>
-				<Tooltip title="Create or post an opportunity, event or resources." placement="top">
-				<div className={styles.post} >Create Post</div>
+				<Tooltip title="Post a Job." placement="top">
+				<div className={styles.post} >Post Job</div>
 				</Tooltip>
 				</div>
 				</div>	
 				<p className={styles.description}>{college?.description}</p>
 				<div className={styles.bottomHead}>
-				<Tooltip title="Copy Community URL to clipboard." placement="top">
+				<Tooltip title="Copy Board URL to clipboard." placement="top">
 				<div className={styles.url}><span>Share</span><FaShare /></div>
 				</Tooltip>
-				<div className={styles.subscribe}>{hasJoined?'Joined':'Join'}</div>
+				<div className={styles.subscribe}>{hasJoined?'Subscribed':'Subscribe'}</div>
 				<Tooltip title={!hasNotifications?'Get Email Notifications For This Community':"Turn Off Email Notifications For This Community"}>
 					<div className={styles.bellIcon}>{hasNotifications?<BsFillBellFill/>:<BsFillBellSlashFill/>}
 					</div>
@@ -127,23 +127,10 @@ const CommunityPreview: React.FC<collegeProps> = ({college}) => {
 				</div>
 				
 			</div>
-			<div className={styles.options}>
-				<ul>
-					<li
-						onClick={() => {selectComponent(CollegeSelect.Opportunities);}}
-					className={selected === CollegeSelect.Opportunities?styles.selected:""}>Opportunities</li>
-					<li 
-						onClick={() => selectComponent(CollegeSelect.Events)}
-					className={selected === CollegeSelect.Events?styles.selected:""}>Events</li>
-					<li 
-						onClick={() => selectComponent(CollegeSelect.Resources)}
-					className={selected === CollegeSelect.Resources?styles.selected:""}>Resources</li>
-				</ul>
-			</div>
+
 			<div className={styles.objectContent}>
-			{selected === CollegeSelect.Opportunities && <OpportunityContainer jobs={[]}/>}
-			{selected === CollegeSelect.Events && <EventContainer events={[]}/>}
-			{selected === CollegeSelect.Resources && <ResourceContainer resources={[]}/>}
+			<OpportunityContainer jobs={[]}/>
+
 			</div>
 		</div>);
 }

@@ -19,7 +19,7 @@ interface NaivgationProps {
 	
 }
 
-const loggedInDropdownOptions = [ {label:'Logout', value:'logout'}, {label:"Job Postings", value:'posts'},
+const loggedInDropdownOptions = [ {label:'Logout', value:'logout'}, {label:" My Postings", value:'posts'},
 ]
 const loggedOutDropdownOptions = [{label:'Login', value: 'login'}, {label:'Sign Up', value: 'signup'}]
 

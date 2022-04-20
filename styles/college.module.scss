@@ -27,14 +27,14 @@ $option-border: 1px solid #e7e7e77a;
 			font-size: 1.1rem;
 			font-weight: bold;
 			margin-bottom: 0px;
-			font-family: Inter, sans-serif ;
+			font-family: Avenir, sans-serif ;
 		}
 		p {
 			font-size: 0.8rem;
 			margin-top: 0px;
 			color: #3d3d3d;
 			margin-bottom: 0px;
-			font-family: Inter, sans-serif;
+			font-family: Avenir, sans-serif;
 		}
 	}
 	&:hover {
@@ -109,6 +109,7 @@ $option-border: 1px solid #e7e7e77a;
 				margin-right: 10px;
 				
 				padding: 5px 5px;
+				padding-top: 7px;
 				background-color:#3765d1;
 				color: white;
 				border-radius: 15px;
@@ -137,7 +138,7 @@ $option-border: 1px solid #e7e7e77a;
 				margin-top: 5px;
 				margin-right: 10px;
 				width: 23px;
-				height: 23px;
+				height: 27px;
 				cursor: pointer;
 				fill: #081e46;
 			}
@@ -227,6 +228,18 @@ $option-border: 1px solid #e7e7e77a;
 		
 	}
 
+	button.edit  {
+		background-color: #fff;
+		border: 1px solid rgb(85, 116, 210);
+		border-radius: 5px;
+		padding: 8px 10px;
+		width: 100px;
+		cursor: pointer;
+		color: #4068c7;
+		&:hover {
+			background-color: #f6f6f6;
+		}
+	}
 		
 	}
 }
@@ -262,6 +275,7 @@ $option-border: 1px solid #e7e7e77a;
 
 .editorMode {
 	padding: 5px 10px;
+	padding-top: 7px;
 	background-color:white;
 	border: 1px solid rgb(217, 217, 217);
 	border-radius: 20px;
@@ -307,7 +321,8 @@ $option-border: 1px solid #e7e7e77a;
 				white-space: nowrap;
 				color: rgb(46, 44, 44);
 				border: 1px solid #d4d4d4;
-				padding: 3px 8px;
+				padding: 3px 10px;
+				padding-top: 6px ;
 				font-size: 0.8rem;
 				border-radius: 20px;
 				cursor: pointer;
@@ -326,7 +341,7 @@ $option-border: 1px solid #e7e7e77a;
 	padding: 10px;
 	padding-top: 20px;
 	width: 100%;
-	background-color: rgb(248, 248, 248);
+	background-color: rgb(247, 247, 247);
 	height: 100%;
 	min-height: 40vh;
 }
@@ -395,14 +410,14 @@ $option-border: 1px solid #e7e7e77a;
 			position: relative;
 			display: flex;
 			align-items: center;
-			margin-bottom: 20px;
+			margin-bottom: 0px;
 			border: 1px solid #e6e9ec;
 			background-color: #ffffff;
 			padding: 15px;
-			border-radius: 10px;
+			
 			color: rgb(68, 68, 68);
 			
-			.editIcon {
+			.editIconi {
 				position: absolute;
 				right: 36px;
 				bottom: 13px;
@@ -466,6 +481,25 @@ $option-border: 1px solid #e7e7e77a;
 		}
 
 
+.searchJobs {
+		width: 80%;
+		max-width: 1000px;
+		margin: 0 auto;
+		padding-bottom: 10px;
+		input {
+			width: 100%;
+			padding: 12px 10px;
+			border: 1px solid #dedede;
+			border-radius: 4px;
+			outline: #1755a5;
+			font-size: 0.9rem;
+			&:focus {
+				box-shadow: 0 1px 5px rgba(38, 109, 223, 0.119);
+			}
+		}
+	}
+
+
 @media screen and (max-width:768px) {
 	.collegePage {
 		.body {
@@ -494,6 +528,15 @@ $option-border: 1px solid #e7e7e77a;
 			}
 		}
 	}
+	.searchJobs {
+		width: 95%;
+		input {
+			width: 100%;
+			margin-top: 5px;
+			padding: 8px 6px;
+			font-size: 13px;
+		}
+	}
 	.collegePage {
 
 		
@@ -517,7 +560,7 @@ $option-border: 1px solid #e7e7e77a;
 			.bottomHead {
 				svg {
 					width: 21px;
-					height: 21px;
+					height: 100%;
 				}
 			}
 

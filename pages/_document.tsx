@@ -18,7 +18,7 @@ class MyDocument extends Document {
       <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-      <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Noto+Sans&family=Inter&display=swap" rel="stylesheet"/>
+      <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Noto+Sans&family=Avenir&display=swap" rel="stylesheet"/>
       <meta name="title" content="Akose"/>
      <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>

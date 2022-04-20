@@ -132,7 +132,7 @@ const Opportunity: React.FC<JobProps> = ({id, userId, name, company, logo, locat
 			</div>
 			
 		</div>
-		{communityContext.editor && <button onClick={openModal} className={'editorDelete'}>Delete Opportunity</button>}
+		{communityContext.editor && <button onClick={openModal} className={'editorDelete'}>Delete Job</button>}
 		<DeleteModal setOpen={setModalIsOpen} type='opportunity' func={deleteOpportunity} isOpen={modalIsOpen}/>
 		
 		</a>

@@ -19,9 +19,7 @@ interface NaivgationProps {
 	
 }
 
-const loggedInDropdownOptions = [{label:'Create New Community',
-	value: 'create'
-},  {label:'Feed', value: 'feed'},{label:'View All Communities', value: 'find'}, {label:'My Communities', value: 'community'}, {label:'My Posts', value: 'posts'}, {label:'Logout', value:'logout'},
+const loggedInDropdownOptions = [{label:'My Postings', value: 'posts'}, {label:'Logout', value:'logout'},
 ]
 const loggedOutDropdownOptions = [{label:'View All Communities', value: 'find'}, {label:'Login', value: 'login'}, {label:'Sign Up', value: 'signup'}, ]
 

@@ -59,7 +59,7 @@ const College: React.FC<collegeProps> = ({opportunities, college, hasJoinedColle
 	const [openLogin, setOpenLogin] = useState(false);
 	const [hasJoined, setHasJoined] = useState(hasJoinedCollege);
 	const [hasNotifications, setHasNotifications] = useState(emailNotification);
-	const [collegeCount, setCollegeCount] = useState('');
+	
 	const [tryJoin, setTryJoin] = useState(false);
 	const [editor, setEditor] = useState(false);
 	const alert = useAlert();
@@ -186,11 +186,11 @@ const College: React.FC<collegeProps> = ({opportunities, college, hasJoinedColle
 				</div>
 				<div className={styles.midHead}>
 				<Tooltip title="Post a Job." placement="top">
-				<div onClick={goToCreatePost} className={styles.post} >Post Job</div>
+				<div onClick={goToCreatePost} className={styles.post}>Post Job</div>
 				</Tooltip>
-				{college?.userId === session?.user?.id &&<img className={styles.edit} 
+				{college?.userId === session?.user?.id &&<button className={styles.edit} 
 					onClick={() => Router.push(`${convertName(college.name)}/edit-community`)}
-				src="/edit.png" />}
+				>Edit Board</button>}
 				</div>
 				</div>	
 				<p className={styles.description}>{college?.description}</p>
